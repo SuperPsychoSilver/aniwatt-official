@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Aniwatt</title>
+
+<meta name="color-scheme" content="dark">
+
+    <link rel="icon" href="Images/Icon.png">
+
+<link id="themeSearchStylesheet" rel="stylesheet" href="thunder.css">
+<script src="palette.js"></script>
+</head>
+<body>
+
+    <!-- Small Left-Aligned Logo -->
+    <header>
+        <a href="plug.html">
+            <img src="Images/Logo.png" alt="Aniwatt Logo" class="small-logo">
+        </a>
+
+<div class="social-icons">
+    <a href="https://discord.gg/x7MRyRKh" target="_blank">
+        <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/discord-round-color-icon.png" alt="Discord">
+    </a>
+    <a href="YOUR_REDDIT_LINK" target="_blank">
+        <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/reddit-icon.png" alt="Reddit">
+    </a>
+</div>
+
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search for anime...">
+    </div>
+
+    <!-- Genre Filters -->
+    <div class="genre-container">
+        <button class="genre-button">Action</button>
+        <button class="genre-button">Adventure</button>
+        <button class="genre-button">Isekai</button>
+        <button class="genre-button">Fantasy</button>
+        <button class="genre-button">Sci-Fi</button>
+        <button class="genre-button">Thriller</button>
+        <button class="genre-button">Horror</button>
+        <button class="genre-button">Romance</button>
+        <button class="genre-button">Comedy</button>
+        <button class="genre-button">Demons</button>
+        <button class="genre-button">Slice of Life</button>
+        <button class="genre-button">Ecchi</button>
+        <button class="genre-button">Mecha</button>
+        <button class="genre-button">Mystery</button>
+        <button class="genre-button">Harem</button>
+        <button class="genre-button">Space</button>
+        <button class="genre-button">Supernatural</button>
+        <button class="genre-button">Game</button>
+        <button class="genre-button">Music</button>
+        <button class="genre-button">Sports</button>
+        <button class="genre-button">Psychological</button>
+        <button class="genre-button">Seinen</button>
+        <button class="genre-button">Shounen</button>
+        <button class="genre-button">Shoujo</button>
+        <button class="genre-button">Josei</button>
+        <button class="genre-button">Martial Arts</button>
+        <button class="genre-button">Kids</button>
+        <button class="genre-button">Drama</button>
+    </div>
+
+    <!-- Anime Search Results -->
+    <div id="anime-container" class="anime-container"></div>
+
+    <script>
+        const searchInput = document.getElementById("search-input");
+        const genreButtons = document.querySelectorAll(".genre-button");
+        const animeContainer = document.getElementById("anime-container");
+
+        const animeList = [
+            { name: "Attack on Titan", genres: ["Action", "Drama"], image: "https://cdn.myanimelist.net/images/anime/1907/134102l.jpg?_gl=1*11wcs6v*_gcl_au*MTY0Njg1ODk0MC4xNzQwNzk3NjUx*_ga*NzU4MjYyNDgzLjE3NDA3OTc2NDc.*_ga_26FEP9527K*MTc0MTQxNjI3Ni41LjEuMTc0MTQxNjM0My41NS4wLjA." },
+            { name: "One Piece", genres: ["Adventure", "Fantasy"], image: "https://cdn.myanimelist.net/images/anime/1810/139965.jpg" },
+            { name: "Demon Slayer", genres: ["Action", "Fantasy"], image: "https://cdn.myanimelist.net/images/anime/1588/108571.jpg" },
+            { name: "Jujutsu Kaisen", genres: ["Action", "Supernatural"], image: "https://cdn.myanimelist.net/images/anime/1046/107701l.jpg" },
+            { name: "My Hero Academia", genres: ["Action", "Superhero"], image: "https://cdn.myanimelist.net/images/anime/10/78745.jpg" },
+            { name: "Chainsaw Man", genres: ["Action", "Horror"], image: "https://cdn.myanimelist.net/images/anime/1632/110707l.jpg" },
+            { name: "Naruto", genres: ["Action", "Adventure"], image: "https://cdn.myanimelist.net/images/anime/1164/98099.jpg" },
+            { name: "Death Note", genres: ["Thriller", "Psychological"], image: "https://cdn.myanimelist.net/images/anime/9/21498.jpg" },
+            { name: "Hunter x Hunter", genres: ["Adventure", "Fantasy"], image: "https://cdn.myanimelist.net/images/anime/10/66303l.jpg?_gl=1*1r3bg64*_gcl_au*MTY0Njg1ODk0MC4xNzQwNzk3NjUx*_ga*NzU4MjYyNDgzLjE3NDA3OTc2NDc.*_ga_26FEP9527K*MTc0MTQxNjI3Ni41LjEuMTc0MTQxNjk4OS41OS4wLjA." },
+            { name: "Solo Leveling", genres: ["Action", "Fantasy"], image: "https://cdn.myanimelist.net/images/anime/1926/140799.jpg" }
+        ];
+
+        let selectedGenres = new Set();
+
+function updateAnimeDisplay() {
+    animeContainer.innerHTML = "";
+    const searchQuery = searchInput.value.trim().toLowerCase();
+
+    const filteredAnime = animeList.filter(anime => {
+        const matchesSearch = searchQuery === "" || anime.name.toLowerCase().includes(searchQuery);
+
+        // Ensure the anime has ALL selected genres
+        const matchesGenre = selectedGenres.size === 0 || [...selectedGenres].every(genre => anime.genres.includes(genre));
+
+        return matchesGenre && matchesSearch;
+    });
+
+    if (filteredAnime.length === 0) {
+        animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
+    } else {
+        filteredAnime.forEach(anime => {
+            const animeCard = document.createElement("div");
+            animeCard.classList.add("anime-card");
+            animeCard.innerHTML = `<img src="${anime.image}" alt="${anime.name}"><p>${anime.name}</p>`;
+
+            // Redirect to bulb.html on click, passing anime name as a URL parameter
+            animeCard.addEventListener("click", () => {
+                window.location.href = `bulb.html?anime=${encodeURIComponent(anime.name)}`;
+            });
+
+            animeContainer.appendChild(animeCard);
+        });
+    }
+}
+
+        genreButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const genre = button.textContent.trim();
+                if (selectedGenres.has(genre)) {
+                    selectedGenres.delete(genre);
+                    button.classList.remove("active");
+                } else {
+                    selectedGenres.add(genre);
+                    button.classList.add("active");
+                }
+                updateAnimeDisplay();
+            });
+        });
+
+        searchInput.addEventListener("input", updateAnimeDisplay);
+
+        // Show all anime when the page loads
+        updateAnimeDisplay();
+
+function closeRankingList() {
+    document.getElementById("ranking-list").style.display = "none";
+}
+
+    </script>
+
+<!-- Popular Anime Ranking -->
+<div class="ranking-list" id="ranking-list">
+    <button class="close-button" onclick="closeRankingList()">✖</button>
+    <h2>Popular Anime</h2>
+    <ul>
+        <li>
+            <span class="rank-number">1</span>
+            <img src="https://cdn.myanimelist.net/images/anime/1810/139965.jpg" alt="One Piece">
+            <div class="anime-info">
+                <p class="anime-name">One Piece</p>
+                <p class="alt-name">ワンピース</p>
+                <p>Episodes: 1000+</p>
+                <p>Type: TV</p>
+            </div>
+        </li>
+        <li>
+            <span class="rank-number">2</span>
+            <img src="https://cdn.myanimelist.net/images/anime/1046/107701l.jpg" alt="Jujutsu Kaisen">
+            <div class="anime-info">
+                <p class="anime-name">Jujutsu Kaisen</p>
+                <p class="alt-name">呪術廻戦</p>
+                <p>Episodes: 47</p>
+                <p>Type: TV</p>
+            </div>
+        </li>
+        <li>
+            <span class="rank-number">3</span>
+            <img src="https://cdn.myanimelist.net/images/anime/10/78745.jpg" alt="My Hero Academia">
+            <div class="anime-info">
+                <p class="anime-name">My Hero Academia</p>
+                <p class="alt-name">僕のヒーローアカデミア</p>
+                <p>Episodes: 138</p>
+                <p>Type: TV</p>
+            </div>
+        </li>
+        <li>
+            <span class="rank-number">4</span>
+            <img src="https://cdn.myanimelist.net/images/anime/1632/110707l.jpg" alt="Chainsaw Man">
+            <div class="anime-info">
+                <p class="anime-name">Chainsaw Man</p>
+                <p class="alt-name">チェンソーマン</p>
+                <p>Episodes: 12</p>
+                <p>Type: TV</p>
+            </div>
+        </li>
+        <li>
+            <span class="rank-number">5</span>
+            <img src="https://cdn.myanimelist.net/images/anime/1171/109222.jpg" alt="Demon Slayer">
+            <div class="anime-info">
+                <p class="anime-name">Demon Slayer</p>
+                <p class="alt-name">鬼滅の刃</p>
+                <p>Episodes: 55</p>
+                <p>Type: TV</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+</body>
+
+<footer>
+    <div class="footer-content">
+        <p>Copyright © aniwatt.se. All Rights Reserved.</p>
+        <p>This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
+	<p>Don't sue me please.</p>
+    </div>
+    <img src="Images/Kaminari.png" alt="Footer Image" class="footer-image">
+</footer>
+
+</html>

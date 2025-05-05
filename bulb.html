@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniWatt | Recharged</title>
+
+<meta name="color-scheme" content="dark">
+
+    <script src="palette.js"></script>
+
+    <link id="themeBulbStylesheet" rel="stylesheet" href="bulb.css">
+    <link rel="icon" href="Images/Icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <a href="plug.html">
+            <img src="Images/Logo.png" alt="AniWatt Logo" id="logo">
+        </a>
+        <h1>Recharge With Anime</h1>
+        <div class="social-icons">
+            <a href="https://discord.gg/cHhCF7EZPr" target="_blank">
+                <img src="Images/Discord.png" alt="Discord">
+            </a>
+            <a href="https://reddit.com" target="_blank">
+                <img src="Images/reddit.png" alt="Reddit">
+            </a>
+        </div>
+    </header>
+
+<main>
+    <div class="anime-container">
+        <!-- Left Side: Episode List -->
+        <div class="left-panel">
+            <div class="episode-list">
+                <h2>Episodes</h2>
+                <ul id="episode-list"></ul>
+            </div>
+        </div>
+
+        <!-- Right Side: Player -->
+        <div class="video-player">
+            <iframe id="anime-player" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Anime Summary: now stretches full width under both columns -->
+    <div class="anime-summary">
+        <div class="anime-card">
+            <img id="anime-image" src="" alt="Anime Image">
+            <div class="anime-details">
+                <h1 id="anime-title">Loading...</h1>
+                <h2 id="anime-alt-title">Loading...</h2>
+                <p id="anime-description">Loading...</p>
+            </div>
+        </div>
+    </div>
+    </main>
+
+    <footer>
+        <p>AniWatt &copy; 2025 - Watch Anime Online</p>
+    </footer>
+
+<script src="episodes.js"></script>
+</body>
+</html>

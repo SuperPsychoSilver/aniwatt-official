@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniWatt | Recharged</title>
+
+<meta name="color-scheme" content="dark">
+
+<link id="themeStylesheet" rel="stylesheet" href="styles.css">
+<script src="palette.js"></script>
+
+    <link rel="icon" href="Images/Icon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="plug.html"><img draggable="false" id="logo" src="Images/Logo.png" alt="AniWatt Logo" class="logo"></a>
+            <p class="slogan">Recharge with Anime</p>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="plug.html">Home</a></li>
+                <li><a href="thunder.html">Anime</a></li>
+                <li><a href="generator.html">Comics</a></li>
+                <li><a href="wire.html">Manga</a></li>
+                <li><a href="battery.html">Movies</a></li>
+                <li><a href="fuse.html">TV Shows</a></li>
+                <li><a href="palette.html">Themes</a></li>
+                <li><a href="diode.html">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+         <input type="text" id="search-input" placeholder="Search for anime...">
+         <button id="search-button">Search</button>
+        </div>
+    </header>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("search-input");
+    const searchButton = document.getElementById("search-button");
+
+    function redirectToSearch() {
+        const query = searchInput.value.trim();
+        if (query !== "") {
+            window.location.href = `socket.html?search=${encodeURIComponent(query)}`;
+        }
+    }
+
+    // Trigger search on Enter key press
+    searchInput.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            redirectToSearch();
+        }
+    });
+
+    // Trigger search on button click
+    searchButton.addEventListener("click", function() {
+        redirectToSearch();
+    });
+});
+</script>
+
+        <!-- Spot for Zenitsu Image -->
+        <div class="zenitsu-image-container">
+            <img draggable="false" id="themeImage" class="zenitsu-image" src="Themes\Zenitsu Xanthic\Images\Zenitsu.png" alt="Zenitsu">
+        </div>
+
+    <!-- Welcome Section -->
+    <section class="section-container">
+        <h2>Welcome to AniWatt!</h2>
+        <p>Your ultimate destination for free anime streaming with an electrifying experience!</p>
+    </section>
+
+    <!-- About Section -->
+    <section class="section-container">
+        <h2>About AniWatt...</h2>
+        <p>AniWatt is a free anime streaming website where users can watch anime in high-definition without logging in/signing up. We created AniWatt to provide a better, user-friendly and free alternative to other streaming sites.</p>
+    </section>
+
+    <!-- Why Choose AniWatt Section -->
+    <section class="section-container">
+        <h2>Why Choose AniWatt?</h2>
+        <ul class="why-choose-list">
+            <li>Extensive Content Library</li>
+            <li>Great Streaming Experience</li>
+            <li>High-Quality Resolution</li>
+            <li>Frequent Updates</li>
+            <li>User-Friendly Interface</li>
+            <li>Works on All Devices</li>
+        </ul>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Copyright © AniWatt.se. All Rights Reserved</p>
+        <p>This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
+    </footer>
+</body>
+</html>
