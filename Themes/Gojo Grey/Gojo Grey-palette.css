@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+
+body {
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+    background: #121212;  /* Dark background color */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    padding-bottom: 50px; /* Ensure space at the bottom for the footer */
+}
+
+/* Fade-out effect when switching themes */
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Header */
+header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1e1e1e;
+    padding: 15px 20px;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Logo stays on the left */
+#logo {
+    height: 50px;
+}
+
+/* Centering the header text */
+header h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    letter-spacing: 1px;
+    font-family: 'Oswald', sans-serif;
+    color: #ffcc00; /* Gold */
+    margin: 0; /* Remove default margin */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+/* Theme Image */
+#theme-image {
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+    margin-top: 20px;
+}
+
+/* Theme Container */
+.theme-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Headings for Light and Dark Themes */
+.theme-heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: gold;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Theme Options */
+.theme-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    width: 120px;
+    padding: 10px;
+    background: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.theme-option:hover {
+    transform: scale(1.05);
+    background-color: #3a3a3a;  /* Slight background change on hover */
+}
+
+/* Theme Circles */
+.theme-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid black;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Theme Text */
+.theme-option p {
+    font-weight: 600;
+    font-size: 14px;
+    color: #ffd700;  /* Gold text color */
+}
+
+/* Light & Dark Theme Containers */
+.light-themes, .dark-themes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.light-themes {
+    margin-bottom: 40px;
+}
+
+.dark-themes {
+    margin-top: 40px;
+}
+
+/* Change Text Color on Hover */
+.theme-option:hover p {
+    color: #ffd700;
+}
+
+/* Dark Theme Text Fix */
+.dark-themes .theme-option p {
+    color: #e0e0e0; /* Lighter text color for dark themes */
+}
+
+/* Footer */
+footer {
+    margin-top: 30px;
+    padding: 15px 20px;
+    background: #1e1e1e;
+    text-align: center;
+    color: #ffcc00; /* Gold */
+}

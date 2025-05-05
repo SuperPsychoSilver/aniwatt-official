@@ -1,0 +1,170 @@
+/* General Page Styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+    background-image: url("https://i.imgur.com/exGjzqb.png"); /* Replace with your actual file path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Header & Navigation */
+header {
+    background-color: #232323;
+    padding: 20px;
+    text-align: center;
+}
+
+.logo-container .logo {
+    max-width: 200px;
+}
+
+.slogan {
+    font-size: 24px;
+    letter-spacing: 1px;
+    font-family: 'Oswald', sans-serif; /* Ensuring Oswald for header */
+    color: #ffcc00; /* Gold */
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+}
+
+/* Banner Image */
+.banner img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Section Styling */
+.section-container {
+    background-color: rgba(31, 31, 31, 0.85); /* Slight transparency */
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 600px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Section Headers */
+.section-container h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    color: #ffcc00;
+}
+
+/* Left-Aligned List Inside Centered Block */
+.why-choose-list {
+    display: inline-block; /* Makes the list a block that can be centered */
+    text-align: left; /* Keeps the list items left-aligned */
+    list-style: none;
+    padding-left: 0;
+    margin: 0 auto; /* Centers the list block */
+}
+
+/* Space out list items */
+.why-choose-list li {
+    font-size: 18px;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 30px;
+    color: white;
+}
+
+/* Custom ⚡ bullet point */
+.why-choose-list li::before {
+    content: "⚡";
+    position: absolute;
+    left: 0;
+    font-size: 18px;
+    color: #f5f5f5;
+}
+
+/* Footer */
+footer {
+    background-color: #232323;
+    text-align: center;
+    padding: 12px;
+    margin-top: 25px;
+    font-size: 14px;
+}
+
+/* Is Aniwatt Safe Section */
+.safe-container {
+    width: 60%;
+    margin: 20px auto;
+    background: #292929;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.safe-container h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+}
+
+.safe-container p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+/* Search Bar */
+.search-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.search-container input[type="text"] {
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.search-container button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #ffcc00;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Centered Zenitsu Image */
+.zenitsu-image {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+/* Navigation Hover Effect */
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+    color: #ffcc00; /* Changes text color to yellow when hovered */
+}

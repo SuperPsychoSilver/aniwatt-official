@@ -1,0 +1,170 @@
+/* General Styles */
+body {
+    font-family: 'Oswald', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #181818;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e1e1e;
+    padding: 15px 20px;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+#logo {
+    height: 50px;
+}
+
+h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+    font-family: 'Oswald', sans-serif; /* Ensuring Oswald for header */
+    color: #ffcc00; /* Gold */
+}
+
+.social-icons img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Layout */
+.anime-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Left Panel (Episode List + Anime Summary) */
+.left-panel {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Episode List */
+.episode-list {
+    background-color: #252525;
+    padding: 10px;
+    border-radius: 8px;
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.episode-list h2 {
+    text-align: center;
+    font-size: 20px;
+}
+
+#episode-list {
+    list-style: none;
+    padding: 0;
+}
+
+#episode-list li {
+    background-color: #333;
+    margin: 5px 0;
+    padding: 8px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#episode-list li:hover {
+    background-color: #ffcc00;
+    color: black;
+}
+
+/* Anime Summary */
+.anime-summary {
+    background: rgba(51, 51, 51, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 450px; /* Added space between episode list and summary */
+}
+
+
+.anime-card {
+    display: flex;
+    align-items: center;
+}
+
+.anime-card img {
+    width: 120px;
+    height: 170px;
+    border-radius: 5px;
+}
+
+.anime-details {
+    margin-left: 15px;
+}
+
+.anime-details h1 {
+    font-size: 22px;
+    color: gold;
+    margin-bottom: 5px;
+}
+
+.anime-details h2 {
+    font-size: 18px;
+    color: lightgray;
+    margin-bottom: 5px;
+}
+
+.anime-details p {
+    font-size: 14px;
+    color: #ddd;
+    line-height: 1.5;
+}
+
+/* Video Player */
+.video-player {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-player iframe {
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+}
+
+/* Video Controls */
+.video-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.video-controls button {
+    padding: 10px 15px;
+    background-color: #ffcc00;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.video-controls button:hover {
+    background-color: #ffd633;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #232323;
+}
