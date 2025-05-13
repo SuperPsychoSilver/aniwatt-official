@@ -1,7 +1,7 @@
 # ⚡ AniWatt  
 *(Amp up your entertainment)*
 
-![AniWatt Logo](YOUR_LOGO_URL_HERE)
+![AniWatt Logo](https://i.imgur.com/d39xP5N.png)
 
 ---
 
