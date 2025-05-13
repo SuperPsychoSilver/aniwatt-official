@@ -20,7 +20,7 @@ We keep your media charged and flowing, so you'll never experience a blackout in
 ---
 
 ### ⚙ How to Use:
-1. **Plug in (open the site)**
+1. **Go to "**
 2. **Choose your watt-worthy media**
 3. **Charge through your backlog at your pace**
 
