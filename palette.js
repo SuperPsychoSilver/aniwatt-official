@@ -32,7 +32,7 @@
         const style = document.createElement("style");
         style.innerHTML = `
             html, body {
-                transition: opacity 1s ease-in-out;
+                transition: opacity 2.85s ease-in-out;
             }
             body.page-fade-in {
                 opacity: 1;
@@ -177,7 +177,7 @@
 
             // Reveal page once ready
             setTimeout(() => {
-                html.style.transition = "opacity 1s ease-in-out";
+                html.style.transition = "opacity 2.85s ease-in-out";
                 html.style.visibility = "visible";
                 html.style.opacity = "1";
 
