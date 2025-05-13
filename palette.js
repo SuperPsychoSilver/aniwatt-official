@@ -23,7 +23,7 @@
             backgroundColor: "black",
             zIndex: "9999",
             opacity: "1",
-            transition: "opacity 1s ease-in-out",
+            transition: "opacity 2.85s ease-in-out",
             pointerEvents: "none"
         });
         document.body.appendChild(overlay);
