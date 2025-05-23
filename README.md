@@ -41,7 +41,7 @@ AniWatt is a **fan-made** project. We do not host or stream any copyrighted mate
 Watt are you waiting for? Power up your watchlist with AniWatt!  
 Questions? Feedback? Buzz us me `nickolasknowles1920@gmail.com`.
 
-Discord: 
+Discord: (dsc.gg/aniwatt)
 
 Reddit:
 
