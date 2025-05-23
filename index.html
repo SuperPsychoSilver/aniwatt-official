@@ -1,46 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Verifying you’re not a bot...</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background: #111;
-        color: #fff;
-        flex-direction: column;
-      }
-      .loader {
-        margin-top: 20px;
-        border: 4px solid #fff;
-        border-top: 4px solid #444;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-      }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Verifying you’re not a bot...</h2>
-    <div class="loader"></div>
+<head>
+  <title>Verifying you’re not a bot...</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #111;
+      color: #fff;
+      flex-direction: column;
+    }
 
-    <script>
-      const isBot = /bot|crawl|spider/i.test(navigator.userAgent);
-      if (isBot) {
-        document.body.innerHTML = "<h2>Access Denied 🤖</h2>";
-      } else {
-        setTimeout(() => {
-          window.location.href = "plug.html";
-        }, 2000); // adds a 2 second "human check" delay
-      }
-    </script>
-  </body>
+    .loader {
+      margin-top: 20px;
+      border: 4px solid transparent;
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h2>Verifying you’re not a bot...</h2>
+  <div class="loader" id="spinner"></div>
+
+  <script>
+    const isBot = /bot|crawl|spider/i.test(navigator.userAgent);
+    const spinner = document.getElementById('spinner');
+
+    // Color cycle
+    const colors = ["#00ffff", "#ff00ff", "#ffff00", "#00ff00", "#ff4500", "#1e90ff"];
+    let colorIndex = 0;
+
+    // Change border color every full spin (1s interval)
+    setInterval(() => {
+      colorIndex = (colorIndex + 1) % colors.length;
+      spinner.style.borderTopColor = colors[colorIndex];
+    }, 1000);
+
+    if (isBot) {
+      document.body.innerHTML = "<h2>Access Denied 🤖</h2>";
+    } else {
+      setTimeout(() => {
+        window.location.href = "plug.html";
+      }, 2000); // 2 second verification delay
+    }
+  </script>
+</body>
 </html>
