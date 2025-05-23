@@ -23,6 +23,8 @@
       width: 40px;
       height: 40px;
       animation: spin 1s linear infinite;
+      /* Important: set the initial border-top-color */
+      border-top-color: #00ffff;
     }
 
     @keyframes spin {
@@ -41,15 +43,18 @@
     const colors = ["#00ffff", "#ff00ff", "#ffff00", "#00ff00", "#ff4500", "#1e90ff"];
     let colorIndex = 0;
 
-    setInterval(() => {
+    function changeColor() {
       colorIndex = (colorIndex + 1) % colors.length;
       spinner.style.borderTopColor = colors[colorIndex];
-    }, 300);
+    }
+
+    // Call immediately, then every 300ms
+    changeColor();
+    setInterval(changeColor, 300);
 
     if (isBot) {
       document.body.innerHTML = "<h2>Access Denied</h2>";
     } else {
-      // Redirect after 2 seconds delay
       setTimeout(() => {
         window.location.href = "plug.html";
       }, 2000);
