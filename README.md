@@ -41,10 +41,10 @@ AniWatt is a **fan-made** project. We do not host or stream any copyrighted mate
 Watt are you waiting for? Power up your watchlist with AniWatt!  
 Questions? Feedback? Buzz us me `nickolasknowles1920@gmail.com`.
 
-Discord: [dsc.gg/aniwatt](dsc.gg/aniwatt)
+Discord: [The ONLY official one!](dsc.gg/aniwatt)
 
 Reddit:
 
-FreeDNS obtained from https://freedns.afraid.org/
+Domain obtained from [FreeDNS/afraid.org](https://freedns.afraid.org)
 
 Check those sparks out! They helped a lot!
