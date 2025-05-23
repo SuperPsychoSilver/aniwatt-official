@@ -29,31 +29,15 @@
       0%   { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    #content {
-      display: none;
-      width: 100%;
-      max-width: 800px;
-      padding: 1rem;
-      background: #222;
-      border-radius: 8px;
-      box-sizing: border-box;
-      color: white;
-      font-size: 1rem;
-    }
   </style>
 </head>
 <body>
-  <h2 id="status">Verifying you’re not a bot...</h2>
+  <h2>Verifying you’re not a bot...</h2>
   <div class="loader" id="spinner"></div>
-  <div id="content"></div>
 
   <script>
     const isBot = /bot|crawl|spider/i.test(navigator.userAgent);
     const spinner = document.getElementById('spinner');
-    const status = document.getElementById('status');
-    const content = document.getElementById('content');
-
     const colors = ["#00ffff", "#ff00ff", "#ffff00", "#00ff00", "#ff4500", "#1e90ff"];
     let colorIndex = 0;
 
@@ -65,28 +49,10 @@
     if (isBot) {
       document.body.innerHTML = "<h2>Access Denied</h2>";
     } else {
+      // Redirect after 2 seconds delay
       setTimeout(() => {
-        status.style.display = "none";
-        spinner.style.display = "none";
-        content.style.display = "block";
-
-        loadPage('plug.html');
+        window.location.href = "plug.html";
       }, 2000);
-    }
-
-    function loadPage(page) {
-      fetch(page)
-        .then(response => {
-          if (!response.ok) throw new Error('Page not found');
-          return response.text();
-        })
-        .then(html => {
-          content.innerHTML = html;
-        })
-        .catch(err => {
-          content.innerHTML = '<p style="color:red;">Error loading page.</p>';
-          console.error(err);
-        });
     }
   </script>
 </body>
