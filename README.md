@@ -20,9 +20,9 @@ We keep your media charged and flowing, so you'll never experience a blackout in
 ---
 
 ### ⚙ How to Use:
-1. **Go to "**
-2. **Choose your watt-worthy media**
-3. **Charge through your backlog at your pace**
+1. **Go to "aniwatt.my.to".**
+2. **Choose your watt-worthy media.**
+3. **Charge through your backlog at your pace.**
 
 ---
 
@@ -47,4 +47,4 @@ Reddit:
 
 FreeDNS obtained from https://freedns.afraid.org/
 
-Check those sparks out!
+Check those sparks out! They helped a lot!
