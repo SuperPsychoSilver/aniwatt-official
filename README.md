@@ -20,7 +20,7 @@ We keep your media charged and flowing, so you'll never experience a blackout in
 ---
 
 ### ⚙ How to Use:
-1. **Go to [aniwatt.my.to](aniwatt.my.to).**
+1. **Go to [aniwatt.my.to](https://aniwatt.my.to/plug.html).**
 2. **Choose your watt-worthy media.**
 3. **Charge through your backlog at your pace.**
 
