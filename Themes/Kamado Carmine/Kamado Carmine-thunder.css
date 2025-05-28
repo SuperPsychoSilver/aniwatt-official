@@ -7,7 +7,7 @@
 }
 
 body {
-    background: linear-gradient(-45deg, #F80000, #100000) !important;
+    background: linear-gradient(-45deg, red, yellow, green, blue) !important;
     background-size: 300% 300% !important;
     animation: gradientMove 4s ease-in-out infinite !important;
     color: #DE2323;
