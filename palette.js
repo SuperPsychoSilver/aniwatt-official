@@ -23,7 +23,7 @@
             backgroundColor: "black",
             zIndex: "9999",
             opacity: "1",
-            transition: "opacity 2.85s ease-in-out",
+            transition: "opacity 1s ease-in-out",
             pointerEvents: "none"
         });
         document.body.appendChild(overlay);
@@ -32,7 +32,7 @@
         const style = document.createElement("style");
         style.innerHTML = `
             html, body {
-                transition: opacity 2.85s ease-in-out;
+                transition: opacity 1s ease-in-out;
             }
             body.page-fade-in {
                 opacity: 1;
@@ -63,8 +63,6 @@
             document.head.appendChild(favicon);
         }
 
-        // Add gradient colors per theme here
-        // Format: array of colors for linear-gradient
         const themes = {
             "Zenitsu Xanthic": {
                 styles: "Themes/Zenitsu Xanthic/styles.css",
@@ -75,8 +73,7 @@
                 bulb: "Themes/Zenitsu Xanthic/bulb.css",
                 image: "Themes/Zenitsu Xanthic/Images/Zenitsu.png",
                 logo: "Themes/Zenitsu Xanthic/Images/Logo.png",
-                icon: "Themes/Zenitsu Xanthic/Images/Icon.png",
-                gradientColors: ["#FFDD00", "#FFAA00", "#FFD700", "#FFCC33"]
+                icon: "Themes/Zenitsu Xanthic/Images/Icon.png"
             },
             "Kamado Carmine": {
                 styles: "Themes/Kamado Carmine/Kamado Carmine-styles.css",
@@ -87,10 +84,8 @@
                 bulb: "Themes/Kamado Carmine/Kamado Carmine-bulb.css",
                 image: "https://i.imgur.com/1iLNQOB.png",
                 logo: "https://i.imgur.com/YxoYriq.png",
-                icon: "Themes/Kamado Carmine/Images/Icon.png",
-                gradientColors: ["#B22222", "#FF6347", "#DC143C", "#FF4500"]
+                icon: "Themes/Kamado Carmine/Images/Icon.png"
             },
-            // Add gradientColors similarly for all themes...
             "Sakura Blossom": {
                 styles: "Themes/Sakura Blossom/Sakura Blossom-styles.css",
                 search: "Themes/Sakura Blossom/Sakura Blossom-search.css",
@@ -100,32 +95,59 @@
                 bulb: "Themes/Sakura Blossom/Sakura Blossom-bulb.css",
                 image: "Themes/Sakura Blossom/Images/Sakura-Blossom-Image.png",
                 logo: "Themes/Sakura Blossom/Images/Sakura-Blossom-Logo.png",
-                icon: "Themes/Sakura Blossom/Images/Favicon.png",
-                gradientColors: ["#FFC0CB", "#FFB6C1", "#FF69B4", "#FF1493"]
+                icon: "Themes/Sakura Blossom/Images/Favicon.png"
+            },
+            "Naruto Orange": {
+                styles: "Themes/Naruto Orange/Naruto Orange-styles.css",
+                search: "Themes/Naruto Orange/Naruto Orange-search.css",
+                wire: "Themes/Naruto Orange/Naruto Orange-wire.css",
+                palette: "Themes/Naruto Orange/Naruto Orange-palette.css",
+                thunder: "Themes/Naruto Orange/Naruto Orange-thunder.css",
+                bulb: "Themes/Naruto Orange/Naruto Orange-bulb.css",
+                image: "Themes/Naruto Orange/Images/Naruto-Orange-Image.png",
+                logo: "Themes/Naruto Orange/Images/Logo.png",
+                icon: "Themes/Naruto Orange/Images/Favicon.png"
+            },
+            "Gojo Grey": {
+                styles: "Themes/Gojo Grey/Gojo Grey-styles.css",
+                search: "Themes/Gojo Grey/Gojo Grey-search.css",
+                wire: "Themes/Gojo Grey/Gojo Grey-wire.css",
+                palette: "Themes/Gojo Grey/Gojo Grey-palette.css",
+                thunder: "Themes/Gojo Grey/Gojo Grey-thunder.css",
+                bulb: "Themes/Gojo Grey/Gojo Grey-bulb.css",
+                image: "Themes/Gojo Grey/Images/Gojo-Grey-Image.png",
+                logo: "Themes/Gojo Grey/Images/Gojo-Grey-Logo.png",
+                icon: "Themes/Gojo Grey/Images/Favicon.png"
+            },
+            "Zoldyck Zaffre": {
+                styles: "Themes/Zoldyck Zaffre/Gojo Grey-styles.css",
+                search: "Themes/Gojo Grey/Gojo Grey-search.css",
+                wire: "Themes/Gojo Grey/Gojo Grey-wire.css",
+                palette: "Themes/Gojo Grey/Gojo Grey-palette.css",
+                thunder: "Themes/Gojo Grey/Gojo Grey-thunder.css",
+                bulb: "Themes/Gojo Grey/Gojo Grey-bulb.css",
+                image: "Themes/Gojo Grey/Images/Gojo-Grey-Image.png",
+                logo: "Themes/Gojo Grey/Images/Gojo-Grey-Logo.png",
+                icon: "Themes/Gojo Grey/Images/Favicon.png"
+            },
+            "Angel Azure": {
+                styles: "Themes/Angel Azure/Angel Azure-styles.css",
+                search: "Themes/Angel Azure/Angel Azure-search.css",
+                wire: "Themes/Angel Azure/Angel Azure-wire.css",
+                palette: "Themes/Angel Azure/Angel Azure-palette.css",
+                thunder: "Themes/Angel Azure/Angel Azure-thunder.css",
+                bulb: "Themes/Angel Azure/Angel Azure-bulb.css",
+                image: "Themes/Angel Azure/Images/Angel-Azure-Image.png",
+                logo: "Themes/Angel Azure/Images/Angel-Azure-Logo.png",
+                icon: "Themes/Angel Azure/Images/Favicon.png"
             }
-            // ...and so on for other themes
         };
-
-        // Variables to control gradient animation
-        let gradientAngle = 0;
-        let currentGradientColors = [];
-        let animationFrameId;
-
-        // Function to update background gradient animation
-        function animateBackground() {
-            gradientAngle = (gradientAngle + 0.5) % 360; // degrees per frame (adjust speed here)
-            // Build linear-gradient CSS string with current angle & colors
-            const gradientString = `linear-gradient(${gradientAngle}deg, ${currentGradientColors.join(", ")})`;
-            document.body.style.background = gradientString;
-            // Loop animation
-            animationFrameId = requestAnimationFrame(animateBackground);
-        }
 
         function applyTheme(themeName, skipSave = false) {
             const theme = themes[themeName];
             if (!theme) return;
 
-            overlay.style.opacity = "100";
+            overlay.style.opacity = "100"; // Show blackout [I changed it to 100 opacity because the 1 opacity was not functioning properly. It was also set to that because 1 opacity was too transparent compared to 100.]
 
             setTimeout(() => {
                 for (let key in themeStylesheets) {
@@ -138,24 +160,10 @@
                 if (themeLogo && theme.logo) themeLogo.src = theme.logo;
                 if (theme.icon) updateFavicon(theme.icon);
 
-                // Update gradient colors and restart animation
-                if (theme.gradientColors) {
-                    currentGradientColors = theme.gradientColors;
-                    // Cancel previous animation if any
-                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                    // Reset angle for smooth restart
-                    gradientAngle = 0;
-                    animateBackground();
-                } else {
-                    // If no gradient colors, remove background animation
-                    document.body.style.background = "";
-                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                }
-
                 if (!skipSave) localStorage.setItem("selectedTheme", themeName);
 
                 setTimeout(() => {
-                    overlay.style.opacity = "0";
+                    overlay.style.opacity = "0"; // Fade blackout away
                 }, 200);
             }, 300);
         }
@@ -168,11 +176,11 @@
 
             // Reveal page once ready
             setTimeout(() => {
-                html.style.transition = "opacity 2.85s ease-in-out";
+                html.style.transition = "opacity 1s ease-in-out";
                 html.style.visibility = "visible";
                 html.style.opacity = "1";
 
-                overlay.style.opacity = "0";
+                overlay.style.opacity = "0"; // Hide blackout on load
 
                 requestAnimationFrame(() => {
                     body.classList.remove("page-fade-in");
@@ -186,19 +194,11 @@
         document.querySelectorAll(".theme-option").forEach(button => {
             button.addEventListener("click", function () {
                 const selectedTheme = this.getAttribute("data-theme");
-
-                overlay.style.transition = "none";
-                overlay.style.opacity = "1";
-                overlay.offsetHeight;
-                overlay.style.transition = "opacity 1s ease";
-
-                setTimeout(() => {
-                    applyTheme(selectedTheme);
-                }, 200);
+                applyTheme(selectedTheme);
             });
         });
 
-        // Navigation fade-out
+        // Fade-out on navigation
         document.querySelectorAll("a[href]").forEach(link => {
             const isSameTab = link.target !== "_blank" && !link.href.startsWith("javascript:");
 
@@ -209,7 +209,7 @@
 
                     setTimeout(() => {
                         window.location.href = link.href;
-                    }, 500);
+                    }, 400);
                 });
             }
         });
