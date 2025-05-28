@@ -7,15 +7,9 @@
 }
 
 body {
-    background: linear-gradient(-45deg,
-        #1a0000,  /* Blood Black */
-        #330000,  /* Deep Garnet */
-        #4d0000,  /* Dark Carmine */
-        #660000,  /* Crimson Shadow */
-        #800000   /* Rich Carmine */
-    ) !important;
-    background-size: 400% 400% !important;
-    animation: gradientMove 6s ease-in-out infinite !important;
+    background: linear-gradient(-45deg, #960018, #4a000c) !important;
+    background-size: 300% 300% !important;
+    animation: gradientMove 4s ease-in-out infinite !important;
     color: #DE2323;
     text-align: center;
 }
