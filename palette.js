@@ -8,7 +8,7 @@
     window.addEventListener("DOMContentLoaded", function () {
         const body = document.body;
 
-        // Add fade-in class
+        // Add fade-in class for body
         body.classList.add("page-fade-in");
 
         // Create and insert blackout screen overlay
@@ -22,17 +22,26 @@
             height: "100%",
             backgroundColor: "black",
             zIndex: "9999",
-            opacity: "1",
-            transition: "opacity 2.85s ease-in-out",
+            opacity: "0",
+            transition: "opacity 1s ease-in-out",
             pointerEvents: "none"
         });
         document.body.appendChild(overlay);
 
+        // Toggle pointer events on overlay based on opacity
+        overlay.addEventListener('transitionend', () => {
+            if (overlay.style.opacity === "0") {
+                overlay.style.pointerEvents = "none";
+            } else {
+                overlay.style.pointerEvents = "auto";
+            }
+        });
+
         // Inject transition styles
         const style = document.createElement("style");
-        style.innerHTML = 
+        style.innerHTML = `
             html, body {
-                transition: opacity 2.85s ease-in-out;
+                transition: opacity 1s ease-in-out;
             }
             body.page-fade-in {
                 opacity: 1;
@@ -40,10 +49,10 @@
             body.page-fade-out {
                 opacity: 0;
             }
-        ;
+        `;
         document.head.appendChild(style);
 
-        // Theme stylesheets
+        // Theme stylesheets references
         const themeStylesheets = {
             styles: document.getElementById("themeStylesheet"),
             search: document.getElementById("themeSearchStylesheet"),
@@ -131,7 +140,6 @@
                 icon: "Themes/Gojo Grey/Images/Favicon.png"
             },
             "Angel Azure": {
-		color: "#111111",
                 styles: "Themes/Angel Azure/Angel Azure-styles.css",
                 search: "Themes/Angel Azure/Angel Azure-search.css",
                 wire: "Themes/Angel Azure/Angel Azure-wire.css",
@@ -148,8 +156,11 @@
             const theme = themes[themeName];
             if (!theme) return;
 
-            overlay.style.opacity = "100"; // Show blackout [I changed it to 100 opacity because the 1 opacity was not functioning properly. It was also set to that because 1 opacity was too transparent compared to 100.]
+            // Start blackout fade-in
+            overlay.style.pointerEvents = "auto";
+            overlay.style.opacity = "1";
 
+            // Wait for fade-in transition to complete (1s), then apply theme
             setTimeout(() => {
                 for (let key in themeStylesheets) {
                     if (themeStylesheets[key] && theme[key]) {
@@ -163,10 +174,11 @@
 
                 if (!skipSave) localStorage.setItem("selectedTheme", themeName);
 
+                // After applying theme, fade blackout out
                 setTimeout(() => {
-                    overlay.style.opacity = "0"; // Fade blackout away
-                }, 200);
-            }, 300);
+                    overlay.style.opacity = "0";
+                }, 500); // short delay before fade out
+            }, 1000); // match overlay fade-in duration
         }
 
         function loadTheme() {
@@ -175,18 +187,16 @@
                 applyTheme(savedTheme, true);
             }
 
-            // Reveal page once ready
+            // Reveal page after a short delay (let theme apply)
             setTimeout(() => {
-                html.style.transition = "opacity 2.85s ease-in-out";
                 html.style.visibility = "visible";
                 html.style.opacity = "1";
-
-                overlay.style.opacity = "0"; // Hide blackout on load
+                overlay.style.opacity = "0"; // ensure overlay hidden
 
                 requestAnimationFrame(() => {
                     body.classList.remove("page-fade-in");
                 });
-            }, 100);
+            }, 1500);
         }
 
         loadTheme();
@@ -195,33 +205,25 @@
         document.querySelectorAll(".theme-option").forEach(button => {
             button.addEventListener("click", function () {
                 const selectedTheme = this.getAttribute("data-theme");
-
-                // Blackout instantly
-                overlay.style.transition = "none";
-                overlay.style.opacity = "1";
-                overlay.offsetHeight;
-                overlay.style.transition = "opacity 1s ease";
-
-                setTimeout(() => {
-                    applyTheme(selectedTheme);
-                }, 200);
+                applyTheme(selectedTheme);
             });
         });
 
-        // Navigation fade-out
+        // Fade-out on navigation with blackout
         document.querySelectorAll("a[href]").forEach(link => {
             const isSameTab = link.target !== "_blank" && !link.href.startsWith("javascript:");
 
             if (isSameTab && link.href.startsWith(window.location.origin)) {
                 link.addEventListener("click", function (e) {
                     e.preventDefault();
+                    overlay.style.pointerEvents = "auto";
                     overlay.style.opacity = "1";
 
                     setTimeout(() => {
                         window.location.href = link.href;
-                    }, 500);
+                    }, 1000); // wait fade before navigation
                 });
             }
         });
     });
-})(); // <--- this is the important closing call!
+})();
