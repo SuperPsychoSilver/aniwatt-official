@@ -7,9 +7,9 @@
 }
 
 body {
-    background: linear-gradient(-45deg, red, blue, green, yellow);
-    background-size: 300% 300%;
-    animation: gradientMove 5s ease infinite;
+    background: linear-gradient(-45deg, #380000, #600000, #800000, #A00000) !important;
+    background-size: 300% 300% !important;
+    animation: gradientMove 5s ease infinite !important;
     color: #DE2323;
     text-align: center;
 }
