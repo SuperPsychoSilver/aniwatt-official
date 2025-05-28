@@ -7,23 +7,23 @@
 }
 
 body {
-    background: linear-gradient(-45deg, #380000, #600000, #800000, #A00000);
-    background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite;
+    background: linear-gradient(-45deg, red, blue, green, yellow);
+    background-size: 300% 300%;
+    animation: gradientMove 5s ease infinite;
     color: #DE2323;
     text-align: center;
 }
 
 @keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* Header */
