@@ -23,16 +23,16 @@
             backgroundColor: "black",
             zIndex: "9999",
             opacity: "1",
-            transition: "opacity 1s ease-in-out",
+            transition: "opacity 2.85s ease-in-out",
             pointerEvents: "none"
         });
         document.body.appendChild(overlay);
 
         // Inject transition styles
         const style = document.createElement("style");
-        style.innerHTML = `
+        style.innerHTML = 
             html, body {
-                transition: opacity 1s ease-in-out;
+                transition: opacity 2.85s ease-in-out;
             }
             body.page-fade-in {
                 opacity: 1;
@@ -40,7 +40,7 @@
             body.page-fade-out {
                 opacity: 0;
             }
-        `;
+        ;
         document.head.appendChild(style);
 
         // Theme stylesheets
@@ -131,6 +131,7 @@
                 icon: "Themes/Gojo Grey/Images/Favicon.png"
             },
             "Angel Azure": {
+		color: "#111111",
                 styles: "Themes/Angel Azure/Angel Azure-styles.css",
                 search: "Themes/Angel Azure/Angel Azure-search.css",
                 wire: "Themes/Angel Azure/Angel Azure-wire.css",
@@ -176,7 +177,7 @@
 
             // Reveal page once ready
             setTimeout(() => {
-                html.style.transition = "opacity 1s ease-in-out";
+                html.style.transition = "opacity 2.85s ease-in-out";
                 html.style.visibility = "visible";
                 html.style.opacity = "1";
 
@@ -194,11 +195,20 @@
         document.querySelectorAll(".theme-option").forEach(button => {
             button.addEventListener("click", function () {
                 const selectedTheme = this.getAttribute("data-theme");
-                applyTheme(selectedTheme);
+
+                // Blackout instantly
+                overlay.style.transition = "none";
+                overlay.style.opacity = "1";
+                overlay.offsetHeight;
+                overlay.style.transition = "opacity 1s ease";
+
+                setTimeout(() => {
+                    applyTheme(selectedTheme);
+                }, 200);
             });
         });
 
-        // Fade-out on navigation
+        // Navigation fade-out
         document.querySelectorAll("a[href]").forEach(link => {
             const isSameTab = link.target !== "_blank" && !link.href.startsWith("javascript:");
 
@@ -209,9 +219,9 @@
 
                     setTimeout(() => {
                         window.location.href = link.href;
-                    }, 400);
+                    }, 500);
                 });
             }
         });
     });
-})();
+})(); // <--- this is the important closing call!
