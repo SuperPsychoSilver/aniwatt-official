@@ -1,17 +1,14 @@
 (function () {
     const html = document.documentElement;
 
-    // Hide page visually before load
     html.style.visibility = "hidden";
     html.style.opacity = "0";
 
     window.addEventListener("DOMContentLoaded", function () {
         const body = document.body;
 
-        // Add fade-in class
         body.classList.add("page-fade-in");
 
-        // Create and insert blackout screen overlay
         const overlay = document.createElement("div");
         overlay.id = "blackScreenOverlay";
         Object.assign(overlay.style, {
@@ -28,7 +25,6 @@
         });
         document.body.appendChild(overlay);
 
-        // Inject transition styles
         const style = document.createElement("style");
         style.innerHTML = `
             html, body {
@@ -43,7 +39,6 @@
         `;
         document.head.appendChild(style);
 
-        // Theme stylesheet references
         const themeStylesheets = {
             styles: document.getElementById("themeStylesheet"),
             search: document.getElementById("themeSearchStylesheet"),
@@ -74,7 +69,7 @@
                 image: "Themes/Zenitsu Xanthic/Images/Zenitsu.png",
                 logo: "Themes/Zenitsu Xanthic/Images/Logo.png",
                 icon: "Themes/Zenitsu Xanthic/Images/Icon.png",
-                backgroundGradient: "linear-gradient(90deg, #f8c14b, #f4a261, #e76f51, #f8c14b)"
+                gradientColors: ["#f8c14b", "#f4a261", "#e76f51", "#f8c14b"]
             },
             "Kamado Carmine": {
                 styles: "Themes/Kamado Carmine/Kamado Carmine-styles.css",
@@ -86,7 +81,7 @@
                 image: "https://i.imgur.com/1iLNQOB.png",
                 logo: "https://i.imgur.com/YxoYriq.png",
                 icon: "Themes/Kamado Carmine/Images/Icon.png",
-                backgroundGradient: "linear-gradient(90deg, #c92a2a, #f03e3e, #c92a2a)"
+                gradientColors: ["#c92a2a", "#f03e3e", "#c92a2a"]
             },
             "Sakura Blossom": {
                 styles: "Themes/Sakura Blossom/Sakura Blossom-styles.css",
@@ -98,7 +93,7 @@
                 image: "Themes/Sakura Blossom/Images/Sakura-Blossom-Image.png",
                 logo: "Themes/Sakura Blossom/Images/Sakura-Blossom-Logo.png",
                 icon: "Themes/Sakura Blossom/Images/Favicon.png",
-                backgroundGradient: "linear-gradient(90deg, #ffb7c5, #ff87ab, #ff5c8a, #ffb7c5)"
+                gradientColors: ["#ffb7c5", "#ff87ab", "#ff5c8a", "#ffb7c5"]
             },
             "Naruto Orange": {
                 styles: "Themes/Naruto Orange/Naruto Orange-styles.css",
@@ -110,7 +105,7 @@
                 image: "Themes/Naruto Orange/Images/Naruto-Orange-Image.png",
                 logo: "Themes/Naruto Orange/Images/Logo.png",
                 icon: "Themes/Naruto Orange/Images/Favicon.png",
-                backgroundGradient: "linear-gradient(90deg, #ff7f11, #ff9f43, #ff7f11)"
+                gradientColors: ["#ff7f11", "#ff9f43", "#ff7f11"]
             },
             "Gojo Grey": {
                 styles: "Themes/Gojo Grey/Gojo Grey-styles.css",
@@ -122,7 +117,7 @@
                 image: "Themes/Gojo Grey/Images/Gojo-Grey-Image.png",
                 logo: "Themes/Gojo Grey/Images/Gojo-Grey-Logo.png",
                 icon: "Themes/Gojo Grey/Images/Favicon.png",
-                backgroundGradient: "linear-gradient(90deg, #a0a0a0, #c0c0c0, #e0e0e0, #a0a0a0)"
+                gradientColors: ["#a0a0a0", "#c0c0c0", "#e0e0e0", "#a0a0a0"]
             },
             "Zoldyck Zaffre": {
                 styles: "Themes/Zoldyck Zaffre/Gojo Grey-styles.css",
@@ -134,7 +129,7 @@
                 image: "Themes/Gojo Grey/Images/Gojo-Grey-Image.png",
                 logo: "Themes/Gojo Grey/Images/Gojo-Grey-Logo.png",
                 icon: "Themes/Gojo Grey/Images/Favicon.png",
-                backgroundGradient: "linear-gradient(90deg, #0a2a5d, #1e40af, #3b82f6, #0a2a5d)"
+                gradientColors: ["#0a2a5d", "#1e40af", "#3b82f6", "#0a2a5d"]
             },
             "Angel Azure": {
                 styles: "Themes/Angel Azure/Angel Azure-styles.css",
@@ -146,7 +141,7 @@
                 image: "Themes/Angel Azure/Images/Angel-Azure-Image.png",
                 logo: "Themes/Angel Azure/Images/Angel-Azure-Logo.png",
                 icon: "Themes/Angel Azure/Images/Favicon.png",
-                backgroundGradient: "linear-gradient(90deg, #0d3b66, #145374, #1ca3ec, #0d3b66)"
+                gradientColors: ["#0d3b66", "#145374", "#1ca3ec", "#0d3b66"]
             }
         };
 
@@ -178,15 +173,11 @@
                 if (themeLogo && theme.logo) themeLogo.src = theme.logo;
                 if (theme.icon) updateFavicon(theme.icon);
 
-                const gradient = theme.backgroundGradient;
-                if (gradient) {
-                    const colors = gradient.match(/#[0-9a-fA-F]{3,6}/g);
-                    if (colors) {
-                        currentGradientColors = colors;
-                        if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                        gradientAngle = 0;
-                        animateBackground();
-                    }
+                if (theme.gradientColors && Array.isArray(theme.gradientColors)) {
+                    currentGradientColors = theme.gradientColors;
+                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                    gradientAngle = 0;
+                    animateBackground();
                 } else {
                     document.body.style.background = "";
                     if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -210,9 +201,7 @@
                 html.style.transition = "opacity 2.85s ease-in-out";
                 html.style.visibility = "visible";
                 html.style.opacity = "1";
-
                 overlay.style.opacity = "0";
-
                 requestAnimationFrame(() => {
                     body.classList.remove("page-fade-in");
                 });
