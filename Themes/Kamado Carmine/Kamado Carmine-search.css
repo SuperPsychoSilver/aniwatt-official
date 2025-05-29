@@ -165,23 +165,51 @@ header {
 
 .anime-card {
     background-color: #1a1a1a;
+    width: 175px;          /* fixed width */
+    height: 310px;         /* fixed height - enough for image + 2 text lines */
     padding: 10px;
     border-radius: 8px;
     text-align: center;
-    width: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box; /* ensure padding doesn't add extra width/height */
 }
 
 .anime-card img {
-    width: 170px;
+    width: 170px;          /* fixed width */
+    height: 240px;         /* fixed height */
+    object-fit: cover;     /* cover to avoid distortion */
     border-radius: 5px;
     transition: transform 0.2s ease-in-out;
 }
 
-.anime-card p {
+.anime-card img:hover {
+    transform: scale(0.95);
+}
+
+.anime-card p.anime-name {
     color: #FFE22E;
     font-size: 17px;
-    margin-top: 15px;
     font-family: 'Oswald', sans-serif;
+    margin: 8px 0 2px 0;
+    height: 25px;          /* fixed height for single-line title */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.anime-card p.alt-name {
+    color: #bbb;
+    font-size: 13px;
+    margin: 0;
+    height: 20px;          /* fixed height for alt title */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 }
 
 .genre-button {
