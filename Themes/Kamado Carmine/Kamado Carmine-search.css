@@ -207,7 +207,8 @@ header {
     color: #bbb;
     font-size: 13px;
     margin: 0;
-    height: 20px;          /* fixed height for alt title */
+    height: 20px; /* fixed height for alt title */
+    font-family: 'Oswald', sans-serif;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
