@@ -7,7 +7,6 @@ body {
       #630000 50%, 
       #2f0000 75%, 
       #110000 100%);
-    background-size: 400% 400%;
     animation: gradientFlow 10s ease infinite;
     color: #DE2323;
     margin: 0;
