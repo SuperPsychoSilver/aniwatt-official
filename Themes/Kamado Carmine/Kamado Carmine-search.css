@@ -158,16 +158,16 @@ header {
 }
 
 .anime-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: flex-start; /* Ensures proper stacking */
-    gap: 10px; /* Space between cards */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    gap: 10px;
+    justify-items: center;
 }
 
 .anime-card {
     background-color: #1a1a1a;
-    width: 175px;          /* fixed width */
+    max-width: 175px;
+    width: 100%;          /* fixed width */
     height: 310px;         /* fixed height - enough for image + 2 text lines */
     padding: 10px;
     border-radius: 8px;
