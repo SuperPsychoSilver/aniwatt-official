@@ -180,7 +180,7 @@ header {
 }
 
 .anime-card img {
-    width: 170px;          /* fixed width */
+    width: 160px;          /* fixed width */
     height: 240px;         /* fixed height */
     object-fit: cover;     /* cover to avoid distortion */
     border-radius: 5px;
