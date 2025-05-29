@@ -11,6 +11,7 @@ body {
     color: #DE2323;
     margin: 0;
     padding: 0;
+    background-size: 400% 400%;
     text-align: center;
     transition: opacity 0.4s ease-in-out;
 }
