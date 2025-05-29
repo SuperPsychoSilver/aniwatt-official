@@ -6,7 +6,7 @@ body {
       #3e0000 25%, 
       #030000 50%, 
       #2f0000 75%, 
-      #110000 100%);
+      #010000 100%);
     animation: gradientFlow 10s ease infinite;
     color: #DE2323;
     margin: 0;
@@ -59,7 +59,7 @@ header {
     width: 60%;
     padding: 12px;
     font-size: 18px;
-    border: 2px solid #ffcc00;
+    border: 2px solid #010000;
     border-radius: 5px;
     background-color: #222;
     color: white;
