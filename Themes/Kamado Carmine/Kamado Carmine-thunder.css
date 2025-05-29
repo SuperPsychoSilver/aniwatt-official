@@ -12,6 +12,8 @@ body {
     background-size: 300% 300%;
     animation: gradientMove 5s ease infinite;
     height: 100vh;
+    color: #DE2323;
+    text-align: center;
 }
 
 @keyframes gradientMove {
