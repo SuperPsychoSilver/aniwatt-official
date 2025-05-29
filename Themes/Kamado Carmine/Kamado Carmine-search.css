@@ -162,13 +162,16 @@ header {
     grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
     gap: 10px;
     justify-items: center;
+    padding: 20px; /* Optional: adds breathing room */
+    box-sizing: border-box;
 }
 
+/* Anime card: uniform size, perfect fit */
 .anime-card {
     background-color: #1a1a1a;
-    max-width: 175px;
-    width: 100%;          /* fixed width */
-    height: 310px;         /* fixed height - enough for image + 2 text lines */
+    width: 100%;               /* Fill grid cell */
+    max-width: 175px;          /* Don’t exceed desired card size */
+    height: 310px;             /* Fixed height for layout consistency */
     padding: 10px;
     border-radius: 8px;
     text-align: center;
@@ -176,7 +179,8 @@ header {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    box-sizing: border-box; /* ensure padding doesn't add extra width/height */
+    box-sizing: border-box;
+    transition: transform 0.2s ease-in-out;
 }
 
 .anime-card img {
