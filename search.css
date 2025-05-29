@@ -161,7 +161,7 @@ header {
     padding: 10px;
     border-radius: 8px;
     text-align: center;
-    width: 180px;
+    width: 175px;
 }
 
 .anime-card img {
@@ -179,7 +179,9 @@ header {
 
 .anime-card p,
 .anime-item p,
-.anime-name {
+.anime-name,
+.alt-name,
+.anime-info p {
     font-family: 'Oswald', sans-serif !important;
 }
 
