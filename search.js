@@ -51,10 +51,21 @@ function updateAnimeDisplay() {
     const searchQuery = searchInput.value.trim().toLowerCase();
 
     const filtered = animeList.filter(anime => {
-        const matchesSearch = searchQuery === "" || anime.title.romaji.toLowerCase().includes(searchQuery);
+        // Use romaji or english or native titles safely with fallback
+        const romajiTitle = anime.title?.romaji || "";
+        const englishTitle = anime.title?.english || "";
+        const nativeTitle = anime.title?.native || "";
+
+        // Check search against romaji or english titles
+        const matchesSearch = searchQuery === "" ||
+            romajiTitle.toLowerCase().includes(searchQuery) ||
+            englishTitle.toLowerCase().includes(searchQuery);
+
+        // Check genres filter
         const matchesGenre = selectedGenres.size === 0 || [...selectedGenres].every(genre =>
             anime.genres.includes(genre)
         );
+
         return matchesSearch && matchesGenre;
     });
 
@@ -62,14 +73,25 @@ function updateAnimeDisplay() {
         animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
     } else {
         filtered.forEach(anime => {
+            // Titles with fallbacks
+            const englishTitle = anime.title?.english || anime.title?.romaji || anime.title?.native || "Unknown Title";
+            // Alt title only if different from English
+            let altTitle = "";
+            if (anime.title?.romaji && anime.title.romaji !== englishTitle) {
+                altTitle = anime.title.romaji;
+            } else if (anime.title?.native && anime.title.native !== englishTitle) {
+                altTitle = anime.title.native;
+            }
+
             const card = document.createElement("div");
             card.classList.add("anime-card");
             card.innerHTML = `
-                <img src="${anime.image}" alt="${anime.title.romaji}">
-                <p>${anime.title.romaji}</p>
+                <img src="${anime.image}" alt="${englishTitle}">
+                <p class="anime-name">${englishTitle}</p>
+                ${altTitle ? `<p class="alt-name">${altTitle}</p>` : ''}
             `;
             card.addEventListener("click", () => {
-                window.location.href = `bulb.html?anime=${encodeURIComponent(anime.title.romaji)}`;
+                window.location.href = `bulb.html?anime=${encodeURIComponent(englishTitle)}`;
             });
             animeContainer.appendChild(card);
         });
