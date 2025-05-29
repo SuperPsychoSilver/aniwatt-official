@@ -6,7 +6,7 @@ body {
       #3e0000 25%, 
       #030000 50%, 
       #2f0000 75%, 
-      #010000 100%);
+      #110000 100%);
     animation: gradientFlow 10s ease infinite;
     color: #DE2323;
     margin: 0;
