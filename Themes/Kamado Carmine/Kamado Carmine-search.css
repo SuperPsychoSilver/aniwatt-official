@@ -4,7 +4,7 @@ body {
     background: linear-gradient(135deg, 
       #030000 0%, 
       #3e0000 25%, 
-      #630000 50%, 
+      #030000 50%, 
       #2f0000 75%, 
       #110000 100%);
     animation: gradientFlow 10s ease infinite;
