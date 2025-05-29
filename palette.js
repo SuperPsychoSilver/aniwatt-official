@@ -80,8 +80,8 @@
                 palette: "Themes/Zenitsu Xanthic/palette.css",
                 thunder: "Themes/Zenitsu Xanthic/thunder.css",
                 bulb: "Themes/Zenitsu Xanthic/bulb.css",
-                image: "Themes/Zenitsu Xanthic/Images/Zenitsu.png",
-                logo: "Themes/Zenitsu Xanthic/Images/Logo.png",
+                image: "https://i.imgur.com/LRMitzP.png",
+                logo: "https://i.imgur.com/d39xP5N.png",
                 icon: "Themes/Zenitsu Xanthic/Images/Icon.png"
             },
             "Kamado Carmine": {
@@ -91,7 +91,7 @@
                 palette: "Themes/Kamado Carmine/Kamado Carmine-palette.css",
                 thunder: "Themes/Kamado Carmine/Kamado Carmine-thunder.css",
                 bulb: "Themes/Kamado Carmine/Kamado Carmine-bulb.css",
-                image: "https://i.imgur.com/1iLNQOB.png",
+                image: "https://i.imgur.com/wI7fwdQ.png",
                 logo: "https://i.imgur.com/YxoYriq.png",
                 icon: "Themes/Kamado Carmine/Images/Icon.png"
             },
