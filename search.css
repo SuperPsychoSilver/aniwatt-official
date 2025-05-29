@@ -177,6 +177,12 @@ header {
     font-family: 'Oswald', sans-serif;
 }
 
+.anime-card p,
+.anime-item p,
+.anime-name {
+    font-family: 'Oswald', sans-serif !important;
+}
+
 .genre-button {
     padding: 10px 15px;
     border: none;
