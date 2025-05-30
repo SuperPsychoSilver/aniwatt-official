@@ -3,32 +3,34 @@ const API_URL = "https://consumet-api-xmdg.onrender.com/meta/anilist";
 const searchInput = document.getElementById("search-input");
 const animeContainer = document.getElementById("anime-container");
 const genreContainer = document.getElementById("genre-buttons");
-const paginationContainer = document.createElement("div");
-paginationContainer.classList.add("pagination");
 
-// Pagination buttons
+const paginationContainer = document.createElement("div");
+paginationContainer.classList.add("pagination-container");
+
 const prevButton = document.createElement("button");
 prevButton.textContent = "← Prev";
-prevButton.disabled = true;
+prevButton.classList.add("pagination-button");
 
 const nextButton = document.createElement("button");
 nextButton.textContent = "Next →";
+nextButton.classList.add("pagination-button");
 
 const pageInfo = document.createElement("span");
 pageInfo.id = "page-info";
+pageInfo.classList.add("pagination-info");
 pageInfo.textContent = "Page 1";
 
 paginationContainer.appendChild(prevButton);
 paginationContainer.appendChild(pageInfo);
 paginationContainer.appendChild(nextButton);
-animeContainer.parentNode.insertBefore(paginationContainer, animeContainer.nextSibling);
+
+document.body.appendChild(paginationContainer); // Add to body or wherever you prefer
 
 let animeList = [];
 let selectedGenres = new Set();
 let currentPage = 1;
-const perPage = 50;  // keep your original perPage
+const perPage = 50;
 
-// Define your genre list manually
 const genres = [
     "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
     "Romance", "Comedy", "Demons", "Slice of Life", "Ecchi", "Mecha", "Mystery",
@@ -36,7 +38,6 @@ const genres = [
     "Seinen", "Shounen", "Shoujo", "Josei", "Martial Arts", "Kids", "Drama"
 ];
 
-// Create genre buttons dynamically
 genres.forEach(genre => {
     const button = document.createElement("button");
     button.classList.add("genre-button");
@@ -49,16 +50,14 @@ genres.forEach(genre => {
             selectedGenres.add(genre);
             button.classList.add("active");
         }
-        currentPage = 1;  // Reset page on filter change
+        currentPage = 1;
         fetchAnime();
     });
     genreContainer.appendChild(button);
 });
 
-// Fetch anime from API with pagination
 async function fetchAnime() {
     try {
-        // Prepare genre param string (comma separated)
         const genreParam = [...selectedGenres].join(",");
         const res = await fetch(`${API_URL}/popular?page=${currentPage}&perPage=${perPage}&genres=${genreParam}`);
         const data = await res.json();
@@ -66,16 +65,13 @@ async function fetchAnime() {
         animeList = data.results || [];
         updateAnimeDisplay();
 
-        // Update pagination buttons
+        // Pagination logic
         prevButton.disabled = currentPage === 1;
-        // If total pages available in data (assuming data.pagination.lastPage or similar)
-        // fallback if not present, enable next always
         if (data.pagination?.lastPage) {
             nextButton.disabled = currentPage >= data.pagination.lastPage;
             pageInfo.textContent = `Page ${currentPage} / ${data.pagination.lastPage}`;
         } else {
-            // No pagination info? Just show current page and always enable next
-            nextButton.disabled = animeList.length < perPage;  // disable if less than perPage means last page
+            nextButton.disabled = animeList.length < perPage;
             pageInfo.textContent = `Page ${currentPage}`;
         }
     } catch (error) {
@@ -93,12 +89,10 @@ function updateAnimeDisplay() {
         const englishTitle = anime.title?.english || "";
         const nativeTitle = anime.title?.native || "";
 
-        // Check search against romaji or english titles
         const matchesSearch = searchQuery === "" ||
             romajiTitle.toLowerCase().includes(searchQuery) ||
             englishTitle.toLowerCase().includes(searchQuery);
 
-        // genres are filtered on server now, no need to filter again here
         return matchesSearch;
     });
 
@@ -129,7 +123,6 @@ function updateAnimeDisplay() {
     }
 }
 
-// Pagination button events
 prevButton.addEventListener("click", () => {
     if (currentPage > 1) {
         currentPage--;
@@ -142,8 +135,5 @@ nextButton.addEventListener("click", () => {
     fetchAnime();
 });
 
-// Search input filters anime list client side (filtering current page results)
 searchInput.addEventListener("input", updateAnimeDisplay);
-
-// Initial fetch on page load
 fetchAnime();
