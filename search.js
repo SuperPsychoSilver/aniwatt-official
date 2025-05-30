@@ -5,7 +5,7 @@ const animeContainer = document.getElementById("anime-container");
 const genreContainer = document.getElementById("genre-buttons");
 
 const paginationContainer = document.createElement("div");
-paginationContainer.classList.add("pagination"); // Match CSS class
+paginationContainer.classList.add("pagination-container");
 
 const prevButton = document.createElement("button");
 prevButton.textContent = "← Prev";
@@ -23,13 +23,25 @@ pageInfo.textContent = "Page 1";
 paginationContainer.appendChild(prevButton);
 paginationContainer.appendChild(pageInfo);
 paginationContainer.appendChild(nextButton);
-document.body.appendChild(paginationContainer);
+
+// Insert pagination container right after animeContainer for proper CSS scope
+animeContainer.parentNode.insertBefore(paginationContainer, animeContainer.nextSibling);
 
 let animeList = [];
 let selectedGenres = new Set();
 let currentPage = 1;
-const perPage = 49; // Set to 49 to stay under AniList cap
+const maxPerPage = 50; // API seems capped at 50 max results per page
+let perPage = 50;
 let totalPages = 1;
+
+// Debounce helper function to reduce API call spam
+function debounce(func, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
 
 const genres = [
   "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
@@ -38,7 +50,7 @@ const genres = [
   "Seinen", "Shounen", "Shoujo", "Josei", "Martial Arts", "Kids", "Drama"
 ];
 
-// Create genre filter buttons
+// Create genre buttons
 genres.forEach(genre => {
   const button = document.createElement("button");
   button.classList.add("genre-button");
@@ -57,16 +69,16 @@ genres.forEach(genre => {
   genreContainer.appendChild(button);
 });
 
-// Main fetch function
 async function fetchAnime() {
   const query = searchInput.value.trim();
-  let url = "";
   const genreParam = [...selectedGenres].join(",");
 
-  if (query) {
+  let url;
+  if (query !== "") {
+    // Search endpoint: do NOT add genres param (likely unsupported)
     url = `${API_URL}/search/${encodeURIComponent(query)}?page=${currentPage}&perPage=${perPage}`;
-    if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
   } else {
+    // Popular endpoint supports genre filtering
     url = `${API_URL}/popular?page=${currentPage}&perPage=${perPage}`;
     if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
   }
@@ -78,13 +90,14 @@ async function fetchAnime() {
     animeList = data.results || [];
     totalPages = data.pagination?.lastPage || 1;
 
-    prevButton.disabled = currentPage <= 1;
+    prevButton.disabled = currentPage === 1;
     nextButton.disabled = currentPage >= totalPages;
+
     pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
 
     updateAnimeDisplay();
   } catch (error) {
-    animeContainer.innerHTML = "<p style='color: white;'>Failed to load anime. Try again later.</p>";
+    animeContainer.innerHTML = "<p style='color: white;'>Failed to load anime. Please try again later.</p>";
     console.error("Anime fetch error:", error);
   }
 }
@@ -92,7 +105,7 @@ async function fetchAnime() {
 function updateAnimeDisplay() {
   animeContainer.innerHTML = "";
 
-  if (!animeList.length) {
+  if (animeList.length === 0) {
     animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
     return;
   }
@@ -100,8 +113,11 @@ function updateAnimeDisplay() {
   animeList.forEach(anime => {
     const englishTitle = anime.title?.english || anime.title?.romaji || anime.title?.native || "Unknown Title";
     let altTitle = "";
-    if (anime.title?.romaji && anime.title.romaji !== englishTitle) altTitle = anime.title.romaji;
-    else if (anime.title?.native && anime.title.native !== englishTitle) altTitle = anime.title.native;
+    if (anime.title?.romaji && anime.title.romaji !== englishTitle) {
+      altTitle = anime.title.romaji;
+    } else if (anime.title?.native && anime.title.native !== englishTitle) {
+      altTitle = anime.title.native;
+    }
 
     const card = document.createElement("div");
     card.classList.add("anime-card");
@@ -133,11 +149,11 @@ nextButton.addEventListener("click", () => {
   }
 });
 
-// Search input listener
-searchInput.addEventListener("input", () => {
+// Debounced search input to avoid spamming API on every keystroke
+searchInput.addEventListener("input", debounce(() => {
   currentPage = 1;
   fetchAnime();
-});
+}, 300));
 
-// Initial load
+// Initial fetch
 fetchAnime();
