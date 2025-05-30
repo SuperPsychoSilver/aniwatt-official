@@ -24,14 +24,24 @@ paginationContainer.appendChild(prevButton);
 paginationContainer.appendChild(pageInfo);
 paginationContainer.appendChild(nextButton);
 
-document.body.appendChild(paginationContainer);
+// Insert pagination container right after animeContainer for proper CSS scope
+animeContainer.parentNode.insertBefore(paginationContainer, animeContainer.nextSibling);
 
 let animeList = [];
 let selectedGenres = new Set();
 let currentPage = 1;
-const perPage = 56;
+const maxPerPage = 50; // API seems capped at 50 max results per page
+let perPage = 50;
 let totalPages = 1;
-let lastSearchQuery = "";
+
+// Debounce helper function to reduce API call spam
+function debounce(func, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
 
 const genres = [
   "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
@@ -59,18 +69,16 @@ genres.forEach(genre => {
   genreContainer.appendChild(button);
 });
 
-// Fetch anime (uses search if query present)
 async function fetchAnime() {
   const query = searchInput.value.trim();
-  lastSearchQuery = query;
-  let url;
-
   const genreParam = [...selectedGenres].join(",");
 
+  let url;
   if (query !== "") {
+    // Search endpoint: do NOT add genres param (likely unsupported)
     url = `${API_URL}/search/${encodeURIComponent(query)}?page=${currentPage}&perPage=${perPage}`;
-    if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
   } else {
+    // Popular endpoint supports genre filtering
     url = `${API_URL}/popular?page=${currentPage}&perPage=${perPage}`;
     if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
   }
@@ -78,6 +86,7 @@ async function fetchAnime() {
   try {
     const res = await fetch(url);
     const data = await res.json();
+
     animeList = data.results || [];
     totalPages = data.pagination?.lastPage || 1;
 
@@ -125,7 +134,7 @@ function updateAnimeDisplay() {
   });
 }
 
-// Pagination events
+// Pagination buttons
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
@@ -140,11 +149,11 @@ nextButton.addEventListener("click", () => {
   }
 });
 
-// Search input triggers full search
-searchInput.addEventListener("input", () => {
+// Debounced search input to avoid spamming API on every keystroke
+searchInput.addEventListener("input", debounce(() => {
   currentPage = 1;
   fetchAnime();
-});
+}, 300));
 
-// Load initial page
+// Initial fetch
 fetchAnime();
