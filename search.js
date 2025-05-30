@@ -23,117 +23,137 @@ pageInfo.textContent = "Page 1";
 paginationContainer.appendChild(prevButton);
 paginationContainer.appendChild(pageInfo);
 paginationContainer.appendChild(nextButton);
+document.body.appendChild(paginationContainer);
 
-document.body.appendChild(paginationContainer); // Add to body or wherever you prefer
-
-let animeList = [];
 let selectedGenres = new Set();
 let currentPage = 1;
 const perPage = 49;
+let totalPages = 1;
+let currentResults = [];
 
 const genres = [
-    "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
-    "Romance", "Comedy", "Demons", "Slice of Life", "Ecchi", "Mecha", "Mystery",
-    "Harem", "Space", "Supernatural", "Game", "Music", "Sports", "Psychological",
-    "Seinen", "Shounen", "Shoujo", "Josei", "Martial Arts", "Kids", "Drama"
+  "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
+  "Romance", "Comedy", "Demons", "Slice of Life", "Ecchi", "Mecha", "Mystery",
+  "Harem", "Space", "Supernatural", "Game", "Music", "Sports", "Psychological",
+  "Seinen", "Shounen", "Shoujo", "Josei", "Martial Arts", "Kids", "Drama"
 ];
 
 genres.forEach(genre => {
-    const button = document.createElement("button");
-    button.classList.add("genre-button");
-    button.textContent = genre;
-    button.addEventListener("click", () => {
-        if (selectedGenres.has(genre)) {
-            selectedGenres.delete(genre);
-            button.classList.remove("active");
-        } else {
-            selectedGenres.add(genre);
-            button.classList.add("active");
-        }
-        currentPage = 1;
-        fetchAnime();
-    });
-    genreContainer.appendChild(button);
+  const button = document.createElement("button");
+  button.classList.add("genre-button");
+  button.textContent = genre;
+  button.addEventListener("click", () => {
+    if (selectedGenres.has(genre)) {
+      selectedGenres.delete(genre);
+      button.classList.remove("active");
+    } else {
+      selectedGenres.add(genre);
+      button.classList.add("active");
+    }
+    currentPage = 1;
+    performSearch();
+  });
+  genreContainer.appendChild(button);
 });
 
-async function fetchAnime() {
-    try {
-        const genreParam = [...selectedGenres].join(",");
-        const res = await fetch(`${API_URL}/popular?page=${currentPage}&perPage=${perPage}&genres=${genreParam}`);
-        const data = await res.json();
+async function performSearch() {
+  const query = searchInput.value.trim();
+  currentResults = [];
+  let page = 1;
+  let keepFetching = true;
+  const genreParam = [...selectedGenres].join(",");
 
-        animeList = data.results || [];
-        updateAnimeDisplay();
-
-        // Pagination logic
-        prevButton.disabled = currentPage === 1;
-        if (data.pagination?.lastPage) {
-            nextButton.disabled = currentPage >= data.pagination.lastPage;
-            pageInfo.textContent = `Page ${currentPage} / ${data.pagination.lastPage}`;
-        } else {
-            nextButton.disabled = animeList.length < perPage;
-            pageInfo.textContent = `Page ${currentPage}`;
-        }
-    } catch (error) {
-        animeContainer.innerHTML = "<p style='color: white;'>Failed to load anime. Please try again later.</p>";
-        console.error("Anime fetch error:", error);
+  while (keepFetching) {
+    let url;
+    if (query) {
+      url = `${API_URL}/search/${encodeURIComponent(query)}?page=${page}&perPage=50`;
+    } else {
+      url = `${API_URL}/popular?page=${page}&perPage=50`;
     }
+
+    if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.results?.length) {
+        currentResults = currentResults.concat(data.results);
+      }
+
+      if (!data.hasNextPage || currentResults.length >= 300) {
+        keepFetching = false;
+      } else {
+        page++;
+      }
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      keepFetching = false;
+    }
+  }
+
+  totalPages = Math.ceil(currentResults.length / perPage);
+  updateAnimeDisplay();
 }
 
 function updateAnimeDisplay() {
-    animeContainer.innerHTML = "";
-    const searchQuery = searchInput.value.trim().toLowerCase();
+  animeContainer.innerHTML = "";
 
-    const filtered = animeList.filter(anime => {
-        const romajiTitle = anime.title?.romaji || "";
-        const englishTitle = anime.title?.english || "";
-        const nativeTitle = anime.title?.native || "";
+  if (currentResults.length === 0) {
+    animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
+    pageInfo.textContent = "Page 0 / 0";
+    return;
+  }
 
-        const matchesSearch = searchQuery === "" ||
-            romajiTitle.toLowerCase().includes(searchQuery) ||
-            englishTitle.toLowerCase().includes(searchQuery);
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+  const pageResults = currentResults.slice(start, end);
 
-        return matchesSearch;
+  pageResults.forEach(anime => {
+    const englishTitle = anime.title?.english || anime.title?.romaji || anime.title?.native || "Unknown Title";
+    let altTitle = "";
+    if (anime.title?.romaji && anime.title.romaji !== englishTitle) {
+      altTitle = anime.title.romaji;
+    } else if (anime.title?.native && anime.title.native !== englishTitle) {
+      altTitle = anime.title.native;
+    }
+
+    const card = document.createElement("div");
+    card.classList.add("anime-card");
+    card.innerHTML = `
+      <img src="${anime.image}" alt="${englishTitle}">
+      <p class="anime-name">${englishTitle}</p>
+      ${altTitle ? `<p class="alt-name">${altTitle}</p>` : ""}
+    `;
+    card.addEventListener("click", () => {
+      window.location.href = `bulb.html?anime=${encodeURIComponent(englishTitle)}`;
     });
 
-    if (filtered.length === 0) {
-        animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
-    } else {
-        filtered.forEach(anime => {
-            const englishTitle = anime.title?.english || anime.title?.romaji || anime.title?.native || "Unknown Title";
-            let altTitle = "";
-            if (anime.title?.romaji && anime.title.romaji !== englishTitle) {
-                altTitle = anime.title.romaji;
-            } else if (anime.title?.native && anime.title.native !== englishTitle) {
-                altTitle = anime.title.native;
-            }
+    animeContainer.appendChild(card);
+  });
 
-            const card = document.createElement("div");
-            card.classList.add("anime-card");
-            card.innerHTML = `
-                <img src="${anime.image}" alt="${englishTitle}">
-                <p class="anime-name">${englishTitle}</p>
-                ${altTitle ? `<p class="alt-name">${altTitle}</p>` : ''}
-            `;
-            card.addEventListener("click", () => {
-                window.location.href = `bulb.html?anime=${encodeURIComponent(englishTitle)}`;
-            });
-            animeContainer.appendChild(card);
-        });
-    }
+  prevButton.disabled = currentPage <= 1;
+  nextButton.disabled = currentPage >= totalPages;
+  pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
 }
 
 prevButton.addEventListener("click", () => {
-    if (currentPage > 1) {
-        currentPage--;
-        fetchAnime();
-    }
+  if (currentPage > 1) {
+    currentPage--;
+    updateAnimeDisplay();
+  }
 });
 
 nextButton.addEventListener("click", () => {
+  if (currentPage < totalPages) {
     currentPage++;
-    fetchAnime();
+    updateAnimeDisplay();
+  }
 });
 
-searchInput.addEventListener("input", updateAnimeDisplay);
-fetchAnime();
+searchInput.addEventListener("input", () => {
+  currentPage = 1;
+  performSearch();
+});
+
+performSearch();
