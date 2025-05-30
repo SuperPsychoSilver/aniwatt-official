@@ -5,7 +5,7 @@ const animeContainer = document.getElementById("anime-container");
 const genreContainer = document.getElementById("genre-buttons");
 
 const paginationContainer = document.createElement("div");
-paginationContainer.classList.add("pagination-container");
+paginationContainer.classList.add("pagination");
 
 const prevButton = document.createElement("button");
 prevButton.textContent = "← Prev";
