@@ -61,9 +61,9 @@ async function performSearch(page = 1) {
 
   let url;
   if (query) {
-    url = `${API_URL}/search/${encodeURIComponent(query)}?page=${page}&perPage=50`;
+    url = `${API_URL}/search/${encodeURIComponent(query)}?page=${page}&perPage=49`;
   } else {
-    url = `${API_URL}/popular?page=${page}&perPage=50`;
+    url = `${API_URL}/popular?page=${page}&perPage=49`;
   }
 
   if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
