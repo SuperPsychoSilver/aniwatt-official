@@ -30,8 +30,8 @@ animeContainer.parentNode.insertBefore(paginationContainer, animeContainer.nextS
 let animeList = [];
 let selectedGenres = new Set();
 let currentPage = 1;
-const maxPerPage = 50; // API seems capped at 50 max results per page
-let perPage = 50;
+const maxPerPage = 56; // API seems capped at 50 max results per page
+let perPage = 56;
 let totalPages = 1;
 
 // Debounce helper function to reduce API call spam
