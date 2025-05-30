@@ -20,6 +20,43 @@ header {
     padding: 10px 20px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 15px;
+}
+
+.pagination button {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #444444;
+}
+
+.pagination button:disabled {
+  background-color: #555555;
+  cursor: not-allowed;
+  color: #888888;
+}
+
+.pagination #page-info {
+  color: #ccc;
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  user-select: none;
+}
+
 /* Social media links (right-aligned) */
 .social-links {
     display: flex;
