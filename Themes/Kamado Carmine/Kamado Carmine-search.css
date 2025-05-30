@@ -175,7 +175,7 @@ header {
 }
 
 .anime-item {
-    background-color: #111;
+    background-color: rgba(207, 11, 11, 0.40);
     padding: 12px;
     border-radius: 8px;
     text-align: center;
@@ -233,7 +233,7 @@ header {
 }
 
 .anime-card p.anime-name {
-    color: #FFE22E;
+    color: #FF5C5C;
     font-size: 17px;
     font-family: 'Oswald', sans-serif;
     margin: 8px 0 2px 0;
@@ -245,7 +245,7 @@ header {
 }
 
 .anime-card p.alt-name {
-    color: #bbb;
+    color: #FF9494;
     font-size: 13px;
     margin: 0;
     height: 20px; /* fixed height for alt title */
