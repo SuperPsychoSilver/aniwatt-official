@@ -7,18 +7,19 @@
 }
 
 body {
-    margin: 0;
     background: linear-gradient(135deg, 
       #030000 0%, 
       #3e0000 25%, 
-      #630000 50%, 
+      #030000 50%, 
       #2f0000 75%, 
       #110000 100%);
-    background-size: 400% 400%;
     animation: gradientFlow 10s ease infinite;
-    height: 100vh;
     color: #DE2323;
+    margin: 0;
+    padding: 0;
+    background-size: 400% 400%;
     text-align: center;
+    transition: opacity 0.4s ease-in-out;
 }
 
 @keyframes gradientFlow {
@@ -148,19 +149,19 @@ h2 {
 .anime-title {
     font-size: 14px;
     font-weight: bold;
-    color: #FF5C5C
+    color: #FF5C5C;
 }
 
 .anime-alt-title {
     font-size: 12px;
-    color: #FF5C5C
+    color: #FF9494;
     opacity: 0.8; /* Slightly dimmer to differentiate */
     margin-top: 2px;
 }
 
 .anime-details {
     font-size: 12px;
-    color: #FF5C5C
+    color: #FF5C5C;
     margin-top: 5px;
 }
 
