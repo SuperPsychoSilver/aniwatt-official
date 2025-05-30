@@ -395,7 +395,7 @@ footer {
     color: white;
     background-color: #222; /* Adjust as needed */
     text-align: center;
-    position: relative;
+    position: absolute;
 }
 
 .footer-text {
@@ -409,17 +409,4 @@ footer {
     max-height: 250px; /* Adjust size */
     padding-left: 10px; /* Fine-tune spacing */
     align-self: flex-end; /* Forces image to align with the footer bottom */
-}
-
-.anime-card img:hover {
-    transform: scale(0.95);
-}
-
-.anime-item img,
-.anime-card img {
-    width: 170px;  /* Set a fixed width */
-    height: 240px; /* Set a fixed height to ensure uniformity */
-    object-fit: cover; /* Ensures images scale properly without distortion */
-    border-radius: 5px;
-    transition: transform 0.2s ease-in-out;
 }
