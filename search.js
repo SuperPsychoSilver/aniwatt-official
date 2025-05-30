@@ -29,7 +29,6 @@ let selectedGenres = new Set();
 let currentPage = 1;
 const perPage = 49;
 let totalPages = 1;
-let currentResults = [];
 
 const genres = [
   "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
@@ -51,65 +50,61 @@ genres.forEach(genre => {
       button.classList.add("active");
     }
     currentPage = 1;
-    performSearch();
+    performSearch(1);  // Pass page 1 explicitly here
   });
   genreContainer.appendChild(button);
 });
 
-async function performSearch() {
+async function performSearch(page = 1) {
   const query = searchInput.value.trim();
-  currentResults = [];
-  let page = 1;
-  let keepFetching = true;
   const genreParam = [...selectedGenres].join(",");
 
-  while (keepFetching) {
-    let url;
-    if (query) {
-      url = `${API_URL}/search/${encodeURIComponent(query)}?page=${page}&perPage=50`;
-    } else {
-      url = `${API_URL}/popular?page=${page}&perPage=50`;
-    }
-
-    if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
-
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (data.results?.length) {
-        currentResults = currentResults.concat(data.results);
-      }
-
-      if (!data.hasNextPage || currentResults.length >= 300) {
-        keepFetching = false;
-      } else {
-        page++;
-      }
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      keepFetching = false;
-    }
+  let url;
+  if (query) {
+    url = `${API_URL}/search/${encodeURIComponent(query)}?page=${page}&perPage=50`;
+  } else {
+    url = `${API_URL}/popular?page=${page}&perPage=50`;
   }
 
-  totalPages = Math.ceil(currentResults.length / perPage);
-  updateAnimeDisplay();
+  if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
+
+  animeContainer.innerHTML = "<p style='color: white;'>Loading...</p>";
+  prevButton.disabled = true;
+  nextButton.disabled = true;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.results?.length) {
+      animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
+      pageInfo.textContent = "Page 0 / 0";
+      totalPages = 1;
+      currentPage = 1;
+      return;
+    }
+
+    // Update pagination info based on API response
+    // Assume API returns totalCount or hasNextPage or totalPages (check API docs)
+    // If not, estimate total pages via: totalPages = Math.ceil(totalCount / perPage);
+    // Here, fallback to hasNextPage logic for enabling next button
+
+    totalPages = data.totalPages || (data.hasNextPage ? page + 1 : page);
+    currentPage = page;
+
+    updateAnimeDisplay(data.results);
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    animeContainer.innerHTML = "<p style='color: white;'>Error loading data.</p>";
+    totalPages = 1;
+    currentPage = 1;
+  }
 }
 
-function updateAnimeDisplay() {
+function updateAnimeDisplay(results) {
   animeContainer.innerHTML = "";
 
-  if (currentResults.length === 0) {
-    animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
-    pageInfo.textContent = "Page 0 / 0";
-    return;
-  }
-
-  const start = (currentPage - 1) * perPage;
-  const end = start + perPage;
-  const pageResults = currentResults.slice(start, end);
-
-  pageResults.forEach(anime => {
+  results.forEach(anime => {
     const englishTitle = anime.title?.english || anime.title?.romaji || anime.title?.native || "Unknown Title";
     let altTitle = "";
     if (anime.title?.romaji && anime.title.romaji !== englishTitle) {
@@ -139,21 +134,19 @@ function updateAnimeDisplay() {
 
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
-    currentPage--;
-    updateAnimeDisplay();
+    performSearch(currentPage - 1);
   }
 });
 
 nextButton.addEventListener("click", () => {
   if (currentPage < totalPages) {
-    currentPage++;
-    updateAnimeDisplay();
+    performSearch(currentPage + 1);
   }
 });
 
 searchInput.addEventListener("input", () => {
   currentPage = 1;
-  performSearch();
+  performSearch(currentPage);
 });
 
-performSearch();
+performSearch(currentPage);
