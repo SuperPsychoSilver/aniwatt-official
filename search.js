@@ -3,9 +3,30 @@ const API_URL = "https://consumet-api-xmdg.onrender.com/meta/anilist";
 const searchInput = document.getElementById("search-input");
 const animeContainer = document.getElementById("anime-container");
 const genreContainer = document.getElementById("genre-buttons");
+const paginationContainer = document.createElement("div");
+paginationContainer.classList.add("pagination");
+
+// Pagination buttons
+const prevButton = document.createElement("button");
+prevButton.textContent = "← Prev";
+prevButton.disabled = true;
+
+const nextButton = document.createElement("button");
+nextButton.textContent = "Next →";
+
+const pageInfo = document.createElement("span");
+pageInfo.id = "page-info";
+pageInfo.textContent = "Page 1";
+
+paginationContainer.appendChild(prevButton);
+paginationContainer.appendChild(pageInfo);
+paginationContainer.appendChild(nextButton);
+animeContainer.parentNode.insertBefore(paginationContainer, animeContainer.nextSibling);
 
 let animeList = [];
 let selectedGenres = new Set();
+let currentPage = 1;
+const perPage = 50;  // keep your original perPage
 
 // Define your genre list manually
 const genres = [
@@ -28,18 +49,35 @@ genres.forEach(genre => {
             selectedGenres.add(genre);
             button.classList.add("active");
         }
-        updateAnimeDisplay();
+        currentPage = 1;  // Reset page on filter change
+        fetchAnime();
     });
     genreContainer.appendChild(button);
 });
 
-// Fetch anime from API
+// Fetch anime from API with pagination
 async function fetchAnime() {
     try {
-        const res = await fetch(`${API_URL}/popular?page=1&perPage=50`);
+        // Prepare genre param string (comma separated)
+        const genreParam = [...selectedGenres].join(",");
+        const res = await fetch(`${API_URL}/popular?page=${currentPage}&perPage=${perPage}&genres=${genreParam}`);
         const data = await res.json();
+
         animeList = data.results || [];
         updateAnimeDisplay();
+
+        // Update pagination buttons
+        prevButton.disabled = currentPage === 1;
+        // If total pages available in data (assuming data.pagination.lastPage or similar)
+        // fallback if not present, enable next always
+        if (data.pagination?.lastPage) {
+            nextButton.disabled = currentPage >= data.pagination.lastPage;
+            pageInfo.textContent = `Page ${currentPage} / ${data.pagination.lastPage}`;
+        } else {
+            // No pagination info? Just show current page and always enable next
+            nextButton.disabled = animeList.length < perPage;  // disable if less than perPage means last page
+            pageInfo.textContent = `Page ${currentPage}`;
+        }
     } catch (error) {
         animeContainer.innerHTML = "<p style='color: white;'>Failed to load anime. Please try again later.</p>";
         console.error("Anime fetch error:", error);
@@ -51,7 +89,6 @@ function updateAnimeDisplay() {
     const searchQuery = searchInput.value.trim().toLowerCase();
 
     const filtered = animeList.filter(anime => {
-        // Use romaji or english or native titles safely with fallback
         const romajiTitle = anime.title?.romaji || "";
         const englishTitle = anime.title?.english || "";
         const nativeTitle = anime.title?.native || "";
@@ -61,21 +98,15 @@ function updateAnimeDisplay() {
             romajiTitle.toLowerCase().includes(searchQuery) ||
             englishTitle.toLowerCase().includes(searchQuery);
 
-        // Check genres filter
-        const matchesGenre = selectedGenres.size === 0 || [...selectedGenres].every(genre =>
-            anime.genres.includes(genre)
-        );
-
-        return matchesSearch && matchesGenre;
+        // genres are filtered on server now, no need to filter again here
+        return matchesSearch;
     });
 
     if (filtered.length === 0) {
         animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
     } else {
         filtered.forEach(anime => {
-            // Titles with fallbacks
             const englishTitle = anime.title?.english || anime.title?.romaji || anime.title?.native || "Unknown Title";
-            // Alt title only if different from English
             let altTitle = "";
             if (anime.title?.romaji && anime.title.romaji !== englishTitle) {
                 altTitle = anime.title.romaji;
@@ -98,6 +129,20 @@ function updateAnimeDisplay() {
     }
 }
 
+// Pagination button events
+prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchAnime();
+    }
+});
+
+nextButton.addEventListener("click", () => {
+    currentPage++;
+    fetchAnime();
+});
+
+// Search input filters anime list client side (filtering current page results)
 searchInput.addEventListener("input", updateAnimeDisplay);
 
 // Initial fetch on page load
