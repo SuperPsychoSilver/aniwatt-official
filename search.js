@@ -65,7 +65,7 @@ async function performSearch(page = 1) {
   let currentPageIndex = 1;
   let hasNextPage = true;
 
-  animeContainer.innerHTML = "<p style='color: white;'>Loading all results...</p>";
+  animeContainer.innerHTML = animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Loading all results...</p>";
   prevButton.disabled = true;
   nextButton.disabled = true;
 
