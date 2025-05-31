@@ -60,22 +60,24 @@ genres.forEach(genre => {
 // Fetch ALL results matching search/genre filters
 async function performSearch(page = 1) {
   const query = searchInput.value.trim().toLowerCase();
-  const genreParam = [...selectedGenres].join(",");
+  const genreList = [...selectedGenres];
   let allResults = [];
-  let currentPageIndex = 1;
+  let pageIndex = 1;
   let hasNextPage = true;
 
-  animeContainer.innerHTML = animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Loading all results...</p>";
+  animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Loading all results...</p>";
   prevButton.disabled = true;
   nextButton.disabled = true;
 
   try {
     while (hasNextPage) {
-      let url = query
-        ? `${API_URL}/search?query=${encodeURIComponent(query)}&page=${currentPageIndex}&perPage=49`
-        : `${API_URL}/popular?page=${currentPageIndex}&perPage=49`;
+      let url;
 
-      if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
+      if (query) {
+        url = `${API_URL}/search?query=${encodeURIComponent(query)}&page=${pageIndex}&perPage=50`;
+      } else {
+        url = `${API_URL}/popular?page=${pageIndex}&perPage=50`;
+      }
 
       const res = await fetch(url);
       const data = await res.json();
@@ -84,23 +86,25 @@ async function performSearch(page = 1) {
 
       allResults.push(...data.results);
       hasNextPage = data.hasNextPage ?? false;
-      currentPageIndex++;
+      pageIndex++;
     }
 
-    // Refine search results (exact title match filtering)
+    // 🧠 FULL GENRE FILTER (client-side)
     const filtered = allResults.filter(anime => {
       const titles = [
         anime.title?.english?.toLowerCase(),
         anime.title?.romaji?.toLowerCase(),
         anime.title?.native?.toLowerCase()
       ].filter(Boolean);
+
       const matchesQuery = !query || titles.some(t => t.includes(query));
-      const matchesGenres = [...selectedGenres].every(g => anime.genres?.includes(g));
+      const matchesGenres = genreList.every(g => anime.genres?.includes(g));
+
       return matchesQuery && matchesGenres;
     });
 
     if (!filtered.length) {
-      animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
+      animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>No results found.</p>";
       pageInfo.textContent = "Page 0 / 0";
       paginatedResults = [];
       totalPages = 1;
@@ -114,7 +118,7 @@ async function performSearch(page = 1) {
 
   } catch (err) {
     console.error("Error fetching data:", err);
-    animeContainer.innerHTML = "<p style='color: white;'>Error loading data.</p>";
+    animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Error loading data.</p>";
     pageInfo.textContent = "Page 0 / 0";
     paginatedResults = [];
     totalPages = 1;
