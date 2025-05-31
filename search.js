@@ -29,6 +29,7 @@ let selectedGenres = new Set();
 let currentPage = 1;
 const perPage = 49;
 let totalPages = 1;
+let paginatedResults = [];
 
 const genres = [
   "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
@@ -37,6 +38,7 @@ const genres = [
   "Seinen", "Shounen", "Shoujo", "Josei", "Martial Arts", "Kids", "Drama"
 ];
 
+// Create genre filter buttons
 genres.forEach(genre => {
   const button = document.createElement("button");
   button.classList.add("genre-button");
@@ -50,57 +52,76 @@ genres.forEach(genre => {
       button.classList.add("active");
     }
     currentPage = 1;
-    performSearch(1);  // Pass page 1 explicitly here
+    performSearch();
   });
   genreContainer.appendChild(button);
 });
 
+// Fetch ALL results matching search/genre filters
 async function performSearch(page = 1) {
-  const query = searchInput.value.trim();
+  const query = searchInput.value.trim().toLowerCase();
   const genreParam = [...selectedGenres].join(",");
+  let allResults = [];
+  let currentPageIndex = 1;
+  let hasNextPage = true;
 
-  let url;
-  if (query) {
-    url = `${API_URL}/search?query=${encodeURIComponent(query)}&page=${page}&perPage=49`;
-  } else {
-    url = `${API_URL}/popular?page=${page}&perPage=49`;
-  }
-
-  if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
-
-  animeContainer.innerHTML = "<p style='color: white;'>Loading...</p>";
+  animeContainer.innerHTML = "<p style='color: white;'>Loading all results...</p>";
   prevButton.disabled = true;
   nextButton.disabled = true;
 
   try {
-    const res = await fetch(url);
-    const data = await res.json();
+    while (hasNextPage) {
+      let url = query
+        ? `${API_URL}/search?query=${encodeURIComponent(query)}&page=${currentPageIndex}&perPage=49`
+        : `${API_URL}/popular?page=${currentPageIndex}&perPage=49`;
 
-    if (!data.results?.length) {
+      if (genreParam) url += `&genres=${encodeURIComponent(genreParam)}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!data.results?.length) break;
+
+      allResults.push(...data.results);
+      hasNextPage = data.hasNextPage ?? false;
+      currentPageIndex++;
+    }
+
+    // Refine search results (exact title match filtering)
+    const filtered = allResults.filter(anime => {
+      const titles = [
+        anime.title?.english?.toLowerCase(),
+        anime.title?.romaji?.toLowerCase(),
+        anime.title?.native?.toLowerCase()
+      ].filter(Boolean);
+      const matchesQuery = !query || titles.some(t => t.includes(query));
+      const matchesGenres = [...selectedGenres].every(g => anime.genres?.includes(g));
+      return matchesQuery && matchesGenres;
+    });
+
+    if (!filtered.length) {
       animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
       pageInfo.textContent = "Page 0 / 0";
+      paginatedResults = [];
       totalPages = 1;
-      currentPage = 1;
       return;
     }
 
-    // Update pagination info based on API response
-    // Assume API returns totalCount or hasNextPage or totalPages (check API docs)
-    // If not, estimate total pages via: totalPages = Math.ceil(totalCount / perPage);
-    // Here, fallback to hasNextPage logic for enabling next button
-
-    totalPages = data.totalPages || (data.hasNextPage ? page + 1 : page);
+    paginatedResults = filtered;
+    totalPages = Math.ceil(filtered.length / perPage);
     currentPage = page;
+    updateAnimeDisplay(paginatedResults.slice((page - 1) * perPage, page * perPage));
 
-    updateAnimeDisplay(data.results);
   } catch (err) {
     console.error("Error fetching data:", err);
     animeContainer.innerHTML = "<p style='color: white;'>Error loading data.</p>";
+    pageInfo.textContent = "Page 0 / 0";
+    paginatedResults = [];
     totalPages = 1;
-    currentPage = 1;
   }
 }
 
+// Display current page's anime
 function updateAnimeDisplay(results) {
   animeContainer.innerHTML = "";
 
@@ -132,21 +153,26 @@ function updateAnimeDisplay(results) {
   pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
 }
 
+// Pagination controls
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
-    performSearch(currentPage - 1);
+    currentPage--;
+    updateAnimeDisplay(paginatedResults.slice((currentPage - 1) * perPage, currentPage * perPage));
   }
 });
 
 nextButton.addEventListener("click", () => {
   if (currentPage < totalPages) {
-    performSearch(currentPage + 1);
+    currentPage++;
+    updateAnimeDisplay(paginatedResults.slice((currentPage - 1) * perPage, currentPage * perPage));
   }
 });
 
+// Live search
 searchInput.addEventListener("input", () => {
   currentPage = 1;
-  performSearch(currentPage);
+  performSearch();
 });
 
-performSearch(currentPage);
+// Initial load
+performSearch();
