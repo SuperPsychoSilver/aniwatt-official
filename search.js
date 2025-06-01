@@ -72,7 +72,7 @@ async function performSearch(page = 1) {
   const query = searchInput.value.trim().toLowerCase();
   const genreList = [...selectedGenres];
 
-  animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Loading all results (this can take a moment)...</p>";
+  animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Loading all results...</p>";
   prevButton.disabled = true;
   nextButton.disabled = true;
 
