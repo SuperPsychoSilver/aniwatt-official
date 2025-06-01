@@ -62,6 +62,11 @@ genres.forEach(genre => {
   genreContainer.appendChild(btn);
 });
 
+// Utility: delay function to avoid hitting rate limits too fast
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // Fetch ALL pages (no artificial max page cap)
 async function performSearch(page = 1) {
   const query = searchInput.value.trim().toLowerCase();
@@ -76,14 +81,14 @@ async function performSearch(page = 1) {
   let hasNextPage = true;
 
   try {
-    // Loop through all pages until API returns no more
+    // Loop through all pages until API returns no more or hits max cap
     while (hasNextPage) {
       let url = query
         ? `${API_URL}/search?query=${encodeURIComponent(query)}&page=${pageIndex}&perPage=50`
         : `${API_URL}/popular?page=${pageIndex}&perPage=50`;
 
       const res = await fetch(url);
-      if (!res.ok) throw new Error(`API Error: ${res.status}`);
+      if (!res.ok) throw new Error(`API Error: ${res.status} ${res.statusText}`);
 
       const data = await res.json();
 
@@ -91,14 +96,19 @@ async function performSearch(page = 1) {
 
       allResults.push(...data.results);
 
-      hasNextPage = data.hasNextPage ?? false;
+      // Defensive fallback for hasNextPage (treat missing or null as false)
+      hasNextPage = typeof data.hasNextPage === "boolean" ? data.hasNextPage : false;
+
       pageIndex++;
 
-      // Safety: in case API lies or infinite loop, add a hard cap at 100 pages
+      // Safety hard cap at 100 pages
       if(pageIndex > 100) {
         console.warn("Reached 100 pages, stopping fetch to prevent infinite loop.");
         break;
       }
+
+      // Delay between fetches (250ms)
+      await delay(250);
     }
 
     // Filter locally by query and ALL selected genres (case-insensitive)
@@ -134,7 +144,7 @@ async function performSearch(page = 1) {
     updateAnimeDisplay(paginatedResults.slice((currentPage - 1) * perPage, currentPage * perPage));
   } catch (error) {
     console.error("Fetch error:", error);
-    animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Error loading data.</p>";
+    animeContainer.innerHTML = `<p style='color: white; font-family: Oswald, sans-serif;'>Error loading data: ${error.message}</p>`;
     pageInfo.textContent = "Page 0 / 0";
     paginatedResults = [];
     totalPages = 1;
@@ -188,10 +198,14 @@ nextButton.addEventListener("click", () => {
   }
 });
 
-// Live search input handler
+// Debounce for search input to avoid rapid firing
+let searchDebounceTimeout;
 searchInput.addEventListener("input", () => {
-  currentPage = 1;
-  performSearch();
+  clearTimeout(searchDebounceTimeout);
+  searchDebounceTimeout = setTimeout(() => {
+    currentPage = 1;
+    performSearch();
+  }, 300);
 });
 
 // Initial load
