@@ -76,13 +76,16 @@ async function performSearch(page = 1) {
   let hasNextPage = true;
 
   try {
-    // Fetch until no next page
-    while (hasNextPage) {
+    // Fetch pages until no next page or max pages (prevent infinite)
+    const MAX_PAGES_TO_FETCH = 10; // safety limit to avoid long waits
+    while (hasNextPage && pageIndex <= MAX_PAGES_TO_FETCH) {
       let url = query
         ? `${API_URL}/search?query=${encodeURIComponent(query)}&page=${pageIndex}&perPage=50`
         : `${API_URL}/popular?page=${pageIndex}&perPage=50`;
 
       const res = await fetch(url);
+      if (!res.ok) throw new Error(`API Error: ${res.status}`);
+
       const data = await res.json();
 
       if (!data.results?.length) break;
@@ -92,7 +95,7 @@ async function performSearch(page = 1) {
       pageIndex++;
     }
 
-    // Filter locally by query and all selected genres
+    // Filter locally by all selected genres AND query match
     const filtered = allResults.filter(anime => {
       const titles = [
         anime.title?.english?.toLowerCase(),
@@ -100,8 +103,12 @@ async function performSearch(page = 1) {
         anime.title?.native?.toLowerCase()
       ].filter(Boolean);
 
+      // Query match check (if query empty, matches all)
       const matchesQuery = !query || titles.some(t => t.includes(query));
-      const matchesGenres = genreList.every(g => anime.genres?.includes(g));
+
+      // Genre filtering: match *all* selected genres (case-insensitive)
+      const animeGenres = (anime.genres || []).map(g => g.toLowerCase());
+      const matchesGenres = genreList.every(g => animeGenres.includes(g.toLowerCase()));
 
       return matchesQuery && matchesGenres;
     });
