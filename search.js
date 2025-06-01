@@ -62,12 +62,12 @@ genres.forEach(genre => {
   genreContainer.appendChild(btn);
 });
 
-// Fetch all pages and filter client-side
+// Fetch ALL pages (no artificial max page cap)
 async function performSearch(page = 1) {
   const query = searchInput.value.trim().toLowerCase();
   const genreList = [...selectedGenres];
 
-  animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Loading all results...</p>";
+  animeContainer.innerHTML = "<p style='color: white; font-family: Oswald, sans-serif;'>Loading all results (this can take a moment)...</p>";
   prevButton.disabled = true;
   nextButton.disabled = true;
 
@@ -76,9 +76,8 @@ async function performSearch(page = 1) {
   let hasNextPage = true;
 
   try {
-    // Fetch pages until no next page or max pages (prevent infinite)
-    const MAX_PAGES_TO_FETCH = 10; // safety limit to avoid long waits
-    while (hasNextPage && pageIndex <= MAX_PAGES_TO_FETCH) {
+    // Loop through all pages until API returns no more
+    while (hasNextPage) {
       let url = query
         ? `${API_URL}/search?query=${encodeURIComponent(query)}&page=${pageIndex}&perPage=50`
         : `${API_URL}/popular?page=${pageIndex}&perPage=50`;
@@ -91,11 +90,18 @@ async function performSearch(page = 1) {
       if (!data.results?.length) break;
 
       allResults.push(...data.results);
+
       hasNextPage = data.hasNextPage ?? false;
       pageIndex++;
+
+      // Safety: in case API lies or infinite loop, add a hard cap at 100 pages
+      if(pageIndex > 100) {
+        console.warn("Reached 100 pages, stopping fetch to prevent infinite loop.");
+        break;
+      }
     }
 
-    // Filter locally by all selected genres AND query match
+    // Filter locally by query and ALL selected genres (case-insensitive)
     const filtered = allResults.filter(anime => {
       const titles = [
         anime.title?.english?.toLowerCase(),
@@ -106,7 +112,7 @@ async function performSearch(page = 1) {
       // Query match check (if query empty, matches all)
       const matchesQuery = !query || titles.some(t => t.includes(query));
 
-      // Genre filtering: match *all* selected genres (case-insensitive)
+      // Genre filtering: must match ALL selected genres (case-insensitive)
       const animeGenres = (anime.genres || []).map(g => g.toLowerCase());
       const matchesGenres = genreList.every(g => animeGenres.includes(g.toLowerCase()));
 
