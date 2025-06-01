@@ -83,9 +83,12 @@ async function performSearch(page = 1) {
   try {
     // Loop through all pages until API returns no more or hits max cap
     while (hasNextPage) {
+      // FIX: Use correct endpoint with /search or /popular
       let url = query
         ? `${API_URL}/search?query=${encodeURIComponent(query)}&page=${pageIndex}&perPage=50`
         : `${API_URL}/popular?page=${pageIndex}&perPage=50`;
+
+      console.log(`Fetching: ${url}`); // debug URL
 
       const res = await fetch(url);
       if (!res.ok) throw new Error(`API Error: ${res.status} ${res.statusText}`);
