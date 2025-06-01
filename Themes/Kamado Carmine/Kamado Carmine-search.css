@@ -290,7 +290,7 @@ header {
     padding: 15px;
     border-radius: 8px;
     color: white;
-    position: fixed;
+    position: absolute;
     right: 20px;
     top: 120px;
     z-index: 9999;
