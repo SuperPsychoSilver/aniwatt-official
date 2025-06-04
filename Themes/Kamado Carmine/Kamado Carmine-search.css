@@ -2,11 +2,11 @@
 body {
     font-family: 'Montserrat', sans-serif;
     background: linear-gradient(135deg, 
-      #030000 0%, 
-      #3e0000 25%, 
-      #030000 50%, 
-      #4f0000 75%, 
-      #110000 100%);
+      #2b0000 0%, 
+      #7a1a1a 25%, 
+      #150000 50%, 
+      #6b0000 75%, 
+      #560000 100%);
     animation: gradientFlow 10s ease infinite;
     color: #DE2323;
     margin: 0;
