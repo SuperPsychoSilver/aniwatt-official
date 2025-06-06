@@ -73,7 +73,7 @@ async function performSearch(page = 1) {
     const data = await res.json();
 
     const genreList = [...selectedGenres];
-    const filtered = data.data.filter(anime => filterAnime(anime, query, genreList));
+    const filtered = Array.isArray(data.data) ? data.data.filter(anime => filterAnime(anime, query, genreList)) : [];
 
     paginatedResults = filtered;
     totalPages = Math.ceil(paginatedResults.length / perPage) || 1;
