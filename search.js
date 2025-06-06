@@ -26,7 +26,6 @@ paginationContainer.appendChild(pageInfo);
 paginationContainer.appendChild(nextButton);
 document.body.appendChild(paginationContainer);
 
-// Genres list
 const genres = [
   "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
   "Romance", "Comedy", "Demons", "Slice of Life", "Ecchi", "Mecha", "Mystery",
@@ -64,54 +63,75 @@ function delay(ms) {
 }
 
 async function performSearch(page = 1) {
-  const query = searchInput.value.trim();
+  const query = searchInput.value.trim().toLowerCase();
   animeContainer.innerHTML = "<p style='color: white;'>Loading...</p>";
 
-  let allResults = [];
-  let pageIndex = 1;
+  try {
+    const url = `${API_URL}?q=${encodeURIComponent(query)}&page=1&limit=50`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("API error: " + res.status);
+    const data = await res.json();
+
+    const genreList = [...selectedGenres];
+    const filtered = data.data.filter(anime => filterAnime(anime, query, genreList));
+
+    paginatedResults = filtered;
+    totalPages = Math.ceil(paginatedResults.length / perPage) || 1;
+    currentPage = page;
+    updateAnimeDisplay();
+
+    fetchAllPagesInBackground(query, genreList, paginatedResults);
+  } catch (err) {
+    console.error("Error:", err);
+    animeContainer.innerHTML = `<p style='color: white;'>Error: ${err.message}</p>`;
+    pageInfo.textContent = "Page 0 / 0";
+  }
+}
+
+function filterAnime(anime, query, genreList) {
+  const titles = [
+    anime.title_english?.toLowerCase(),
+    anime.title_romaji?.toLowerCase(),
+    anime.title?.toLowerCase()
+  ].filter(Boolean);
+
+  const matchesQuery = !query || titles.some(t => t.includes(query));
+  const animeGenres = (anime.genres || []).map(g => g.name.toLowerCase());
+  const matchesGenres = genreList.every(g => animeGenres.includes(g.toLowerCase()));
+
+  return matchesQuery && matchesGenres;
+}
+
+async function fetchAllPagesInBackground(query, genreList, initialResults) {
+  let allResults = [...initialResults];
+  let pageIndex = 2;
   let hasNextPage = true;
 
   try {
     while (hasNextPage) {
-      const url = `${API_URL}?q=${encodeURIComponent(query)}&page=${pageIndex}&limit=25`;
+      const url = `${API_URL}?q=${encodeURIComponent(query)}&page=${pageIndex}&limit=50`;
       const res = await fetch(url);
-      if (!res.ok) throw new Error("API error: " + res.status);
-      const data = await res.json();
+      if (!res.ok) break;
 
+      const data = await res.json();
       if (!data.data?.length) break;
-      allResults.push(...data.data);
+
+      const newFiltered = data.data.filter(anime => filterAnime(anime, query, genreList));
+      allResults.push(...newFiltered);
+
+      paginatedResults = allResults;
+      totalPages = Math.ceil(allResults.length / perPage) || 1;
+
+      if (currentPage === 1) updateAnimeDisplay();
 
       hasNextPage = data.pagination?.has_next_page ?? false;
       pageIndex++;
 
       if (pageIndex > 100) break;
-      await delay(250);
+      await delay(300);
     }
-
-    const genreList = [...selectedGenres];
-    const filtered = allResults.filter(anime => {
-      const titles = [
-        anime.title?.english?.toLowerCase(),
-        anime.title?.romaji?.toLowerCase(),
-        anime.title?.native?.toLowerCase()
-      ].filter(Boolean);
-
-      const matchesQuery = !query || titles.some(t => t.includes(query.toLowerCase()));
-      const animeGenres = (anime.genres || []).map(g => g.name.toLowerCase());
-      const matchesGenres = genreList.every(g => animeGenres.includes(g.toLowerCase()));
-
-      return matchesQuery && matchesGenres;
-    });
-
-    paginatedResults = filtered;
-    totalPages = Math.ceil(filtered.length / perPage) || 1;
-    currentPage = page;
-
-    updateAnimeDisplay();
   } catch (err) {
-    console.error("Error:", err);
-    animeContainer.innerHTML = `<p style='color: white;'>Error: ${err.message}</p>`;
-    pageInfo.textContent = "Page 0 / 0";
+    console.warn("Background fetch failed:", err);
   }
 }
 
