@@ -4,7 +4,7 @@ const searchInput = document.getElementById("search-input");
 const animeContainer = document.getElementById("anime-container");
 const genreContainer = document.getElementById("genre-buttons");
 
-// Pagination elements
+// Pagination setup
 const paginationContainer = document.createElement("div");
 paginationContainer.classList.add("pagination");
 
@@ -26,6 +26,7 @@ paginationContainer.appendChild(pageInfo);
 paginationContainer.appendChild(nextButton);
 document.body.appendChild(paginationContainer);
 
+// Genre list
 const genres = [
   "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
   "Romance", "Comedy", "Demons", "Slice of Life", "Ecchi", "Mecha", "Mystery",
@@ -89,17 +90,37 @@ async function performSearch(page = 1) {
 }
 
 function filterAnime(anime, query, genreList) {
-  const titles = [
-    anime.title_english?.toLowerCase(),
-    anime.title_romaji?.toLowerCase(),
-    anime.title?.toLowerCase()
-  ].filter(Boolean);
+  const titles = [];
+
+  if (anime.title) titles.push(anime.title.toLowerCase());
+
+  if (Array.isArray(anime.titles)) {
+    anime.titles.forEach(t => {
+      if (t?.title) titles.push(t.title.toLowerCase());
+    });
+  }
 
   const matchesQuery = !query || titles.some(t => t.includes(query));
-  const animeGenres = (anime.genres || []).map(g => g.name.toLowerCase());
-  const matchesGenres = genreList.every(g => animeGenres.includes(g.toLowerCase()));
+
+  const allAnimeGenres = [
+    ...(anime.genres || []),
+    ...(anime.themes || []),
+    ...(anime.explicit_genres || [])
+  ].map(g => g.name.toLowerCase());
+
+  const matchesGenres = genreList.every(g => allAnimeGenres.includes(g.toLowerCase()));
 
   return matchesQuery && matchesGenres;
+}
+
+function getBestTitle(anime) {
+  const titleMap = {};
+  anime.titles?.forEach(t => {
+    if (t?.type && t?.title) {
+      titleMap[t.type.toLowerCase()] = t.title;
+    }
+  });
+  return titleMap.english || titleMap.romaji || anime.title || "Unknown Title";
 }
 
 async function fetchAllPagesInBackground(query, genreList, initialResults) {
@@ -122,7 +143,7 @@ async function fetchAllPagesInBackground(query, genreList, initialResults) {
       paginatedResults = allResults;
       totalPages = Math.ceil(allResults.length / perPage) || 1;
 
-      if (currentPage === 1) updateAnimeDisplay();
+      if (currentPage <= totalPages) updateAnimeDisplay();
 
       hasNextPage = data.pagination?.has_next_page ?? false;
       pageIndex++;
@@ -139,8 +160,14 @@ function updateAnimeDisplay() {
   animeContainer.innerHTML = "";
 
   const results = paginatedResults.slice((currentPage - 1) * perPage, currentPage * perPage);
+
+  if (results.length === 0) {
+    animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
+    return;
+  }
+
   results.forEach(anime => {
-    const title = anime.title || anime.title_english || anime.title_romaji || "Unknown Title";
+    const title = getBestTitle(anime);
     const image = anime.images?.jpg?.image_url || "";
 
     const card = document.createElement("div");
@@ -160,6 +187,7 @@ function updateAnimeDisplay() {
   pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
 }
 
+// Pagination handlers
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
@@ -174,6 +202,7 @@ nextButton.addEventListener("click", () => {
   }
 });
 
+// Debounced search input
 let searchDebounceTimeout;
 searchInput.addEventListener("input", () => {
   clearTimeout(searchDebounceTimeout);
@@ -183,4 +212,5 @@ searchInput.addEventListener("input", () => {
   }, 300);
 });
 
+// Initial load
 performSearch();
