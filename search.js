@@ -4,7 +4,7 @@ const searchInput = document.getElementById("search-input");
 const animeContainer = document.getElementById("anime-container");
 const genreContainer = document.getElementById("genre-buttons");
 
-// Pagination setup
+// Pagination elements
 const paginationContainer = document.createElement("div");
 paginationContainer.classList.add("pagination");
 
@@ -26,7 +26,7 @@ paginationContainer.appendChild(pageInfo);
 paginationContainer.appendChild(nextButton);
 document.body.appendChild(paginationContainer);
 
-// Genre list
+// Genre setup
 const genres = [
   "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
   "Romance", "Comedy", "Demons", "Slice of Life", "Ecchi", "Mecha", "Mystery",
@@ -59,22 +59,28 @@ genres.forEach(genre => {
   genreContainer.appendChild(btn);
 });
 
+// Debounce utility
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Perform search
 async function performSearch(page = 1) {
   const query = searchInput.value.trim().toLowerCase();
   animeContainer.innerHTML = "<p style='color: white;'>Loading...</p>";
 
   try {
-    const url = `${API_URL}?q=${encodeURIComponent(query)}&page=1&limit=50`;
+    const base = query ? `${API_URL}?q=${encodeURIComponent(query)}` : `${API_URL}`;
+    const url = `${base}&page=1&limit=50`;
+
     const res = await fetch(url);
     if (!res.ok) throw new Error("API error: " + res.status);
     const data = await res.json();
 
     const genreList = [...selectedGenres];
-    const filtered = Array.isArray(data.data) ? data.data.filter(anime => filterAnime(anime, query, genreList)) : [];
+    const filtered = Array.isArray(data.data)
+      ? data.data.filter(anime => filterAnime(anime, query, genreList))
+      : [];
 
     paginatedResults = filtered;
     totalPages = Math.ceil(paginatedResults.length / perPage) || 1;
@@ -89,40 +95,22 @@ async function performSearch(page = 1) {
   }
 }
 
+// Filter logic
 function filterAnime(anime, query, genreList) {
-  const titles = [];
-
-  if (anime.title) titles.push(anime.title.toLowerCase());
-
-  if (Array.isArray(anime.titles)) {
-    anime.titles.forEach(t => {
-      if (t?.title) titles.push(t.title.toLowerCase());
-    });
-  }
+  const titles = [
+    anime.title_english?.toLowerCase(),
+    anime.title_romaji?.toLowerCase(),
+    anime.title?.toLowerCase()
+  ].filter(Boolean);
 
   const matchesQuery = !query || titles.some(t => t.includes(query));
-
-  const allAnimeGenres = [
-    ...(anime.genres || []),
-    ...(anime.themes || []),
-    ...(anime.explicit_genres || [])
-  ].map(g => g.name.toLowerCase());
-
-  const matchesGenres = genreList.every(g => allAnimeGenres.includes(g.toLowerCase()));
+  const animeGenres = (anime.genres || []).map(g => g.name.toLowerCase());
+  const matchesGenres = genreList.every(g => animeGenres.includes(g.toLowerCase()));
 
   return matchesQuery && matchesGenres;
 }
 
-function getBestTitle(anime) {
-  const titleMap = {};
-  anime.titles?.forEach(t => {
-    if (t?.type && t?.title) {
-      titleMap[t.type.toLowerCase()] = t.title;
-    }
-  });
-  return titleMap.english || titleMap.romaji || anime.title || "Unknown Title";
-}
-
+// Background pagination fetch
 async function fetchAllPagesInBackground(query, genreList, initialResults) {
   let allResults = [...initialResults];
   let pageIndex = 2;
@@ -130,7 +118,8 @@ async function fetchAllPagesInBackground(query, genreList, initialResults) {
 
   try {
     while (hasNextPage) {
-      const url = `${API_URL}?q=${encodeURIComponent(query)}&page=${pageIndex}&limit=50`;
+      const base = query ? `${API_URL}?q=${encodeURIComponent(query)}` : API_URL;
+      const url = `${base}&page=${pageIndex}&limit=50`;
       const res = await fetch(url);
       if (!res.ok) break;
 
@@ -143,12 +132,12 @@ async function fetchAllPagesInBackground(query, genreList, initialResults) {
       paginatedResults = allResults;
       totalPages = Math.ceil(allResults.length / perPage) || 1;
 
-      if (currentPage <= totalPages) updateAnimeDisplay();
+      if (currentPage === 1) updateAnimeDisplay();
 
       hasNextPage = data.pagination?.has_next_page ?? false;
       pageIndex++;
-
       if (pageIndex > 100) break;
+
       await delay(300);
     }
   } catch (err) {
@@ -156,18 +145,13 @@ async function fetchAllPagesInBackground(query, genreList, initialResults) {
   }
 }
 
+// Update UI
 function updateAnimeDisplay() {
   animeContainer.innerHTML = "";
 
   const results = paginatedResults.slice((currentPage - 1) * perPage, currentPage * perPage);
-
-  if (results.length === 0) {
-    animeContainer.innerHTML = "<p style='color: white;'>No results found.</p>";
-    return;
-  }
-
   results.forEach(anime => {
-    const title = getBestTitle(anime);
+    const title = anime.title || anime.title_english || anime.title_romaji || "Unknown Title";
     const image = anime.images?.jpg?.image_url || "";
 
     const card = document.createElement("div");
@@ -187,7 +171,7 @@ function updateAnimeDisplay() {
   pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
 }
 
-// Pagination handlers
+// Pagination buttons
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
@@ -202,7 +186,7 @@ nextButton.addEventListener("click", () => {
   }
 });
 
-// Debounced search input
+// Search input debounce
 let searchDebounceTimeout;
 searchInput.addEventListener("input", () => {
   clearTimeout(searchDebounceTimeout);
