@@ -1,19 +1,17 @@
 /* General Page Styles */
 
+/* Make the page take full height */
 html, body {
   height: 100%;
   margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
 
+/* Allow main content to push footer down */
 main {
-  flex: 1 0 auto; /* expand to fill vertical space */
-}
-
-footer {
-  flex-shrink: 0; /* prevent footer from shrinking */
-  padding: 1em;
+  flex: 1;
 }
 
 body {
@@ -446,17 +444,14 @@ header {
 }
 
 footer {
-    display: flex;
-    align-items: center; /* Keeps text vertically centered */
-    justify-content: center; /* Centers content horizontally */
-    gap: 200px; /* Space between text and image */
-    padding: 12px;
-    color: white;
-    background-color: #400404; /* Adjust as needed */
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+  background-color: #400404;
+  color: white;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 200px;
+  box-sizing: border-box;
 }
 
 .footer-text {
