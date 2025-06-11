@@ -23,7 +23,7 @@ body {
 }
 
 header {
-    background: #450404;
+    background: #400404;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -402,7 +402,7 @@ footer {
     gap: 200px; /* Space between text and image */
     padding: 12px;
     color: white;
-    background-color: #450404; /* Adjust as needed */
+    background-color: #400404; /* Adjust as needed */
     text-align: center;
     position: relative;
 }
