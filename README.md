@@ -47,4 +47,4 @@ Reddit:
 
 Domain obtained from [FreeDNS/afraid.org](https://freedns.afraid.org)
 
-Check those sparks out! They helped a lot!
+Check those guys out! They helped a lot!
