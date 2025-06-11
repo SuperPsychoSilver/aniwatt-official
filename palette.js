@@ -82,7 +82,7 @@
                 bulb: "Themes/Zenitsu Xanthic/bulb.css",
                 image: "https://i.imgur.com/LRMitzP.png",
                 logo: "https://i.imgur.com/d39xP5N.png",
-                icon: "Themes/Zenitsu Xanthic/Images/Icon.png"
+                icon: "https://i.imgur.com/0uWqNyQ.png"
             },
             "Kamado Carmine": {
                 styles: "Themes/Kamado Carmine/Kamado Carmine-styles.css",
@@ -93,7 +93,7 @@
                 bulb: "Themes/Kamado Carmine/Kamado Carmine-bulb.css",
                 image: "https://i.imgur.com/wI7fwdQ.png",
                 logo: "https://i.imgur.com/YxoYriq.png",
-                icon: "Themes/Kamado Carmine/Images/Icon.png"
+                icon: "https://i.imgur.com/mT08VJx.png"
             },
             "Sakura Blossom": {
                 styles: "Themes/Sakura Blossom/Sakura Blossom-styles.css",
@@ -103,7 +103,7 @@
                 thunder: "Themes/Sakura Blossom/Sakura Blossom-thunder.css",
                 bulb: "Themes/Sakura Blossom/Sakura Blossom-bulb.css",
                 image: "Themes/Sakura Blossom/Images/Sakura-Blossom-Image.png",
-                logo: "Themes/Sakura Blossom/Images/Sakura-Blossom-Logo.png",
+                logo: "https://i.imgur.com/0wu9nVz.png",
                 icon: "Themes/Sakura Blossom/Images/Favicon.png"
             },
             "Naruto Orange": {
@@ -114,7 +114,7 @@
                 thunder: "Themes/Naruto Orange/Naruto Orange-thunder.css",
                 bulb: "Themes/Naruto Orange/Naruto Orange-bulb.css",
                 image: "Themes/Naruto Orange/Images/Naruto-Orange-Image.png",
-                logo: "Themes/Naruto Orange/Images/Logo.png",
+                logo: "https://i.imgur.com/v3DMxcy.png",
                 icon: "Themes/Naruto Orange/Images/Favicon.png"
             },
             "Gojo Grey": {
@@ -125,7 +125,7 @@
                 thunder: "Themes/Gojo Grey/Gojo Grey-thunder.css",
                 bulb: "Themes/Gojo Grey/Gojo Grey-bulb.css",
                 image: "Themes/Gojo Grey/Images/Gojo-Grey-Image.png",
-                logo: "Themes/Gojo Grey/Images/Gojo-Grey-Logo.png",
+                logo: "https://i.imgur.com/hKYz3Kq.png",
                 icon: "Themes/Gojo Grey/Images/Favicon.png"
             },
             "Zoldyck Zaffre": {
