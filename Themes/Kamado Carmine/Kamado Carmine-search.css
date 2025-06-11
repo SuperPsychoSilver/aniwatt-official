@@ -2,11 +2,11 @@
 body {
     font-family: 'Montserrat', sans-serif;
     background: linear-gradient(135deg, 
-      #2b0000 0%, 
-      #7a1a1a 25%, 
-      #150000 50%, 
-      #6b0000 75%, 
-      #560000 100%);
+      #360303 0%, 
+      #7d1b1b 25%, 
+      #2f0202 50%, 
+      #610000 75%, 
+      #2b0000 100%);
     animation: gradientFlow 10s ease infinite;
     color: #DE2323;
     margin: 0;
@@ -23,7 +23,7 @@ body {
 }
 
 header {
-    background: #4D0404;
+    background: #450404;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -402,7 +402,7 @@ footer {
     gap: 200px; /* Space between text and image */
     padding: 12px;
     color: white;
-    background-color: #222; /* Adjust as needed */
+    background-color: #450404; /* Adjust as needed */
     text-align: center;
     position: relative;
 }
