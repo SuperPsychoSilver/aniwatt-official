@@ -1,0 +1,645 @@
+WORKING CODE
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+Gradient Backgrounds Code
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+This is the code that allows for a VERY simple moving linear background, tilted at 45 degrees.
+
+
+    body {
+      margin: 0;
+      background: linear-gradient(-45deg, #2e0000, #9e0000);
+      background-size: 300% 300%;
+      animation: gradientMove 5s ease infinite;
+      height: 100vh;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+Theme-Changing Code
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+This is the code that allows the theme, image, logo, icon, etc; to change when the theme buttons are clicked. I intend to use this code again.
+
+(function () {
+    const html = document.documentElement;
+
+    // Hide page visually before load
+    html.style.visibility = "hidden";
+    html.style.opacity = "0";
+
+    window.addEventListener("DOMContentLoaded", function () {
+        const body = document.body;
+
+        // Add fade-in class for body
+        body.classList.add("page-fade-in");
+
+        // Create and insert blackout screen overlay
+        const overlay = document.createElement("div");
+        overlay.id = "blackScreenOverlay";
+        Object.assign(overlay.style, {
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "black",
+            zIndex: "9999",
+            opacity: "0",
+            transition: "opacity 1s ease-in-out",
+            pointerEvents: "none"
+        });
+        document.body.appendChild(overlay);
+
+        // Toggle pointer events on overlay based on opacity
+        overlay.addEventListener('transitionend', () => {
+            if (overlay.style.opacity === "0") {
+                overlay.style.pointerEvents = "none";
+            } else {
+                overlay.style.pointerEvents = "auto";
+            }
+        });
+
+        // Inject transition styles
+        const style = document.createElement("style");
+        style.innerHTML = `
+            html, body {
+                transition: opacity 1s ease-in-out;
+            }
+            body.page-fade-in {
+                opacity: 1;
+            }
+            body.page-fade-out {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Theme stylesheets references
+        const themeStylesheets = {
+            styles: document.getElementById("themeStylesheet"),
+            search: document.getElementById("themeSearchStylesheet"),
+            wire: document.getElementById("themeWireStylesheet"),
+            palette: document.getElementById("themePaletteStylesheet"),
+            thunder: document.getElementById("themeThunderStylesheet"),
+            bulb: document.getElementById("themeBulbStylesheet")
+        };
+
+        const themeImage = document.getElementById("themeImage");
+        const themeLogo = document.getElementById("logo");
+
+        function updateFavicon(iconPath) {
+            let favicon = document.querySelector("link[rel='icon']") || document.createElement("link");
+            favicon.rel = "icon";
+            favicon.href = iconPath;
+            document.head.appendChild(favicon);
+        }
+
+        const themes = {
+            "Zenitsu Xanthic": {
+                styles: "Themes/Zenitsu Xanthic/styles.css",
+                search: "Themes/Zenitsu Xanthic/search.css",
+                wire: "Themes/Zenitsu Xanthic/wire.css",
+                palette: "Themes/Zenitsu Xanthic/palette.css",
+                thunder: "Themes/Zenitsu Xanthic/thunder.css",
+                bulb: "Themes/Zenitsu Xanthic/bulb.css",
+                image: "Themes/Zenitsu Xanthic/Images/Zenitsu.png",
+                logo: "Themes/Zenitsu Xanthic/Images/Logo.png",
+                icon: "Themes/Zenitsu Xanthic/Images/Icon.png"
+            },
+            "Kamado Carmine": {
+                styles: "Themes/Kamado Carmine/Kamado Carmine-styles.css",
+                search: "Themes/Kamado Carmine/Kamado Carmine-search.css",
+                wire: "Themes/Kamado Carmine/Kamado Carmine-wire.css",
+                palette: "Themes/Kamado Carmine/Kamado Carmine-palette.css",
+                thunder: "Themes/Kamado Carmine/Kamado Carmine-thunder.css",
+                bulb: "Themes/Kamado Carmine/Kamado Carmine-bulb.css",
+                image: "https://i.imgur.com/1iLNQOB.png",
+                logo: "https://i.imgur.com/YxoYriq.png",
+                icon: "Themes/Kamado Carmine/Images/Icon.png"
+            },
+            "Sakura Blossom": {
+                styles: "Themes/Sakura Blossom/Sakura Blossom-styles.css",
+                search: "Themes/Sakura Blossom/Sakura Blossom-search.css",
+                wire: "Themes/Sakura Blossom/Sakura Blossom-wire.css",
+                palette: "Themes/Sakura Blossom/Sakura Blossom-palette.css",
+                thunder: "Themes/Sakura Blossom/Sakura Blossom-thunder.css",
+                bulb: "Themes/Sakura Blossom/Sakura Blossom-bulb.css",
+                image: "Themes/Sakura Blossom/Images/Sakura-Blossom-Image.png",
+                logo: "Themes/Sakura Blossom/Images/Sakura-Blossom-Logo.png",
+                icon: "Themes/Sakura Blossom/Images/Favicon.png"
+            },
+            "Naruto Orange": {
+                styles: "Themes/Naruto Orange/Naruto Orange-styles.css",
+                search: "Themes/Naruto Orange/Naruto Orange-search.css",
+                wire: "Themes/Naruto Orange/Naruto Orange-wire.css",
+                palette: "Themes/Naruto Orange/Naruto Orange-palette.css",
+                thunder: "Themes/Naruto Orange/Naruto Orange-thunder.css",
+                bulb: "Themes/Naruto Orange/Naruto Orange-bulb.css",
+                image: "Themes/Naruto Orange/Images/Naruto-Orange-Image.png",
+                logo: "Themes/Naruto Orange/Images/Logo.png",
+                icon: "Themes/Naruto Orange/Images/Favicon.png"
+            },
+            "Gojo Grey": {
+                styles: "Themes/Gojo Grey/Gojo Grey-styles.css",
+                search: "Themes/Gojo Grey/Gojo Grey-search.css",
+                wire: "Themes/Gojo Grey/Gojo Grey-wire.css",
+                palette: "Themes/Gojo Grey/Gojo Grey-palette.css",
+                thunder: "Themes/Gojo Grey/Gojo Grey-thunder.css",
+                bulb: "Themes/Gojo Grey/Gojo Grey-bulb.css",
+                image: "Themes/Gojo Grey/Images/Gojo-Grey-Image.png",
+                logo: "Themes/Gojo Grey/Images/Gojo-Grey-Logo.png",
+                icon: "Themes/Gojo Grey/Images/Favicon.png"
+            },
+            "Zoldyck Zaffre": {
+                styles: "Themes/Zoldyck Zaffre/Zoldyck Zaffre-styles.css",
+                search: "Themes/Zoldyck Zaffre/Zoldyck Zaffre-search.css",
+                wire: "Themes/Zoldyck Zaffre/Zoldyck Zaffre-wire.css",
+                palette: "Themes/Zoldyck Zaffre/Zoldyck Zaffre-palette.css",
+                thunder: "Themes/Zoldyck Zaffre/Zoldyck Zaffre-thunder.css",
+                bulb: "Themes/Zoldyck Zaffre/Zoldyck Zaffre-bulb.css",
+                image: "Themes/Zoldyck Zaffre/Images/Zoldyck Zaffre-Image.png",
+                logo: "Themes/Zoldyck Zaffre/Images/Zoldyck Zaffre-Logo.png",
+                icon: "Themes/Zoldyck Zaffre/Images/Favicon.png"
+            },
+            "Angel Azure": {
+                styles: "Themes/Angel Azure/Angel Azure-styles.css",
+                search: "Themes/Angel Azure/Angel Azure-search.css",
+                wire: "Themes/Angel Azure/Angel Azure-wire.css",
+                palette: "Themes/Angel Azure/Angel Azure-palette.css",
+                thunder: "Themes/Angel Azure/Angel Azure-thunder.css",
+                bulb: "Themes/Angel Azure/Angel Azure-bulb.css",
+                image: "Themes/Angel Azure/Images/Angel-Azure-Image.png",
+                logo: "Themes/Angel Azure/Images/Angel-Azure-Logo.png",
+                icon: "Themes/Angel Azure/Images/Favicon.png"
+            }
+        };
+
+        function applyTheme(themeName, skipSave = false) {
+            const theme = themes[themeName];
+            if (!theme) return;
+
+            // Start blackout fade-in
+            overlay.style.pointerEvents = "auto";
+            overlay.style.opacity = "1";
+
+            // Wait for fade-in transition to complete (1s), then apply theme
+            setTimeout(() => {
+                for (let key in themeStylesheets) {
+                    if (themeStylesheets[key] && theme[key]) {
+                        themeStylesheets[key].setAttribute("href", theme[key]);
+                    }
+                }
+
+                if (themeImage && theme.image) themeImage.src = theme.image;
+                if (themeLogo && theme.logo) themeLogo.src = theme.logo;
+                if (theme.icon) updateFavicon(theme.icon);
+
+                if (!skipSave) localStorage.setItem("selectedTheme", themeName);
+
+                // After applying theme, fade blackout out
+                setTimeout(() => {
+                    overlay.style.opacity = "0";
+                }, 500); // short delay before fade out
+            }, 1000); // match overlay fade-in duration
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem("selectedTheme") || "Zenitsu Xanthic";
+            if (themes[savedTheme]) {
+                applyTheme(savedTheme, true);
+            }
+
+            // Reveal page after a short delay (let theme apply)
+            setTimeout(() => {
+                html.style.visibility = "visible";
+                html.style.opacity = "1";
+                overlay.style.opacity = "0"; // ensure overlay hidden
+
+                requestAnimationFrame(() => {
+                    body.classList.remove("page-fade-in");
+                });
+            }, 1500);
+        }
+
+        loadTheme();
+
+        // Theme button clicks
+        document.querySelectorAll(".theme-option").forEach(button => {
+            button.addEventListener("click", function () {
+                const selectedTheme = this.getAttribute("data-theme");
+                applyTheme(selectedTheme);
+            });
+        });
+
+        // Fade-out on navigation with blackout
+        document.querySelectorAll("a[href]").forEach(link => {
+            const isSameTab = link.target !== "_blank" && !link.href.startsWith("javascript:");
+
+            if (isSameTab && link.href.startsWith(window.location.origin)) {
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    overlay.style.pointerEvents = "auto";
+                    overlay.style.opacity = "1";
+
+                    setTimeout(() => {
+                        window.location.href = link.href;
+                    }, 1000); // wait fade before navigation
+                });
+            }
+        });
+    });
+})();
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+reCAPTCHA Code
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+This is a template/example of an invisible CAPTCHA running in the background.
+
+[DEPRECATED]
+
+
+This is a template/example of a CAPTCHA checkbox.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verifying you’re not a bot...</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #111;
+      color: #fff;
+      flex-direction: column;
+      margin: 0;
+    }
+    .loader {
+      margin-top: 20px;
+      width: 40px;
+      height: 40px;
+      border: 4px solid transparent;
+      border-top: 4px solid #00ffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite, pulseColor 6s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: #00ffff;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulseColor {
+      0%   { border-top-color: #00ffff; color: #00ffff; }
+      20%  { border-top-color: #ff00ff; color: #ff00ff; }
+      40%  { border-top-color: #ffff00; color: #ffff00; }
+      60%  { border-top-color: #00ff00; color: #00ff00; }
+      80%  { border-top-color: #ff4500; color: #ff4500; }
+      100% { border-top-color: #1e90ff; color: #1e90ff; }
+    }
+    #recaptcha-container {
+      margin-top: 20px;
+      display: none; /* hidden initially */
+    }
+    .denied {
+      font-size: 80px;
+      color: red;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <h2>Verifying you’re not a bot...</h2>
+  <div class="loader" id="spinner"></div>
+  <div id="recaptcha-container"></div>
+  <div id="error-x" class="denied" style="display:none;">×</div>
+
+  <script>
+    // After 7 seconds, hide loader, show checkbox
+    setTimeout(() => {
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('recaptcha-container').style.display = 'block';
+
+      // Render the checkbox inside the container, with callbacks
+      grecaptcha.render('recaptcha-container', {
+        sitekey: '6LdPC04rAAAAAKcc5kj9wPMvWwbHPGkRoxkX00wz',
+        callback: onHumanVerified,
+        'error-callback': onError,
+        'expired-callback': onError
+      });
+    }, 7000);
+
+    function onHumanVerified(token) {
+      // Success: redirect after 1 second
+      setTimeout(() => {
+        window.location.href = "plug.html";
+      }, 1000);
+    }
+
+    function onError() {
+      document.getElementById('recaptcha-container').style.display = 'none';
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('error-x').style.display = 'block';
+      document.querySelector('h2').textContent = 'Access Denied';
+    }
+  </script>
+</body>
+</html>
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+Meta Name Code
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+It is quite easy to change the flash color of the screen to a different color, which is pretty handy for handling white flashes and preventing, idk, something like epilepsy.
+
+<meta name="theme-color" content="#4A90E2">
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+Windows PowerShell Code
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+This is the code that was used to start a local instance of Consumet.
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\user> npm install -g railway
+npm : File C:\Program Files\nodejs\npm.ps1 cannot be loaded because running scripts is disabled on this system. For
+more information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ npm install -g railway
++ ~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+PS C:\Users\user> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+PS C:\Users\user> npm install -g railway
+npm warn ERESOLVE overriding peer dependency
+npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+
+added 160 packages in 19s
+
+32 packages are looking for funding
+  run `npm fund` for details
+npm notice
+npm notice New major version of npm available! 10.9.2 -> 11.3.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.3.0
+npm notice To update run: npm install -g npm@11.3.0
+npm notice
+PS C:\Users\user> railway login
+This version of the CLI has been deprecated.
+Install the Railway CLI from @railway/cli
+View the docs for more information: https://railway.app/docs
+PS C:\Users\user> npx @railway/cli login
+Need to install the following packages:
+@railway/cli@4.3.0
+Ok to proceed? (y) y
+
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+> Open the browser? Yes
+Logged in as Psychonic Silver (nickolasknowles1920@gmail.com)
+PS C:\Users\user> git clone https://github.com/SuperPsychoSilver/api.consumet.org.git
+git : The term 'git' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ git clone https://github.com/SuperPsychoSilver/api.consumet.org.git
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\user> $env:PATH += ";J:\Tools\Works-In-Progress\Project Zeus\Assets\Git\PortableGit\bin"
+PS C:\Users\user> git clone https://github.com/consumet/consumet-api.git
+Cloning into 'consumet-api'...
+remote: Enumerating objects: 3068, done.
+remote: Counting objects: 100% (562/562), done.
+remote: Compressing objects: 100% (63/63), done.
+remote: Total 3068 (delta 503), reused 499 (delta 499), pack-reused 2506 (from 2)
+Receiving objects: 100% (3068/3068), 1.36 MiB | 1.57 MiB/s, done.
+Resolving deltas: 100% (1828/1828), done.
+PS C:\Users\user> cd consumet-api
+PS C:\Users\user\consumet-api> npm install
+
+added 164 packages, and audited 165 packages in 2m
+
+34 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Users\user\consumet-api> npx @railway/cli link
+> Select a workspace Psychonic Silver's Projects
+> Select a project valiant-expression
+> Select an environment production
+> Select a service <esc to skip> web
+
+Project valiant-expression linked successfully! 🎉
+PS C:\Users\user\consumet-api> npx @railway/cli run
+No command provided. Run with `railway run <cmd>`
+PS C:\Users\user\consumet-api> npx @railway/cli run
+No command provided. Run with `railway run <cmd>`
+PS C:\Users\user\consumet-api> npm start
+
+> api.consumet.org@1.0.0 start
+> ts-node src/main.ts
+
+Starting server on port 3000... 🚀
+Redis not found. Cache disabled.____________________________________________________________________________________________________________________________________________________________________________________________
+
+Searching Code
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+This is the code that was used to make searching on AniWatt possible.
+
+It is *NOT* to be replaced.
+
+const API_URL = "https://api.jikan.moe/v4/anime";
+const searchInput = document.getElementById("search-input");
+const animeContainer = document.getElementById("anime-container");
+const genreContainer = document.getElementById("genre-buttons");
+
+const paginationContainer = document.createElement("div");
+paginationContainer.classList.add("pagination");
+
+const prevButton = document.createElement("button");
+prevButton.textContent = "← Prev";
+prevButton.classList.add("pagination-button");
+
+const nextButton = document.createElement("button");
+nextButton.textContent = "Next →";
+nextButton.classList.add("pagination-button");
+
+const pageInfo = document.createElement("span");
+pageInfo.id = "page-info";
+pageInfo.classList.add("pagination-info");
+
+paginationContainer.appendChild(prevButton);
+paginationContainer.appendChild(pageInfo);
+paginationContainer.appendChild(nextButton);
+document.body.appendChild(paginationContainer);
+
+const genres = [
+  "Action", "Adventure", "Isekai", "Fantasy", "Sci-Fi", "Thriller", "Horror",
+  "Romance", "Comedy", "Demons", "Slice of Life", "Ecchi", "Mecha", "Mystery",
+  "Harem", "Space", "Supernatural", "Game", "Music", "Sports", "Psychological",
+  "Seinen", "Shounen", "Shoujo", "Josei", "Martial Arts", "Kids", "Drama"
+];
+
+let selectedGenres = new Set();
+let currentPage = 1;
+const perPage = 49;
+let paginatedResults = [];
+
+genres.forEach(genre => {
+  const btn = document.createElement("button");
+  btn.classList.add("genre-button");
+  btn.textContent = genre;
+  btn.addEventListener("click", () => {
+    if (selectedGenres.has(genre)) {
+      selectedGenres.delete(genre);
+      btn.classList.remove("active");
+    } else {
+      selectedGenres.add(genre);
+      btn.classList.add("active");
+    }
+    currentPage = 1;
+    performSearch();
+  });
+  genreContainer.appendChild(btn);
+});
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function filterAnime(anime, query, genreList) {
+  const titles = [
+    anime.title_english?.toLowerCase(),
+    anime.title_romaji?.toLowerCase(),
+    anime.title?.toLowerCase()
+  ].filter(Boolean);
+
+  const matchesQuery = !query || titles.some(t => t.includes(query));
+  const animeGenres = (anime.genres || []).map(g => g.name.toLowerCase());
+  const matchesGenres = genreList.every(g => animeGenres.includes(g.toLowerCase()));
+
+  return matchesQuery && matchesGenres;
+}
+
+async function fetchAnimeBatch(query, pageIndex) {
+  const url = query
+    ? `${API_URL}?q=${encodeURIComponent(query)}&page=${pageIndex}&limit=25`
+    : `${API_URL}?page=${pageIndex}&limit=25`;
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("API error: " + res.status);
+  const data = await res.json();
+  return data.data;
+}
+
+async function performSearch() {
+  const query = searchInput.value.trim().toLowerCase();
+  const genreList = [...selectedGenres];
+  animeContainer.innerHTML = "<p style='color: white;'>Loading...</p>";
+
+  try {
+    const pageOffset = (currentPage - 1) * perPage;
+    const neededPages = Math.ceil((pageOffset + perPage) / 25);
+    const fetchedResults = [];
+
+    for (let i = 1; i <= neededPages; i++) {
+      const batch = await fetchAnimeBatch(query, i);
+      fetchedResults.push(...batch);
+      await delay(250);
+    }
+
+    const filtered = fetchedResults.filter(anime => filterAnime(anime, query, genreList));
+    paginatedResults = filtered;
+
+    updateAnimeDisplay();
+  } catch (err) {
+    console.error(err);
+    animeContainer.innerHTML = `<p style='color: white;'>Error: ${err.message}</p>`;
+    pageInfo.textContent = "Page 0 / 0";
+  }
+}
+
+function updateAnimeDisplay() {
+  animeContainer.innerHTML = "";
+
+  const totalPages = Math.ceil(paginatedResults.length / perPage) || 1;
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+  const results = paginatedResults.slice(start, end);
+
+  results.forEach(anime => {
+    const title = anime.title || anime.title_english || anime.title_romaji || "Unknown Title";
+    const image = anime.images?.jpg?.image_url || "";
+
+    const card = document.createElement("div");
+    card.classList.add("anime-card");
+    card.innerHTML = `
+      <img src="${image}" alt="${title}">
+      <p class="anime-name">${title}</p>
+    `;
+    card.addEventListener("click", () => {
+      window.location.href = `bulb.html?anime=${encodeURIComponent(title)}`;
+    });
+    animeContainer.appendChild(card);
+  });
+
+  prevButton.disabled = currentPage <= 1;
+  nextButton.disabled = currentPage >= totalPages;
+  pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+}
+
+prevButton.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    performSearch();
+  }
+});
+
+nextButton.addEventListener("click", () => {
+  const totalPages = Math.ceil(paginatedResults.length / perPage) || 1;
+  if (currentPage < totalPages) {
+    currentPage++;
+    performSearch();
+  }
+});
+
+let searchDebounceTimeout;
+searchInput.addEventListener("input", () => {
+  clearTimeout(searchDebounceTimeout);
+  searchDebounceTimeout = setTimeout(() => {
+    currentPage = 1;
+    performSearch();
+  }, 300);
+});
+
+performSearch();
