@@ -8,12 +8,10 @@
   <link rel="icon" href="Images/Icon.png">
   <link id="themeSearchStylesheet" rel="stylesheet" href="search.css">
   <script src="palette.js"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
 </head>
+  
 <body>
-
   <!-- Header -->
   <header>
     <a href="plug.html"><img src="Images/Logo.png" alt="Aniwatt Logo" class="small-logo" id="logo"></a>
@@ -23,43 +21,45 @@
     </div>
   </header>
 
-  <!-- Search -->
-  <div class="search-container">
-    <input type="text" id="search-input" placeholder="Search for anime...">
-  </div>
+  <!-- Wrap main content in main -->
+  <main>
+    <!-- Search -->
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search for anime...">
+    </div>
 
-  <!-- Genres -->
-  <div class="genre-container" id="genre-buttons">
-    <!-- Buttons inserted via JS -->
-  </div>
+    <!-- Genres -->
+    <div class="genre-container" id="genre-buttons">
+      <!-- Buttons inserted via JS -->
+    </div>
 
-  <!-- Anime Results -->
-  <div id="anime-container" class="anime-container"></div>
+    <!-- Anime Results -->
+    <div id="anime-container" class="anime-container"></div>
 
-<div id="pagination-container" class="pagination-container"></div>
+    <div id="pagination-container" class="pagination-container"></div>
 
-  <!-- Ranking List (optional static content) -->
-  <div class="ranking-list" id="ranking-list">
-    <button class="close-button" onclick="document.getElementById('ranking-list').style.display='none'">✖</button>
-    <h2>Top Airing Anime</h2>
-    <ul>
-      <li><span class="rank-number">1</span><img src="https://cdn.myanimelist.net/images/anime/1025/147458.jpg" alt="Apothecary Diaries (S2)"><div class="anime-info"><p class="anime-name">The Apothecary Diaries (S2)</p><p class="alt-name">Kusuriya no Hitorigoto 2nd Season</p><p>Episodes: 24</p><p>Type: TV</p></div></li>
-      <li><span class="rank-number">2</span><img src="https://cdn.myanimelist.net/images/anime/1810/139965.jpg" alt="One Piece"><div class="anime-info"><p class="anime-name">One Piece</p><p class="alt-name">One Piece</p><p>Episodes: 1000+</p><p>Type: TV</p></div></li>
-      <li><span class="rank-number">3</span><img src="https://cdn.myanimelist.net/images/anime/1639/138759.jpg" alt="To Be Hero X"><div class="anime-info"><p class="anime-name">To Be Hero X</p><p class="alt-name">Tu Bian Yingxiong X</p><p>Episodes: 24</p><p>Type: TV</p></div></li>
-      <li><span class="rank-number">4</span><img src="https://cdn.myanimelist.net/images/anime/1521/124785.jpg" alt="Battle Through the Heavens"><div class="anime-info"><p class="anime-name">Battle Through the Heavens</p><p class="alt-name">Doupo Cangqiong: Nian Fan</p><p>Episodes: 157</p><p>Type: TV</p></div></li>
-      <!-- Add more if you want -->
-    </ul>
-  </div>
+    <!-- Ranking List (optional static content) -->
+    <div class="ranking-list" id="ranking-list">
+      <button class="close-button" onclick="document.getElementById('ranking-list').style.display='none'">✖</button>
+      <h2>Top Airing Anime</h2>
+      <ul>
+        <li><span class="rank-number">1</span><img src="https://cdn.myanimelist.net/images/anime/1025/147458.jpg" alt="Apothecary Diaries (S2)"><div class="anime-info"><p class="anime-name">The Apothecary Diaries (S2)</p><p class="alt-name">Kusuriya no Hitorigoto 2nd Season</p><p>Episodes: 24</p><p>Type: TV</p></div></li>
+        <li><span class="rank-number">2</span><img src="https://cdn.myanimelist.net/images/anime/1810/139965.jpg" alt="One Piece"><div class="anime-info"><p class="anime-name">One Piece</p><p class="alt-name">One Piece</p><p>Episodes: 1000+</p><p>Type: TV</p></div></li>
+        <li><span class="rank-number">3</span><img src="https://cdn.myanimelist.net/images/anime/1639/138759.jpg" alt="To Be Hero X"><div class="anime-info"><p class="anime-name">To Be Hero X</p><p class="alt-name">Tu Bian Yingxiong X</p><p>Episodes: 24</p><p>Type: TV</p></div></li>
+        <li><span class="rank-number">4</span><img src="https://cdn.myanimelist.net/images/anime/1521/124785.jpg" alt="Battle Through the Heavens"><div class="anime-info"><p class="anime-name">Battle Through the Heavens</p><p class="alt-name">Doupo Cangqiong: Nian Fan</p><p>Episodes: 157</p><p>Type: TV</p></div></li>
+      </ul>
+    </div>
+  </main>
 
   <script src="search.js"></script>
 
-<footer>
-  <div class="footer-content">
-    <p>Copyright © aniwatt.my.to. All Rights Reserved.</p>
-    <p>This site does not store any files on its server. Non-affiliated third parties provide all content.</p>
-    <p>Don't sue me, please.</p>
-  </div>
-</footer>
-  
+  <footer>
+    <div class="footer-content">
+<p>© 2025 Aniwatt. All rights reserved.</p>
+<p>This website does not host any content directly; all materials are provided by third-party sources unaffiliated with Aniwatt.</p>
+<p>Please respect intellectual property rights and refrain from unauthorized use.</p>
+    </div>
+  </footer>
+
 </body>
 </html>
