@@ -326,14 +326,11 @@ header {
 
 .ranking-list li {
     display: flex;
-    justify-content: flex-end; /* Align content to the right */
     align-items: center;
     margin-bottom: 10px;
     padding: 8px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.1);
-    direction: rtl; /* For right-to-left ordering of flex items */
-    position: fixed;
 }
 
 .rank-number {
