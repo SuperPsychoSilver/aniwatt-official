@@ -118,17 +118,22 @@ function updateAnimeDisplay() {
   const results = paginatedResults.slice(start, end);
 
   results.forEach(anime => {
-    const title = anime.title || anime.title_english || anime.title_romaji || "Unknown Title";
+    const englishTitle = anime.title_english || anime.title || anime.title_romaji || "Unknown Title";
+    const altTitle = anime.title && anime.title !== englishTitle
+      ? anime.title
+      : englishTitle;
+
     const image = anime.images?.jpg?.image_url || "";
 
     const card = document.createElement("div");
     card.classList.add("anime-card");
     card.innerHTML = `
-      <img src="${image}" alt="${title}">
-      <p class="anime-name">${title}</p>
+      <img src="${image}" alt="${englishTitle}">
+      <p class="anime-name">${englishTitle}</p>
+      <p class="anime-alt">${altTitle}</p>
     `;
     card.addEventListener("click", () => {
-      window.location.href = `bulb.html?anime=${encodeURIComponent(title)}`;
+      window.location.href = `bulb.html?anime=${encodeURIComponent(englishTitle)}`;
     });
     animeContainer.appendChild(card);
   });
