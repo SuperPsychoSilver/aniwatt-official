@@ -448,7 +448,9 @@ footer {
     color: white;
     background-color: #400404; /* Adjust as needed */
     text-align: center;
-    position: relative;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 .footer-text {
