@@ -1,5 +1,5 @@
 # ⚡ AniWatt  
-*(Amp up your entertainment)*
+**Amp up your entertainment!**
 
 ![AniWatt Logo](https://i.imgur.com/d39xP5N.png)
 
