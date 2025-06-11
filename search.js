@@ -130,7 +130,7 @@ function updateAnimeDisplay() {
     card.innerHTML = `
       <img src="${image}" alt="${englishTitle}">
       <p class="anime-name">${englishTitle}</p>
-      <p class="anime-alt">${altTitle}</p>
+      <p class="alt-name">${altTitle}</p>
     `;
     card.addEventListener("click", () => {
       window.location.href = `bulb.html?anime=${encodeURIComponent(englishTitle)}`;
