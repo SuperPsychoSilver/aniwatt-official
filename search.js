@@ -85,7 +85,12 @@ async function fetchAnimeBatch(query, pageIndex) {
 async function performSearch() {
   const query = searchInput.value.trim().toLowerCase();
   const genreList = [...selectedGenres];
-  animeContainer.innerHTML = "<p style='color: white;'>Loading...</p>";
+  animeContainer.innerHTML = `
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <div>Loading...</div>
+  </div>
+`;
 
   try {
     const pageOffset = (currentPage - 1) * perPage;
