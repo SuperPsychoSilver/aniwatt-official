@@ -391,6 +391,43 @@ header {
     transform: scale(1.1);
 }
 
+.loading-container {
+  font-family: 'Oswald', sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  animation: morph 2.5s ease-in-out infinite;
+}
+
+@keyframes morph {
+  0%, 100% {
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    transform: rotate(0deg);
+  }
+  25% {
+    border-radius: 60% 40% 70% 30% / 30% 60% 40% 70%;
+    transform: rotate(45deg);
+  }
+  50% {
+    border-radius: 50% 60% 40% 70% / 70% 40% 60% 30%;
+    transform: rotate(90deg);
+  }
+  75% {
+    border-radius: 40% 70% 30% 60% / 60% 30% 70% 40%;
+    transform: rotate(135deg);
+  }
+}
+
 footer {
     display: flex;
     align-items: center; /* Keeps text vertically centered */
