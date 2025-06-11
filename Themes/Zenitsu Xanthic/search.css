@@ -337,6 +337,14 @@ header {
   user-select: none;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 15px;
+}
+
 footer {
     display: flex;
     align-items: center; /* Keeps text vertically centered */
