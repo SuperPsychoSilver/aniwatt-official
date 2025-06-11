@@ -1,6 +1,5 @@
 /* General Page Styles */
 
-/* Make html and body take full height */
 html, body {
   height: 100%;
   margin: 0;
@@ -8,19 +7,13 @@ html, body {
   flex-direction: column;
 }
 
-/* Make the content expand to fill space */
-body > *:not(footer) {
-  flex-shrink: 0;
+main {
+  flex: 1 0 auto; /* expand to fill vertical space */
 }
 
-/* Let main grow and push footer down */
-body > main {
-  flex: 1;
-}
-
-/* Footer stays pinned at bottom */
 footer {
-  margin-top: auto;
+  flex-shrink: 0; /* prevent footer from shrinking */
+  padding: 1em;
 }
 
 body {
