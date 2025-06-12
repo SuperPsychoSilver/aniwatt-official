@@ -86,37 +86,60 @@ async function performSearch() {
   const query = searchInput.value.trim().toLowerCase();
   const genreList = [...selectedGenres];
   animeContainer.innerHTML = `
-  <div class="loading-container">
-    <div class="spinner"></div>
-    <div>Loading...</div>
-  </div>
-`;
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <div id="loading-message">Loading...</div>
+    </div>
+  `;
+
+  const pageOffset = (currentPage - 1) * perPage;
+  const neededPages = Math.ceil((pageOffset + perPage) / 25);
+  const fetchedResults = [];
 
   try {
-    const pageOffset = (currentPage - 1) * perPage;
-    const neededPages = Math.ceil((pageOffset + perPage) / 25);
-    const fetchedResults = [];
-
     for (let i = 1; i <= neededPages; i++) {
-      const batch = await fetchAnimeBatch(query, i);
-      fetchedResults.push(...batch);
+      let retryCount = 0;
+      let success = false;
+
+      while (!success && retryCount < 5) {
+        try {
+          const batch = await fetchAnimeBatch(query, i);
+          fetchedResults.push(...batch);
+          success = true;
+        } catch (err) {
+          if (err.message.includes("429")) {
+            document.getElementById("loading-message").textContent = "429 Error: Too Many Requests. Retrying...";
+            retryCount++;
+            await delay(1000 * retryCount); // exponential backoff
+          } else {
+            throw err; // throw other errors immediately
+          }
+        }
+      }
+
+      if (!success) throw new Error("429 Error: Too many requests, retry failed.");
       await delay(250);
     }
 
     const filtered = fetchedResults.filter(anime => filterAnime(anime, query, genreList));
     paginatedResults = filtered;
-
     updateAnimeDisplay();
+
   } catch (err) {
     console.error(err);
-    animeContainer.innerHTML = `<p style='color: white;'>Error: ${err.message}</p>`;
+    animeContainer.innerHTML = `
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <div style="color: white;">${err.message}</div>
+      </div>
+    `;
     pageInfo.textContent = "Page 0 / 0";
   }
 }
 
 function updateAnimeDisplay() {
   animeContainer.innerHTML = "";
-
+ 
   const totalPages = Math.ceil(paginatedResults.length / perPage) || 1;
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
