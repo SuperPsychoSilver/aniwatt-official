@@ -49,6 +49,8 @@ header h1 {
     color: #E35555;
     margin: 0; /* Remove default margin */
     white-space: nowrap; /* Prevents text wrapping */
+    background-color: white;
+    border-radius: 10px;
 }
 
 /* Theme Image */
