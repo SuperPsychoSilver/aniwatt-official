@@ -1,101 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Search - Aniwatt</title>
-  <meta name="color-scheme" content="dark">
-  <link rel="icon" href="Images/Icon.png">
-  <link id="themeSearchStylesheet" rel="stylesheet" href="search.css">
-  <script src="palette.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="Images/Icon.png" />
+  <link id="themeSearchStylesheet" rel="stylesheet" href="search.css" />
+  <script defer src="palette.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet" />
 </head>
-  
+
 <body>
   <!-- Header -->
   <header>
-    <a href="plug.html"><img src="Images/Logo.png" alt="Aniwatt Logo" class="small-logo" id="logo"></a>
-    <div class="social-icons">
-      <a href="https://dsc.gg/aniwatt" target="_blank"><img src="Images/Discord.png" alt="Discord"></a>
-      <a href="https://www.reddit.com/r/AniWatt/" target="_blank"><img src="Images/Reddit.png" alt="Reddit"></a>
-    </div>
+    <a href="plug.html" aria-label="Go to Aniwatt homepage">
+      <img src="Images/Logo.png" alt="Aniwatt Logo" class="small-logo" id="logo" />
+    </a>
+    <nav class="social-icons" aria-label="Social media links">
+      <a href="https://dsc.gg/aniwatt" target="_blank" rel="noopener noreferrer" aria-label="Aniwatt Discord">
+        <img src="Images/Discord.png" alt="Discord" />
+      </a>
+      <a href="https://www.reddit.com/r/AniWatt/" target="_blank" rel="noopener noreferrer" aria-label="Aniwatt Reddit">
+        <img src="Images/Reddit.png" alt="Reddit" />
+      </a>
+    </nav>
   </header>
 
-  <!-- Wrap main content in main -->
+  <!-- Main content -->
   <main>
-    <!-- Search -->
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Search for anime...">
-    </div>
+    <!-- Search Input -->
+    <section class="search-section" aria-labelledby="search-label">
+      <label for="search-input" id="search-label" class="visually-hidden">Search for anime</label>
+      <input
+        type="search"
+        id="search-input"
+        name="search"
+        placeholder="Search for anime..."
+        aria-describedby="search-desc"
+        autocomplete="off"
+        spellcheck="false"
+        inputmode="search"
+      />
+      <p id="search-desc" class="visually-hidden">Enter anime title to search</p>
+    </section>
 
     <!-- Genres -->
-    <div class="genre-container" id="genre-buttons">
-      <!-- Buttons inserted via JS -->
-    </div>
+    <section class="genre-section" aria-label="Filter by genre">
+      <div class="genre-container" id="genre-buttons">
+        <!-- Genre buttons inserted via JS -->
+      </div>
+    </section>
 
     <!-- Anime Results -->
-    <div id="anime-container" class="anime-container"></div>
-
-    <div id="pagination-container" class="pagination-container"></div>
+    <section id="results-section" aria-label="Anime search results">
+      <div id="anime-container" class="anime-container" role="list"></div>
+      <nav id="pagination-container" class="pagination-container" aria-label="Pagination"></nav>
+    </section>
 
     <!-- Ranking List (optional static content) -->
-    <div class="ranking-list" id="ranking-list">
-      <button class="close-button" onclick="document.getElementById('ranking-list').style.display='none'">✖</button>
+    <aside class="ranking-list" id="ranking-list" aria-label="Top Airing Anime List" role="region" hidden>
+      <button class="close-button" aria-label="Close Top Airing Anime List" onclick="document.getElementById('ranking-list').hidden = true;">✖</button>
       <h2>Top Airing Anime</h2>
       <ul>
         <li>
-  <span class="rank-number rank-1">1</span>
-  <img src="https://cdn.myanimelist.net/images/anime/1025/147458.jpg" alt="Apothecary Diaries (S2)">
-  <div class="anime-info">
-    <p class="anime-name">The Apothecary Diaries (S2)</p>
-    <p class="alt-name">Kusuriya no Hitorigoto 2nd Season</p>
-    <p>Episodes: 24</p>
-    <p>Type: TV</p>
-  </div>
-</li>
-<li>
-  <span class="rank-number rank-2">2</span>
-  <img src="https://cdn.myanimelist.net/images/anime/1810/139965.jpg" alt="One Piece">
-  <div class="anime-info">
-    <p class="anime-name">One Piece</p>
-    <p class="alt-name">One Piece</p>
-    <p>Episodes: 1000+</p>
-    <p>Type: TV</p>
-  </div>
-</li>
-<li>
-  <span class="rank-number rank-3">3</span>
-  <img src="https://cdn.myanimelist.net/images/anime/1639/138759.jpg" alt="To Be Hero X">
-  <div class="anime-info">
-    <p class="anime-name">To Be Hero X</p>
-    <p class="alt-name">Tu Bian Yingxiong X</p>
-    <p>Episodes: 24</p>
-    <p>Type: TV</p>
-  </div>
-</li>
-<li>
-  <span class="rank-number rank-4">4</span>
-  <img src="https://cdn.myanimelist.net/images/anime/1521/124785.jpg" alt="Battle Through the Heavens">
-  <div class="anime-info">
-    <p class="anime-name">Battle Through the Heavens</p>
-    <p class="alt-name">Doupo Cangqiong: Nian Fan</p>
-    <p>Episodes: 157</p>
-    <p>Type: TV</p>
-  </div>
-</li>
-</ul>
-    </div>
+          <span class="rank-number rank-1">1</span>
+          <img src="https://cdn.myanimelist.net/images/anime/1025/147458.jpg" alt="The Apothecary Diaries (S2) cover" />
+          <div class="anime-info">
+            <p class="anime-name">The Apothecary Diaries (S2)</p>
+            <p class="alt-name">Kusuriya no Hitorigoto 2nd Season</p>
+            <p>Episodes: 24</p>
+            <p>Type: TV</p>
+          </div>
+        </li>
+        <li>
+          <span class="rank-number rank-2">2</span>
+          <img src="https://cdn.myanimelist.net/images/anime/1810/139965.jpg" alt="One Piece cover" />
+          <div class="anime-info">
+            <p class="anime-name">One Piece</p>
+            <p class="alt-name">One Piece</p>
+            <p>Episodes: 1000+</p>
+            <p>Type: TV</p>
+          </div>
+        </li>
+        <li>
+          <span class="rank-number rank-3">3</span>
+          <img src="https://cdn.myanimelist.net/images/anime/1639/138759.jpg" alt="To Be Hero X cover" />
+          <div class="anime-info">
+            <p class="anime-name">To Be Hero X</p>
+            <p class="alt-name">Tu Bian Yingxiong X</p>
+            <p>Episodes: 24</p>
+            <p>Type: TV</p>
+          </div>
+        </li>
+        <li>
+          <span class="rank-number rank-4">4</span>
+          <img src="https://cdn.myanimelist.net/images/anime/1521/124785.jpg" alt="Battle Through the Heavens cover" />
+          <div class="anime-info">
+            <p class="anime-name">Battle Through the Heavens</p>
+            <p class="alt-name">Doupo Cangqiong: Nian Fan</p>
+            <p>Episodes: 157</p>
+            <p>Type: TV</p>
+          </div>
+        </li>
+      </ul>
+    </aside>
   </main>
-
-  <script src="search.js"></script>
 
   <footer>
     <div class="footer-content">
-<p>© 2025 Aniwatt. All rights reserved.</p>
-<p>This website does not host any content directly; all materials are provided by third-party sources unaffiliated with Aniwatt.</p>
-<p>Please respect intellectual property rights and refrain from unauthorized use.</p>
+      <p>© 2025 Aniwatt. All rights reserved.</p>
+      <p>
+        This website does not host any content directly; all materials are provided by third-party sources unaffiliated with Aniwatt.
+      </p>
+      <p>Please respect intellectual property rights and refrain from unauthorized use.</p>
     </div>
   </footer>
 
+  <script defer src="search.js"></script>
 </body>
 </html>
