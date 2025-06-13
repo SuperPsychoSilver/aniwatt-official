@@ -82,6 +82,30 @@ async function fetchAnimeBatch(query, pageIndex) {
   return data.data;
 }
 
+function morphSpinnerToError(message) {
+  const loadingContainer = document.querySelector(".loading-container");
+  if (!loadingContainer) return;
+
+  loadingContainer.classList.add("error");
+
+  const spinner = loadingContainer.querySelector(".spinner");
+  const loadingMessage = loadingContainer.querySelector("#loading-message");
+
+  // Clear spinner and style for custom X
+  spinner.innerHTML = "";
+  spinner.style.border = "none";
+  spinner.style.background = "transparent";
+  spinner.style.position = "relative";
+  spinner.style.width = "40px";
+  spinner.style.height = "40px";
+
+  spinner.classList.add("custom-x");
+
+  // Set error message in red
+  loadingMessage.textContent = message;
+  loadingMessage.style.color = "red";
+}
+
 async function performSearch() {
   const query = searchInput.value.trim().toLowerCase();
   const genreList = [...selectedGenres];
@@ -112,7 +136,7 @@ async function performSearch() {
             retryCount++;
             await delay(1000 * retryCount); // exponential backoff
           } else {
-            throw err; // throw other errors immediately
+            throw err; // other errors
           }
         }
       }
@@ -123,16 +147,19 @@ async function performSearch() {
 
     const filtered = fetchedResults.filter(anime => filterAnime(anime, query, genreList));
     paginatedResults = filtered;
+
+    if (filtered.length === 0) {
+      // No results found — morph spinner into red X and show message
+      morphSpinnerToError("No results found.");
+      pageInfo.textContent = "Page 0 / 0";
+      return;
+    }
+
     updateAnimeDisplay();
 
   } catch (err) {
     console.error(err);
-    animeContainer.innerHTML = `
-      <div class="loading-container">
-        <div class="spinner"></div>
-        <div style="color: white;">${err.message}</div>
-      </div>
-    `;
+    morphSpinnerToError(err.message || "Unknown error occurred.");
     pageInfo.textContent = "Page 0 / 0";
   }
 }
