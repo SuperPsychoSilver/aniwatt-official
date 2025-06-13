@@ -443,19 +443,29 @@ header {
   }
 }
 
-.loading-container.error .spinner {
-  width: 40px;
-  height: 40px;
-  border: none !important;
-  color: red !important;
-  font-size: 40px !important;
-  animation: none !important;
-  text-align: center;
-  line-height: 40px;
+.spinner.custom-x {
+  position: relative;
+  margin: auto;
 }
-.loading-container.error #loading-message {
-  color: red !important;
-  margin-top: 6px;
+
+.spinner.custom-x::before,
+.spinner.custom-x::after {
+  content: "";
+  position: absolute;
+  left: 18px; /* center line */
+  top: 5px;
+  width: 4px;
+  height: 30px;
+  background-color: red;
+  border-radius: 2px;
+}
+
+.spinner.custom-x::before {
+  transform: rotate(45deg);
+}
+
+.spinner.custom-x::after {
+  transform: rotate(-45deg);
 }
 
 footer {
