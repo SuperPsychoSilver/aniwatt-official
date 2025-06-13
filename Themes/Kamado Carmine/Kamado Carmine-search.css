@@ -443,6 +443,21 @@ header {
   }
 }
 
+.loading-container.error .spinner {
+  width: 40px;
+  height: 40px;
+  border: none !important;
+  color: red !important;
+  font-size: 40px !important;
+  animation: none !important;
+  text-align: center;
+  line-height: 40px;
+}
+.loading-container.error #loading-message {
+  color: red !important;
+  margin-top: 6px;
+}
+
 footer {
   background-color: #400404;
   color: white;
