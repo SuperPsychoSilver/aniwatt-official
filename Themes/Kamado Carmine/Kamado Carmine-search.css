@@ -341,17 +341,33 @@ header {
 
 .ranking-list li {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align top so image and text line up nicely */
     margin-bottom: 10px;
     padding: 8px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.1);
 }
 
+.ranking-list img {
+    width: 50px;
+    height: 70px;
+    border-radius: 4px;
+    margin-right: 20px; /* Increased margin for more space */
+    flex-shrink: 0; /* Prevent image shrinking */
+}
+
+.ranking-list li .text-block {
+    display: block;
+    flex: 1; /* Take available horizontal space */
+    white-space: normal; /* Allow line breaks */
+    line-height: 1.3em;
+}
+
 .rank-number {
     font-size: 18px;
     font-weight: bold;
     margin-left: 10px; /* Margin on left now because of RTL */
+    white-space: nowrap; /* Keep rank number on one line */
 }
 
 /* Specific rank colors */
@@ -360,12 +376,6 @@ header {
 .rank-number.rank-3 { color: peru; /* bronze-ish */ }
 .rank-number.rank-4 { color: gray; }
 
-.ranking-list img {
-    width: 50px;
-    height: 70px;
-    border-radius: 4px;
-    margin-right: 10px;
-}
 
 .anime-info {
     display: flex;
