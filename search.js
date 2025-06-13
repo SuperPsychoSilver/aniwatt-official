@@ -101,9 +101,9 @@ function morphSpinnerToError(message) {
 
   spinner.classList.add("custom-x");
 
-  // Set error message in red
+  // Set error message in white
   loadingMessage.textContent = message;
-  loadingMessage.style.color = "red";
+  loadingMessage.style.color = "white";
 }
 
 async function performSearch() {
