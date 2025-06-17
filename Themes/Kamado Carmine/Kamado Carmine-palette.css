@@ -52,8 +52,7 @@ header h1 {
 }
 
 h1 {
-    background-color: rgba(77, 0, 12, 0.85);
-    border-radius: 15px;
+    margin-top: 20px;
 }
 
 /* Theme Image */
