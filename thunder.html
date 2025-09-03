@@ -6,8 +6,10 @@
   <title>AniWatt | Recharged</title>
 
   <meta name="color-scheme" content="dark">
-  <link id="themeThunderStylesheet" rel="stylesheet" href="thunder.css">
-  <script src="palette.js"></script>
+
+  <link rel="stylesheet" href="thunder.css">
+  <script src="lightning.js" defer></script>
+
   <link rel="icon" href="Images/Icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
@@ -17,61 +19,71 @@
     <a href="plug.html">
       <img src="Images/Logo.png" alt="AniWatt Logo" id="logo">
     </a>
-    <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search anime...">
-      <button id="search-btn">Search</button>
+
+    <nav>
+      <ul>
+        <li><a href="#">Watch2Gether</a></li>
+        <li><a href="#" id="random-btn">Random</a></li>
+        <li><a href="#">Names (EN/JP)</a></li>
+        <li><a href="#">News</a></li>
+      </ul>
+    </nav>
+
+    <div class="auth">
+      <a href="#">Log In</a> | <a href="#">Sign Up</a>
     </div>
+
     <div class="social-icons">
-      <a href="https://dsc.gg/aniwatt" target="_blank"><img src="Images/Discord.png" alt="Discord"></a>
-      <a href="https://www.reddit.com/r/AniWatt/" target="_blank"><img src="Images/Reddit.png" alt="Reddit"></a>
+      <a href="https://dsc.gg/aniwatt" target="_blank">
+        <img src="Images/Discord.png" alt="Discord">
+      </a>
+      <a href="https://www.reddit.com/r/AniWatt/" target="_blank">
+        <img src="Images/Reddit.png" alt="Reddit">
+      </a>
     </div>
   </header>
 
-  <main>
-    <!-- HERO / SPOTLIGHT -->
-    <section class="spotlight">
-      <div class="spotlight-bg">
-        <img src="https://cdn.myanimelist.net/images/anime/1171/109222.jpg" alt="Featured Anime">
-      </div>
-      <div class="spotlight-info">
-        <h3>#1 Spotlight</h3>
-        <h1>Kaiju No. 8 Season 2</h1>
-        <p class="meta">TV • 24m • Jul 19, 2025</p>
-        <p class="desc">
-          After the destruction of their hometown, childhood friends Kafka Hibino and Mina Ashiro
-          make a pact to become officers in the Defense Force. Decades later, Kafka has all but given up…
-        </p>
-        <div class="spotlight-actions">
-          <button class="watch-btn">▶ Watch Now</button>
-          <button class="detail-btn">Detail</button>
-        </div>
-      </div>
-    </section>
+  <!-- SPOTLIGHT -->
+  <section class="spotlight" id="spotlight">
+    <!-- JS injects spotlight content -->
+  </section>
 
-    <!-- TRENDING -->
-    <section class="anime-section">
-      <h2>Trending Anime</h2>
-      <ul class="anime-list" id="trending-anime"></ul>
-    </section>
+  <!-- TRENDING SCROLL -->
+  <section class="trending-scroll">
+    <h2>Trending Now</h2>
+    <div class="scroll-row" id="trending-row">
+      <!-- JS injects anime cards here -->
+    </div>
+  </section>
 
-    <!-- LATEST -->
-    <section class="anime-section">
-      <h2>Latest Airing</h2>
-      <ul class="anime-list" id="latest-anime"></ul>
-    </section>
+  <!-- SCHEDULE -->
+  <section class="schedule">
+    <h2>Plot It Out!</h2>
+    <div class="schedule-tabs">
+      <button class="tab active" data-type="anime">Anime</button>
+      <button class="tab" data-type="manga">Manga</button>
+      <button class="tab" data-type="manhwa">Manhwa</button>
+      <button class="tab" data-type="books">Books</button>
+      <button class="tab" data-type="comics">Comics</button>
+      <button class="tab" data-type="movies">Movies</button>
+      <button class="tab" data-type="tv">TV Shows</button>
+    </div>
+    <div class="schedule-list" id="schedule-list">
+      <p>Loading schedule...</p>
+    </div>
+  </section>
 
-    <!-- COLLECTION -->
-    <section class="anime-section">
-      <h2>Anime Collection</h2>
-      <ul class="anime-list" id="anime-collection"></ul>
-    </section>
-  </main>
+  <!-- GRID COLLECTION -->
+  <section class="section">
+    <h2>Anime Collection</h2>
+    <div class="grid" id="anime-collection">
+      <!-- JS injects anime grid here -->
+    </div>
+  </section>
 
+  <!-- FOOTER -->
   <footer>
     <p>AniWatt &copy; 2025 - Watch Anime Online</p>
-    <img src="Images/footer-image.png" alt="Footer Image">
   </footer>
-
-  <script src="lightning.js"></script>
 </body>
 </html>
