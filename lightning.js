@@ -1,122 +1,159 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const animeList = [
-    {
-      id: "jujutsu-kaisen",
-      title: "Jujutsu Kaisen",
-      altTitle: "Jujutsu Kaisen",
-      episodes: 47,
-      image: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
-      desc: "The battle between sorcerers and curses continues."
-    },
-    {
-      id: "solo-leveling",
-      title: "Solo Leveling",
-      altTitle: "Ore dake Level Up na Ken",
-      episodes: 12,
-      image: "https://cdn.myanimelist.net/images/anime/1801/142390.jpg",
-      desc: "A weak hunter awakens unrivaled strength."
-    },
-    {
-      id: "chainsaw-man",
-      title: "Chainsaw Man",
-      altTitle: "Chainsaw Man",
-      episodes: 12,
-      image: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
-      desc: "Denji fuses with a chainsaw devil to survive."
-    },
-    {
-      id: "attack-on-titan",
-      title: "Attack on Titan",
-      altTitle: "Shingeki no Kyojin",
-      episodes: 75,
-      image: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
-      desc: "Mankind battles against towering titans."
-    },
-    {
-      id: "demon-slayer-kimetsu-no-yaiba",
-      title: "Demon Slayer",
-      altTitle: "Kimetsu no Yaiba",
-      episodes: 26,
-      image: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
-      desc: "A boy fights demons after tragedy strikes."
-    },
-    {
-      id: "one-piece",
-      title: "One Piece",
-      altTitle: "One Piece",
-      episodes: 1124,
-      image: "https://cdn.myanimelist.net/images/anime/6/73245.jpg",
-      desc: "Luffy sails to find the legendary treasure."
-    },
-    {
-      id: "mashle",
-      title: "Mashle",
-      altTitle: "Mashle: Magic and Muscles",
-      episodes: 24,
-      image: "https://cdn.myanimelist.net/images/anime/1861/135106.jpg",
-      desc: "In a world of magic, a boy relies on pure strength."
-    }
-  ];
+const API_BASE = "https://consumet-api-xmdg.onrender.com/meta/anilist";
 
-  // Spotlight
-  function setSpotlight(anime) {
-    const spotlight = document.getElementById("spotlight");
-    spotlight.innerHTML = `
-      <img src="${anime.image}" alt="${anime.title}">
-      <div class="spotlight-overlay">
-        <div class="spotlight-text">
-          <h2>${anime.title}</h2>
-          <p>${anime.desc}</p>
-        </div>
-      </div>
+// ---------- FETCH SPOTLIGHT (AniList Banner) ----------
+async function fetchSpotlightAnime(anilistId = 1535) { // default = Death Note
+  try {
+    const query = `
+      query ($id: Int) {
+        Media(id: $id, type: ANIME) {
+          id
+          title { romaji english native }
+          bannerImage
+          description(asHtml: false)
+        }
+      }
     `;
-  }
-  setSpotlight(animeList[0]); // Default spotlight
-
-  // Trending scroll
-  const trendingRow = document.getElementById("trending-row");
-  animeList.slice(0, 5).forEach(anime => {
-    const div = document.createElement("div");
-    div.classList.add("scroll-item");
-    div.innerHTML = `
-      <img src="${anime.image}" alt="${anime.title}">
-      <p>${anime.title}</p>
-    `;
-    div.addEventListener("click", () => setSpotlight(anime));
-    trendingRow.appendChild(div);
-  });
-
-  // Collection grid
-  const collection = document.getElementById("anime-collection");
-  animeList.forEach(anime => {
-    const div = document.createElement("div");
-    div.classList.add("grid-item");
-    div.innerHTML = `
-      <img src="${anime.image}" alt="${anime.title}">
-      <p>${anime.title} (${anime.altTitle})</p>
-    `;
-    div.addEventListener("click", () => {
-      window.location.href = `bulb.html?animeId=${encodeURIComponent(anime.id)}`;
+    const res = await fetch("https://graphql.anilist.co", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ query, variables: { id: anilistId } })
     });
-    collection.appendChild(div);
+    const data = await res.json();
+    const media = data.data.Media;
+
+    const spotlightImg = document.querySelector(".spotlight img");
+    const spotlightTitle = document.querySelector(".spotlight-text h2");
+    const spotlightDesc = document.querySelector(".spotlight-text p");
+
+    spotlightImg.src = media.bannerImage || "Images/fallback-banner.jpg";
+    spotlightImg.alt = media.title.romaji;
+    spotlightTitle.textContent = media.title.english || media.title.romaji;
+    spotlightDesc.textContent = media.description.replace(/<[^>]+>/g, "").slice(0, 120) + "...";
+  } catch (err) {
+    console.error("Error fetching spotlight:", err);
+  }
+}
+
+// ---------- FETCH SECTION HELPERS ----------
+async function fetchAnimeList(endpoint, containerId, limit = 12) {
+  try {
+    const res = await fetch(`${API_BASE}/${endpoint}`);
+    const data = await res.json();
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+
+    data.results.slice(0, limit).forEach(anime => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${anime.image}" alt="${anime.title.romaji}">
+        <p>${anime.title.romaji}</p>
+      `;
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error(`Error fetching ${endpoint}:`, err);
+  }
+}
+
+async function fetchAnimeListSimple(endpoint, listId, limit = 8) {
+  try {
+    const res = await fetch(`${API_BASE}/${endpoint}`);
+    const data = await res.json();
+    const list = document.getElementById(listId);
+    if (!list) return;
+    list.innerHTML = "";
+
+    data.results.slice(0, limit).forEach(anime => {
+      const li = document.createElement("li");
+      li.textContent = anime.title.romaji;
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error(`Error fetching ${endpoint}:`, err);
+  }
+}
+
+// ---------- FETCH ANIME SCHEDULE (Day by Day) ----------
+async function fetchWeeklySchedule() {
+  try {
+    const res = await fetch(`${API_BASE}/airing-schedule`);
+    const data = await res.json();
+
+    const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const container = document.getElementById("schedule-list");
+    container.innerHTML = "";
+
+    // Make a section for each weekday
+    days.forEach(day => {
+      const section = document.createElement("div");
+      section.className = "schedule-day";
+      const header = document.createElement("h3");
+      header.textContent = day;
+      section.appendChild(header);
+
+      const list = document.createElement("ul");
+      data.results
+        .filter(item => {
+          const airDate = new Date(item.airingAt * 1000);
+          return days[airDate.getDay()] === day;
+        })
+        .slice(0, 6) // limit to 6 per day for space
+        .forEach(item => {
+          const li = document.createElement("li");
+          li.innerHTML = `<strong>${item.title.romaji}</strong> — Ep ${item.episode}`;
+          list.appendChild(li);
+        });
+
+      section.appendChild(list);
+      container.appendChild(section);
+    });
+  } catch (err) {
+    console.error("Error fetching weekly schedule:", err);
+  }
+}
+
+// ---------- RANDOM ANIME ----------
+async function fetchRandomAnime() {
+  try {
+    const res = await fetch(`${API_BASE}/popular`);
+    const data = await res.json();
+    const random = data.results[Math.floor(Math.random() * data.results.length)];
+    alert(`Random Pick: ${random.title.romaji}`);
+  } catch (err) {
+    console.error("Error fetching random:", err);
+  }
+}
+
+// ---------- INIT ----------
+function initAniWatt() {
+  // Spotlight (example ID: Jujutsu Kaisen = 40748, change as needed)
+  fetchSpotlightAnime(40748);
+
+  // Sections
+  fetchAnimeList("trending", "trending-row", 12);
+  fetchAnimeListSimple("trending", "top-airing");
+  fetchAnimeListSimple("popular", "most-popular");
+  fetchAnimeListSimple("favourites", "most-favorite");
+  fetchAnimeListSimple("recent-episodes", "latest-completed");
+  fetchAnimeList("popular", "anime-collection", 16);
+
+// Schedule
+fetchWeeklySchedule();
+
+  // Tabs for Powered Planner
+  document.querySelectorAll(".schedule-tabs .tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".schedule-tabs .tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      fetchSchedule(tab.dataset.type);
+    });
   });
 
   // Random button
-  document.getElementById("random-btn").addEventListener("click", () => {
-    const randomAnime = animeList[Math.floor(Math.random() * animeList.length)];
-    setSpotlight(randomAnime);
-  });
+  document.getElementById("random-btn")?.addEventListener("click", fetchRandomAnime);
+}
 
-  // Schedule tabs (placeholder demo)
-  const scheduleList = document.getElementById("schedule-list");
-  const tabs = document.querySelectorAll(".schedule-tabs .tab");
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      const type = tab.dataset.type;
-      scheduleList.innerHTML = `<p>Showing schedule for <strong>${type}</strong> (coming soon)</p>`;
-    });
-  });
-});
+// Kick things off
+document.addEventListener("DOMContentLoaded", initAniWatt);
