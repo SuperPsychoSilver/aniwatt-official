@@ -4,61 +4,115 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AniWatt | Recharged</title>
-
   <meta name="color-scheme" content="dark">
-
   <link rel="stylesheet" href="thunder.css">
   <script src="lightning.js" defer></script>
-
   <link rel="icon" href="Images/Icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
+  <!-- MAIN HEADER -->
+  <header class="main-header">
     <a href="plug.html">
       <img src="Images/Logo.png" alt="AniWatt Logo" id="logo">
     </a>
 
-    <nav>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search anime, manga, comics...">
+      <button>Search</button>
+    </div>
+
+    <!-- Header Options -->
+    <nav class="top-options">
       <ul>
-        <li><a href="#">Watch2Gether</a></li>
-        <li><a href="#" id="random-btn">Random</a></li>
-        <li><a href="#">Names (EN/JP)</a></li>
-        <li><a href="#">News</a></li>
+        <li><a href="#"><img src="Images/watch2gether.png" alt="W2G"> Watch2Gether</a></li>
+        <li><a href="#" id="random-btn"><img src="Images/random.png" alt="Random"> Random</a></li>
+        <li><a href="#"><img src="Images/name.png" alt="Names"> Anime Names</a></li>
+        <li><a href="#"><img src="Images/news.png" alt="News"> News</a></li>
       </ul>
     </nav>
 
-    <div class="auth">
-      <a href="#">Log In</a> | <a href="#">Sign Up</a>
-    </div>
-
-    <div class="social-icons">
-      <a href="https://dsc.gg/aniwatt" target="_blank">
-        <img src="Images/Discord.png" alt="Discord">
-      </a>
-      <a href="https://www.reddit.com/r/AniWatt/" target="_blank">
-        <img src="Images/Reddit.png" alt="Reddit">
-      </a>
+    <!-- Auth + Social -->
+    <div class="auth-social">
+      <div class="auth">
+        <a href="#">Log In</a> | <a href="#">Sign Up</a>
+      </div>
+      <div class="social-icons">
+        <a href="https://dsc.gg/aniwatt" target="_blank">
+          <img src="Images/Discord.png" alt="Discord">
+        </a>
+        <a href="https://www.reddit.com/r/AniWatt/" target="_blank">
+          <img src="Images/Reddit.png" alt="Reddit">
+        </a>
+      </div>
     </div>
   </header>
 
+  <!-- SECONDARY NAV -->
+  <nav class="secondary-header">
+    <ul class="nav-links">
+      <li><a href="plug.html">Home</a></li>
+      <li><a href="thunder.html">Anime</a></li>
+      <li><a href="generator.html">Comics</a></li>
+      <li><a href="wire.html">Manga</a></li>
+      <li><a href="battery.html">Movies</a></li>
+      <li><a href="fuse.html">TV Shows</a></li>
+      <li><a href="palette.html">Themes</a></li>
+      <li><a href="diode.html">About</a></li>
+    </ul>
+  </nav>
+
   <!-- SPOTLIGHT -->
-  <section class="spotlight" id="spotlight">
-    <!-- JS injects spotlight content -->
+  <section class="spotlight">
+    <img src="Images/spotlight-anime.jpg" alt="Spotlight Anime">
+    <div class="spotlight-overlay">
+      <div class="spotlight-text">
+        <h2>Jujutsu Kaisen</h2>
+        <p>The battle between sorcerers and curses continues…</p>
+      </div>
+    </div>
   </section>
 
   <!-- TRENDING SCROLL -->
   <section class="trending-scroll">
     <h2>Trending Now</h2>
     <div class="scroll-row" id="trending-row">
-      <!-- JS injects anime cards here -->
+      <!-- JS injects trending anime cards -->
     </div>
   </section>
 
-  <!-- SCHEDULE -->
+  <!-- FOUR COLUMNS -->
+  <section class="columns">
+    <div class="column">
+      <h3>Top Airing</h3>
+      <ul id="top-airing"></ul>
+    </div>
+    <div class="column">
+      <h3>Most Popular</h3>
+      <ul id="most-popular"></ul>
+    </div>
+    <div class="column">
+      <h3>Most Favorite</h3>
+      <ul id="most-favorite"></ul>
+    </div>
+    <div class="column">
+      <h3>Latest Completed</h3>
+      <ul id="latest-completed"></ul>
+    </div>
+  </section>
+
+  <!-- GRID COLLECTION -->
+  <section class="section">
+    <h2>Anime Collection</h2>
+    <div class="grid" id="anime-collection">
+      <!-- JS injects anime grid -->
+    </div>
+  </section>
+
+  <!-- POWERED PLANNER -->
   <section class="schedule">
-    <h2>Plot It Out!</h2>
+    <h2>Upcoming Schedule</h2>
     <div class="schedule-tabs">
       <button class="tab active" data-type="anime">Anime</button>
       <button class="tab" data-type="manga">Manga</button>
@@ -70,14 +124,6 @@
     </div>
     <div class="schedule-list" id="schedule-list">
       <p>Loading schedule...</p>
-    </div>
-  </section>
-
-  <!-- GRID COLLECTION -->
-  <section class="section">
-    <h2>Anime Collection</h2>
-    <div class="grid" id="anime-collection">
-      <!-- JS injects anime grid here -->
     </div>
   </section>
 
