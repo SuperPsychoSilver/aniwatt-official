@@ -43,7 +43,7 @@ Questions? Feedback? Buzz us me `nickolasknowles1920@gmail.com`.
 
 Discord: [The ONLY official one!](dsc.gg/aniwatt)
 
-Reddit:
+Reddit: [The ONLY official one!](https://www.reddit.com/r/AniWatt)
 
 Domain obtained from [FreeDNS/afraid.org](https://freedns.afraid.org)
 
