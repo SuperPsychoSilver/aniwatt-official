@@ -21,25 +21,28 @@ body {
   background: #1e1e1e;
   padding: 12px 20px;
   border-bottom: 2px solid #f5d300;
+  gap: 15px;
 }
 
 .main-header #logo {
   max-height: 50px;
 }
 
+/* SEARCH BAR */
 .search-bar {
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
+  flex: 1;
+  max-width: 400px;
 }
 
 .search-bar input {
+  flex: 1;
   padding: 6px 10px;
   border-radius: 5px;
   border: 1px solid #444;
   background: #222;
   color: #fff;
-  min-width: 180px;
 }
 
 .search-bar button {
@@ -61,7 +64,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -72,18 +75,17 @@ body {
   color: #fff;
   text-decoration: none;
   font-size: 0.9em;
-  transition: color 0.2s;
 }
 
-.top-options ul li a:hover {
-  color: #f5d300;
+.top-options ul li a img {
+  width: 20px;
+  height: 20px;
 }
 
 /* AUTH + SOCIAL */
 .auth-social {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -105,16 +107,16 @@ body {
 
 /* SECONDARY HEADER */
 .secondary-header {
+  display: flex;
+  justify-content: center;
   background: #2a2a2a;
   border-bottom: 1px solid #444;
 }
 
 .secondary-header .nav-links {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 20px;
   list-style: none;
-  gap: 25px;
   padding: 10px 0;
 }
 
@@ -184,7 +186,7 @@ body {
 }
 
 .scroll-row::-webkit-scrollbar {
-  height: 8px;
+  height: 6px;
 }
 
 .scroll-row::-webkit-scrollbar-thumb {
@@ -277,5 +279,13 @@ footer {
 
   .scroll-row {
     gap: 8px;
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .grid, .schedule-grid {
+    grid-template-columns: 1fr;
   }
 }
