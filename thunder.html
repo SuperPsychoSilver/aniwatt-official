@@ -1,129 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniWatt | Recharged</title>
-  <meta name="color-scheme" content="dark">
-  <link id="themeThunderStylesheet" rel="stylesheet" href="thunder.css">
-  <script src="palette.js"></script>
-  <script src="lightning.js" defer></script>
-  <link rel="icon" href="Images/Icon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AniWatt | Recharged</title>
+<meta name="color-scheme" content="dark">
+  
+<link id="themeThunderStylesheet" rel="stylesheet" href="thunder.css">
+<script src="palette.js"></script>
+  
+<script src="lightning.js" defer></script>
+<link rel="icon" href="Images/Icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- MAIN HEADER -->
-  <header class="main-header">
-    <!-- Logo -->
-    <a href="plug.html">
-      <img src="Images/Logo.png" alt="AniWatt Logo" id="logo">
-    </a>
+<!-- MAIN HEADER -->
+<header class="main-header">
+  <a href="plug.html" class="logo">
+    <img src="Images/Logo.png" alt="AniWatt Logo" id="logo">
+  </a>
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <input type="text" placeholder="Search anime, manga, comics...">
-      <button>Search</button>
-    </div>
+  <div class="search-bar">
+    <input type="text" placeholder="Search anime, manga, comics...">
+    <button>Search</button>
+  </div>
 
-    <!-- Top Options Nav -->
-    <nav class="top-options">
-      <ul>
-        <li><a href="#"><img src="Images/watch2gether.png" alt="W2G"> Watch2Gether</a></li>
-        <li><a href="#" id="random-btn"><img src="https://i.imgur.com/Sm05v8i.png" alt="Random"> Random</a></li>
-        <li><a href="#"><img src="Images/name.png" alt="Names"> Anime Names</a></li>
-        <li><a href="#"><img src="Images/news.png" alt="News"> News</a></li>
-      </ul>
-    </nav>
-
-    <!-- Auth + Social -->
-    <div class="auth-social">
-      <div class="auth">
-        <a href="#">Log In</a> | <a href="#">Sign Up</a>
-      </div>
-      <div class="social-icons">
-        <a href="https://dsc.gg/aniwatt" target="_blank">
-          <img src="Images/Discord.png" alt="Discord">
-        </a>
-        <a href="https://www.reddit.com/r/AniWatt/" target="_blank">
-          <img src="Images/Reddit.png" alt="Reddit">
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- SECONDARY HEADER -->
-  <nav class="secondary-header">
-    <ul class="nav-links">
-      <li><a href="plug.html">Home</a></li>
-      <li><a href="thunder.html">Anime</a></li>
-      <li><a href="generator.html">Comics</a></li>
-      <li><a href="wire.html">Manga</a></li>
-      <li><a href="battery.html">Movies</a></li>
-      <li><a href="fuse.html">TV Shows</a></li>
-      <li><a href="palette.html">Themes</a></li>
-      <li><a href="diode.html">About</a></li>
+  <nav class="top-options">
+    <ul>
+      <li><a href="#"><img src="Images/watch2gether.png" alt="W2G"> Watch2Gether</a></li>
+      <li><a href="#"><img src="Images/random.png" alt="Random"> Random</a></li>
+      <li><a href="#"><img src="Images/name.png" alt="Names"> Anime Names</a></li>
+      <li><a href="#"><img src="https://i.imgur.com/Sm05v8i.png" alt="News"> News</a></li>
     </ul>
   </nav>
 
-  <!-- SPOTLIGHT -->
-  <section class="spotlight">
-    <img src="Images/spotlight-anime.jpg" alt="Spotlight Anime">
-    <div class="spotlight-overlay">
-      <div class="spotlight-text">
-        <h2>Jujutsu Kaisen</h2>
-        <p>The battle between sorcerers and curses continues…</p>
-      </div>
+  <div class="auth-social">
+    <div class="auth">
+      <a href="#">Log In</a> | <a href="#">Sign Up</a>
     </div>
-  </section>
+    <div class="social-icons">
+      <a href="#"><img src="Images/Discord.png" alt="Discord"></a>
+      <a href="#"><img src="Images/Reddit.png" alt="Reddit"></a>
+    </div>
+  </div>
+</header>
 
-  <!-- TRENDING SCROLL -->
-  <section class="trending-scroll">
-    <h2>Trending Now</h2>
-    <div class="scroll-row" id="trending-row">
-      <!-- JS injects trending anime cards -->
-    </div>
-  </section>
+<!-- SECONDARY HEADER -->
+<nav class="secondary-header">
+  <ul class="nav-links">
+    <li><a href="plug.html">Home</a></li>
+    <li><a href="thunder.html">Anime</a></li>
+    <li><a href="generator.html">Comics</a></li>
+    <li><a href="wire.html">Manga</a></li>
+    <li><a href="battery.html">Movies</a></li>
+    <li><a href="fuse.html">TV Shows</a></li>
+    <li><a href="palette.html">Themes</a></li>
+    <li><a href="diode.html">About</a></li>
+  </ul>
+</nav>
 
-  <!-- FOUR COLUMNS -->
-  <section class="columns">
-    <div class="column">
-      <h3>Top Airing</h3>
-      <ul id="top-airing"></ul>
-    </div>
-    <div class="column">
-      <h3>Most Popular</h3>
-      <ul id="most-popular"></ul>
-    </div>
-    <div class="column">
-      <h3>Most Favorite</h3>
-      <ul id="most-favorite"></ul>
-    </div>
-    <div class="column">
-      <h3>Latest Completed</h3>
-      <ul id="latest-completed"></ul>
-    </div>
-  </section>
+<!-- SPOTLIGHT -->
+<section id="spotlight" class="spotlight-container">
+  <!-- JS injects spotlight cards -->
+</section>
 
-  <!-- GRID COLLECTION -->
-  <section class="section">
-    <h2>Anime Collection</h2>
-    <div class="grid" id="anime-collection">
-      <!-- JS injects anime grid -->
-    </div>
-  </section>
+<!-- TRENDING -->
+<section class="trending">
+  <h2>Trending Now</h2>
+  <div id="trending-scroll" class="trending-scroll">
+    <!-- JS injects trending items -->
+  </div>
+</section>
 
-  <!-- NEW AND UPCOMING -->
-  <section class="schedule">
-    <h2>New and Upcoming Anime</h2>
-    <div id="schedule-list" class="schedule-grid"></div>
-  </section>
+<!-- COLUMNS -->
+<section id="columns" class="columns">
+  <!-- JS injects Top Airing, Most Popular, Most Favorite, Latest Completed -->
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>AniWatt &copy; 2025 - Watch Anime Online</p>
-  </footer>
+<!-- NEW AND UPCOMING -->
+<section class="schedule">
+  <h2>New and Upcoming Anime</h2>
+  <div id="schedule-list" class="schedule-grid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>AniWatt &copy; 2025 - Watch Anime Online</p>
+</footer>
 
 </body>
 </html>
-
