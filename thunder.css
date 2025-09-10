@@ -65,22 +65,30 @@ body {
   gap: 12px;
   list-style: none;
   align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.top-options ul li {
+  display: flex;
 }
 
 .top-options ul li a {
   display: flex;
   align-items: center;
-  justify-content: center; /* centers icon if no text */
-  gap: 5px;
+  justify-content: center;
+  gap: 5px; /* space between icon & text */
   text-decoration: none;
   color: #fff;
-  font-size: 0.9em; /* keeps text small */
-  transition: color 0.2s;
+  font-size: 0.9em; /* text size */
   padding: 4px; /* reduces extra space */
+  transition: color 0.2s;
 }
 
 .top-options ul li a i {
-  font-size: 1rem; /* normalizes icon size */
+  font-size: 0.9em; /* makes icon same size as text */
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .top-options ul li a:hover {
@@ -300,5 +308,6 @@ footer {
   border-top: 2px solid #f5d300;
   color: #f5d300;
 }
+
 
 
