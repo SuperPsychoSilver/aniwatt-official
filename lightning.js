@@ -5,54 +5,60 @@ document.addEventListener("DOMContentLoaded", () => {
   // Toggle state for ENG/JAP
   let showEnglish = true;
 
-  // ===== FETCH SPOTLIGHTS (AniList banners) =====
-  async function fetchSpotlight() {
-    try {
-      const query = `
-        query {
-          Page(perPage: 3) {
-            media(sort: TRENDING_DESC, type: ANIME) {
-              id
-              title {
-                romaji
-                english
-              }
-              bannerImage
-              description(asHtml: false)
+// ===== FETCH SPOTLIGHTS (AniList banners or covers) =====
+async function fetchSpotlight() {
+  try {
+    const query = `
+      query {
+        Page(perPage: 3) {
+          media(sort: TRENDING_DESC, type: ANIME) {
+            id
+            title {
+              romaji
+              english
             }
+            bannerImage
+            coverImage {
+              extraLarge
+            }
+            description(asHtml: false)
           }
         }
+      }
+    `;
+    const res = await fetch(ANILIST_GRAPHQL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query })
+    });
+    const data = await res.json();
+    const spotlights = data.data.Page.media;
+
+    const container = document.getElementById("spotlight");
+    container.innerHTML = "";
+    spotlights.forEach((anime) => {
+      const title = showEnglish
+        ? (anime.title.english || anime.title.romaji)
+        : anime.title.romaji;
+
+      // fallback to cover if banner is missing
+      const imageUrl = anime.bannerImage || anime.coverImage.extraLarge;
+
+      const div = document.createElement("div");
+      div.className = "spotlight";
+      div.innerHTML = `
+        <img src="${imageUrl}" alt="${title}">
+        <div class="overlay">
+          <h2>${title}</h2>
+          <p>${anime.description ? anime.description.substring(0, 150) + "..." : ""}</p>
+        </div>
       `;
-      const res = await fetch(ANILIST_GRAPHQL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query })
-      });
-      const data = await res.json();
-      const spotlights = data.data.Page.media;
-
-      const container = document.getElementById("spotlight");
-      container.innerHTML = "";
-      spotlights.forEach((anime) => {
-        const title = showEnglish
-          ? (anime.title.english || anime.title.romaji)
-          : anime.title.romaji;
-
-        const div = document.createElement("div");
-        div.className = "spotlight";
-        div.innerHTML = `
-          <img src="${anime.bannerImage}" alt="${title}">
-          <div class="overlay">
-            <h2>${title}</h2>
-            <p>${anime.description.substring(0, 150)}...</p>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    } catch (err) {
-      console.error("Spotlight fetch failed:", err);
-    }
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error("Spotlight fetch failed:", err);
   }
+}
 
   // ===== FETCH TRENDING SCROLLER =====
   async function fetchTrending() {
@@ -184,3 +190,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
