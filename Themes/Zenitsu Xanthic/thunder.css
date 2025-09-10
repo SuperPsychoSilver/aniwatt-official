@@ -1,4 +1,3 @@
-/* RESET & BODY */
 * {
   margin: 0;
   padding: 0;
@@ -71,11 +70,17 @@ body {
 .top-options ul li a {
   display: flex;
   align-items: center;
+  justify-content: center; /* centers icon if no text */
   gap: 5px;
   text-decoration: none;
   color: #fff;
-  font-size: 0.9em;
+  font-size: 0.9em; /* keeps text small */
   transition: color 0.2s;
+  padding: 4px; /* reduces extra space */
+}
+
+.top-options ul li a i {
+  font-size: 1rem; /* normalizes icon size */
 }
 
 .top-options ul li a:hover {
@@ -295,3 +300,4 @@ footer {
   border-top: 2px solid #f5d300;
   color: #f5d300;
 }
+
