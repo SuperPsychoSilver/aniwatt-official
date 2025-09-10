@@ -1,3 +1,4 @@
+/* RESET & BODY */
 * {
   margin: 0;
   padding: 0;
@@ -11,149 +12,167 @@ body {
   line-height: 1.5;
 }
 
-/* HEADER */
+/* MAIN HEADER */
 .main-header {
   display: flex;
-  flex-wrap: wrap; /* prevent overflow on smaller screens */
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   background: #1e1e1e;
   padding: 12px 20px;
   border-bottom: 2px solid #f5d300;
+  flex-wrap: wrap;
 }
 
-.main-header .logo {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #f5d300;
+.main-header .logo img {
+  height: 50px;
+  cursor: pointer;
 }
 
-.main-nav ul {
-  display: flex;
-  flex-wrap: wrap; /* wrap if too many links */
-  gap: 15px;
-  list-style: none;
-}
-
-.main-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 0.95em;
-  transition: color 0.2s;
-}
-
-.main-nav ul li a:hover {
-  color: #f5d300;
-}
-
-.header-actions {
-  display: flex;
-  flex-wrap: wrap; /* prevent overflow on small screens */
-  gap: 10px;
-  align-items: center;
-}
-
+/* SEARCH BAR */
 .search-bar {
-  padding: 6px 10px;
-  border-radius: 5px;
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 5px 0 0 5px;
   border: 1px solid #444;
   background: #222;
   color: #fff;
-  min-width: 120px; /* prevent shrinking too small */
 }
 
-button {
-  background: #f5d300;
+.search-bar button {
+  padding: 8px 14px;
+  border-radius: 0 5px 5px 0;
   border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
+  background: #f5d300;
+  color: #121212;
   cursor: pointer;
   font-weight: bold;
 }
 
-button:hover {
+.search-bar button:hover {
   background: #e0c000;
 }
 
-.login-btn,
-.signup-btn {
-  background: transparent;
-  border: 1px solid #f5d300;
+/* TOP-RIGHT OPTIONS */
+.top-options ul {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  align-items: center;
+}
+
+.top-options ul li a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.9em;
+  transition: color 0.2s;
+}
+
+.top-options ul li a:hover {
   color: #f5d300;
 }
 
-.signup-btn {
-  background: #f5d300;
-  color: #121212;
-}
-
 /* SECONDARY NAV */
-.secondary-nav {
+.secondary-header {
   background: #2a2a2a;
   border-bottom: 1px solid #444;
 }
 
-.secondary-nav ul {
+.secondary-header ul {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  list-style: none;
   gap: 25px;
+  list-style: none;
   padding: 10px 0;
 }
 
-.secondary-nav ul li a {
-  text-decoration: none;
+.secondary-header ul li a {
   color: #fff;
   font-weight: 600;
+  text-decoration: none;
   font-size: 0.95em;
 }
 
-.secondary-nav ul li a:hover {
+.secondary-header ul li a:hover {
   color: #f5d300;
 }
 
-/* SPOTLIGHT */
+/* SPOTLIGHT CAROUSEL */
 .spotlight-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* safer min width */
-  gap: 20px;
-  margin: 25px;
-}
-
-.spotlight {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.spotlight img {
   width: 100%;
-  height: auto;
-  max-height: 220px;
+  margin: 25px 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.spotlight-slide {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  transition: transform 0.5s ease-in-out;
+}
+
+.spotlight-slide img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.spotlight .overlay {
+.spotlight-slide .overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 15px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 70%);
+  padding: 25px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
 }
 
-.spotlight h2 {
-  margin: 0;
-  font-size: 1.2em;
+.spotlight-slide h2 {
+  font-size: 2rem;
   color: #f5d300;
+  margin-bottom: 10px;
 }
 
-.spotlight p {
-  font-size: 0.9em;
+.spotlight-slide p {
+  font-size: 1rem;
   color: #ddd;
-  margin-top: 6px;
+}
+
+/* SPOTLIGHT NAV BUTTONS */
+.spotlight-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 20px;
+}
+
+.spotlight-nav button {
+  background: rgba(0,0,0,0.5);
+  border: none;
+  padding: 10px 15px;
+  color: #f5d300;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.spotlight-nav button:hover {
+  background: rgba(0,0,0,0.7);
 }
 
 /* TRENDING */
@@ -269,3 +288,10 @@ button:hover {
   color: #bbb;
 }
 
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  border-top: 2px solid #f5d300;
+  color: #f5d300;
+}
