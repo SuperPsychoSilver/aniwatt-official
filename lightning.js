@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   const API_BASE = "https://consumet-api-xmdg.onrender.com/meta/anilist";
   const ANILIST_GRAPHQL = "https://graphql.anilist.co";
-
   let showEnglish = true;
+
+  // ===== HELPER =====
+  function getTitle(anime) {
+    return showEnglish ? (anime?.title?.english || anime?.title?.romaji || "Unknown") : (anime?.title?.romaji || "Unknown");
+  }
 
   // ===== SPOTLIGHT =====
   async function fetchSpotlight() {
@@ -26,25 +30,22 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ query })
       });
       const data = await res.json();
-      const spotlights = data.data.Page.media;
+      const spotlights = data?.data?.Page?.media || [];
 
       const container = document.getElementById("spotlight");
       if (!container) return;
       container.innerHTML = "";
 
       spotlights.forEach(anime => {
-        const title = showEnglish
-          ? (anime.title.english || anime.title.romaji)
-          : anime.title.romaji;
-        const imageUrl = anime.bannerImage || anime.coverImage.extraLarge;
-
+        const title = getTitle(anime);
+        const imageUrl = anime?.bannerImage || anime?.coverImage?.extraLarge || "Images/placeholder.png";
         const div = document.createElement("div");
         div.className = "spotlight";
         div.innerHTML = `
           <img src="${imageUrl}" alt="${title}">
           <div class="overlay">
             <h2>${title}</h2>
-            <p>${anime.description ? anime.description.substring(0, 120) + "..." : ""}</p>
+            <p>${anime?.description ? anime.description.substring(0, 120) + "..." : ""}</p>
           </div>
         `;
         container.appendChild(div);
@@ -59,18 +60,17 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch(`${API_BASE}/trending`);
       const data = await res.json();
+      const results = data?.results || [];
       const container = document.getElementById("trending-scroll");
       if (!container) return;
       container.innerHTML = "";
 
-      data.results.slice(0, 15).forEach(anime => {
-        const title = showEnglish
-          ? (anime.title.english || anime.title.romaji)
-          : anime.title.romaji;
+      results.slice(0, 15).forEach(anime => {
+        const title = getTitle(anime);
         const div = document.createElement("div");
         div.className = "trending-item";
         div.innerHTML = `
-          <img src="${anime.image}" alt="${title}">
+          <img src="${anime?.image || 'Images/placeholder.png'}" alt="${title}">
           <p>${title}</p>
         `;
         container.appendChild(div);
@@ -82,20 +82,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===== COLUMNS =====
   async function fetchColumns() {
-    try {
-      const endpoints = {
-        airing: "airing-schedule",
-        popular: "popular",
-        favorite: "favorite",
-        completed: "recent-episodes"
-      };
-      const container = document.getElementById("columns");
-      if (!container) return;
-      container.innerHTML = "";
+    const endpoints = {
+      airing: "airing-schedule",
+      popular: "popular",
+      favorite: "favorite",
+      completed: "recent-episodes"
+    };
+    const container = document.getElementById("columns");
+    if (!container) return;
+    container.innerHTML = "";
 
-      for (const [name, endpoint] of Object.entries(endpoints)) {
+    for (const [name, endpoint] of Object.entries(endpoints)) {
+      try {
         const res = await fetch(`${API_BASE}/${endpoint}`);
         const data = await res.json();
+        const results = data?.results || [];
+        if (!results.length) continue;
 
         const section = document.createElement("section");
         section.innerHTML = `<h2>${
@@ -107,31 +109,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const ul = document.createElement("ul");
         ul.className = "anime-list";
-        data.results.slice(0, 6).forEach(anime => {
-          const title = showEnglish
-            ? (anime.title.english || anime.title.romaji)
-            : anime.title.romaji;
+        results.slice(0, 6).forEach(anime => {
           const li = document.createElement("li");
-          li.textContent = title;
+          li.textContent = getTitle(anime);
           ul.appendChild(li);
         });
+
         section.appendChild(ul);
         container.appendChild(section);
+      } catch (err) {
+        console.error(`Failed to fetch ${name}:`, err);
       }
-    } catch (err) {
-      console.error("Columns fetch failed:", err);
     }
   }
 
-  // ===== WEEKLY SCHEDULE =====
+  // ===== SCHEDULE =====
   async function fetchWeeklySchedule() {
     try {
       const res = await fetch(`${API_BASE}/airing-schedule`);
       const data = await res.json();
-      const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const results = data?.results || [];
       const container = document.getElementById("schedule-list");
       if (!container) return;
       container.innerHTML = "";
+
+      const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
       days.forEach(day => {
         const section = document.createElement("div");
@@ -141,18 +143,15 @@ document.addEventListener("DOMContentLoaded", () => {
         section.appendChild(header);
 
         const list = document.createElement("ul");
-        data.results
+        results
           .filter(item => {
-            const airDate = new Date(item.airingAt * 1000);
+            const airDate = new Date(item?.airingAt * 1000);
             return days[airDate.getDay()] === day;
           })
           .slice(0, 6)
           .forEach(item => {
-            const title = showEnglish
-              ? (item.title.english || item.title.romaji)
-              : item.title.romaji;
             const li = document.createElement("li");
-            li.innerHTML = `<strong>${title}</strong> — Ep ${item.episode}`;
+            li.innerHTML = `<strong>${getTitle(item)}</strong> — Ep ${item?.episode || '?'}`;
             list.appendChild(li);
           });
 
@@ -164,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===== INIT LOADER =====
+  // ===== INIT =====
   function loadAll() {
     fetchSpotlight();
     fetchTrending();
