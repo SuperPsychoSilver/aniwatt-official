@@ -2,76 +2,71 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_BASE = "https://consumet-api-xmdg.onrender.com/meta/anilist";
   const ANILIST_GRAPHQL = "https://graphql.anilist.co";
 
-  // Toggle state for ENG/JAP
   let showEnglish = true;
 
-// ===== FETCH SPOTLIGHTS (AniList banners or covers) =====
-async function fetchSpotlight() {
-  try {
-    const query = `
-      query {
-        Page(perPage: 3) {
-          media(sort: TRENDING_DESC, type: ANIME) {
-            id
-            title {
-              romaji
-              english
+  // ===== SPOTLIGHT =====
+  async function fetchSpotlight() {
+    try {
+      const query = `
+        query {
+          Page(perPage: 3) {
+            media(sort: TRENDING_DESC, type: ANIME) {
+              id
+              title { romaji english }
+              bannerImage
+              coverImage { extraLarge }
+              description(asHtml: false)
             }
-            bannerImage
-            coverImage {
-              extraLarge
-            }
-            description(asHtml: false)
           }
         }
-      }
-    `;
-    const res = await fetch(ANILIST_GRAPHQL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query })
-    });
-    const data = await res.json();
-    const spotlights = data.data.Page.media;
-
-    const container = document.getElementById("spotlight");
-    container.innerHTML = "";
-    spotlights.forEach((anime) => {
-      const title = showEnglish
-        ? (anime.title.english || anime.title.romaji)
-        : anime.title.romaji;
-
-      // fallback to cover if banner is missing
-      const imageUrl = anime.bannerImage || anime.coverImage.extraLarge;
-
-      const div = document.createElement("div");
-      div.className = "spotlight";
-      div.innerHTML = `
-        <img src="${imageUrl}" alt="${title}">
-        <div class="overlay">
-          <h2>${title}</h2>
-          <p>${anime.description ? anime.description.substring(0, 150) + "..." : ""}</p>
-        </div>
       `;
-      container.appendChild(div);
-    });
-  } catch (err) {
-    console.error("Spotlight fetch failed:", err);
-  }
-}
+      const res = await fetch(ANILIST_GRAPHQL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+      const spotlights = data.data.Page.media;
 
-  // ===== FETCH TRENDING SCROLLER =====
+      const container = document.getElementById("spotlight");
+      if (!container) return;
+      container.innerHTML = "";
+
+      spotlights.forEach(anime => {
+        const title = showEnglish
+          ? (anime.title.english || anime.title.romaji)
+          : anime.title.romaji;
+        const imageUrl = anime.bannerImage || anime.coverImage.extraLarge;
+
+        const div = document.createElement("div");
+        div.className = "spotlight";
+        div.innerHTML = `
+          <img src="${imageUrl}" alt="${title}">
+          <div class="overlay">
+            <h2>${title}</h2>
+            <p>${anime.description ? anime.description.substring(0, 120) + "..." : ""}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    } catch (err) {
+      console.error("Spotlight fetch failed:", err);
+    }
+  }
+
+  // ===== TRENDING =====
   async function fetchTrending() {
     try {
       const res = await fetch(`${API_BASE}/trending`);
       const data = await res.json();
       const container = document.getElementById("trending-scroll");
+      if (!container) return;
       container.innerHTML = "";
+
       data.results.slice(0, 15).forEach(anime => {
         const title = showEnglish
           ? (anime.title.english || anime.title.romaji)
           : anime.title.romaji;
-
         const div = document.createElement("div");
         div.className = "trending-item";
         div.innerHTML = `
@@ -85,7 +80,7 @@ async function fetchSpotlight() {
     }
   }
 
-  // ===== FETCH COLUMNS (Top Airing, Popular, Favorite, Completed) =====
+  // ===== COLUMNS =====
   async function fetchColumns() {
     try {
       const endpoints = {
@@ -95,6 +90,7 @@ async function fetchSpotlight() {
         completed: "recent-episodes"
       };
       const container = document.getElementById("columns");
+      if (!container) return;
       container.innerHTML = "";
 
       for (const [name, endpoint] of Object.entries(endpoints)) {
@@ -115,7 +111,6 @@ async function fetchSpotlight() {
           const title = showEnglish
             ? (anime.title.english || anime.title.romaji)
             : anime.title.romaji;
-
           const li = document.createElement("li");
           li.textContent = title;
           ul.appendChild(li);
@@ -128,14 +123,14 @@ async function fetchSpotlight() {
     }
   }
 
-  // ===== FETCH WEEKLY SCHEDULE =====
+  // ===== WEEKLY SCHEDULE =====
   async function fetchWeeklySchedule() {
     try {
       const res = await fetch(`${API_BASE}/airing-schedule`);
       const data = await res.json();
-
       const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
       const container = document.getElementById("schedule-list");
+      if (!container) return;
       container.innerHTML = "";
 
       days.forEach(day => {
@@ -156,7 +151,6 @@ async function fetchSpotlight() {
             const title = showEnglish
               ? (item.title.english || item.title.romaji)
               : item.title.romaji;
-
             const li = document.createElement("li");
             li.innerHTML = `<strong>${title}</strong> — Ep ${item.episode}`;
             list.appendChild(li);
@@ -180,14 +174,13 @@ async function fetchSpotlight() {
 
   loadAll();
 
-  // ===== LANGUAGE TOGGLE BUTTON =====
+  // ===== LANG TOGGLE =====
   const toggleBtn = document.getElementById("toggle-lang");
   if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
       showEnglish = !showEnglish;
       toggleBtn.textContent = showEnglish ? "ENG" : "JAP";
-      loadAll(); // refresh with new titles
+      loadAll();
     });
   }
 });
-
