@@ -12,9 +12,10 @@ body {
   line-height: 1.5;
 }
 
-/* HEADER */
+/* MAIN HEADER */
 .main-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   background: #1e1e1e;
@@ -22,114 +23,129 @@ body {
   border-bottom: 2px solid #f5d300;
 }
 
-.main-header .logo {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #f5d300;
-}
-
-.main-nav ul {
-  display: flex;
-  gap: 15px;
-  list-style: none;
-}
-
-.main-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 0.95em;
-  transition: color 0.2s;
-}
-
-.main-nav ul li a:hover {
-  color: #f5d300;
-}
-
-.header-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+.main-header #logo {
+  max-height: 50px;
 }
 
 .search-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.search-bar input {
   padding: 6px 10px;
   border-radius: 5px;
   border: 1px solid #444;
   background: #222;
   color: #fff;
+  min-width: 180px;
 }
 
-button {
-  background: #f5d300;
-  border: none;
+.search-bar button {
   padding: 6px 12px;
   border-radius: 5px;
-  cursor: pointer;
+  border: none;
+  background: #f5d300;
+  color: #121212;
   font-weight: bold;
+  cursor: pointer;
 }
 
-button:hover {
+.search-bar button:hover {
   background: #e0c000;
 }
 
-.login-btn,
-.signup-btn {
-  background: transparent;
-  border: 1px solid #f5d300;
-  color: #f5d300;
-}
-.signup-btn {
-  background: #f5d300;
-  color: #121212;
+/* TOP OPTIONS NAV */
+.top-options ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 15px;
+  align-items: center;
 }
 
-/* SECONDARY NAV */
-.secondary-nav {
+.top-options ul li a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s;
+}
+
+.top-options ul li a:hover {
+  color: #f5d300;
+}
+
+/* AUTH + SOCIAL */
+.auth-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.auth a {
+  color: #f5d300;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth a:hover {
+  color: #e0c000;
+}
+
+.social-icons a img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* SECONDARY HEADER */
+.secondary-header {
   background: #2a2a2a;
   border-bottom: 1px solid #444;
 }
 
-.secondary-nav ul {
+.secondary-header .nav-links {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   list-style: none;
   gap: 25px;
   padding: 10px 0;
 }
 
-.secondary-nav ul li a {
+.secondary-header .nav-links li a {
   text-decoration: none;
   color: #fff;
   font-weight: 600;
   font-size: 0.95em;
+  transition: color 0.2s;
 }
 
-.secondary-nav ul li a:hover {
+.secondary-header .nav-links li a:hover {
   color: #f5d300;
 }
 
 /* SPOTLIGHT */
-.spotlight-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 20px;
-  margin: 25px;
-}
-
 .spotlight {
   position: relative;
+  margin: 25px;
   border-radius: 12px;
   overflow: hidden;
 }
 
 .spotlight img {
   width: 100%;
-  height: 220px;
+  height: auto;
+  max-height: 300px;
   object-fit: cover;
-  display: block;
 }
 
-.spotlight .overlay {
+.spotlight-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -138,29 +154,27 @@ button:hover {
   background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 70%);
 }
 
-.spotlight h2 {
-  margin: 0;
-  font-size: 1.2em;
+.spotlight-text h2 {
   color: #f5d300;
+  font-size: 1.5em;
 }
 
-.spotlight p {
-  font-size: 0.9em;
+.spotlight-text p {
   color: #ddd;
   margin-top: 6px;
 }
 
-/* TRENDING */
-.trending {
+/* TRENDING SCROLL */
+.trending-scroll {
   margin: 20px;
 }
 
-.trending h2 {
-  margin-bottom: 10px;
+.trending-scroll h2 {
   color: #f5d300;
+  margin-bottom: 10px;
 }
 
-.trending-scroll {
+.scroll-row {
   display: flex;
   gap: 12px;
   overflow-x: auto;
@@ -169,60 +183,58 @@ button:hover {
   scrollbar-color: #f5d300 #222;
 }
 
-.trending-scroll::-webkit-scrollbar {
+.scroll-row::-webkit-scrollbar {
   height: 8px;
 }
-.trending-scroll::-webkit-scrollbar-thumb {
+
+.scroll-row::-webkit-scrollbar-thumb {
   background: #f5d300;
   border-radius: 4px;
 }
 
-.trending-item {
-  flex: 0 0 auto;
-  width: 140px;
-  text-align: center;
-}
-
-.trending-item img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.trending-item p {
-  font-size: 0.85em;
-  margin-top: 5px;
-}
-
-/* COLUMNS */
+/* FOUR COLUMNS */
 .columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
   margin: 25px;
 }
 
-.columns section {
+.columns .column {
   background: #1e1e1e;
   border-radius: 10px;
   padding: 15px;
 }
 
-.columns h2 {
+.columns h3 {
   color: #f5d300;
   margin-bottom: 10px;
 }
 
-.anime-list {
+.columns ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
-.anime-list li {
+.columns li {
   font-size: 0.9em;
   margin: 5px 0;
+  color: #bbb;
+}
+
+/* GRID COLLECTION */
+.section {
+  margin: 25px;
+}
+
+.section h2 {
+  color: #f5d300;
+  margin-bottom: 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
 }
 
 /* SCHEDULE */
@@ -231,32 +243,39 @@ button:hover {
 }
 
 .schedule h2 {
-  margin-bottom: 15px;
   color: #f5d300;
+  margin-bottom: 15px;
 }
 
-.schedule-day {
-  margin-bottom: 18px;
-  padding: 12px;
-  border: 1px solid #333;
-  border-radius: 8px;
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid #444;
+  color: #bbb;
   background: #1e1e1e;
 }
 
-.schedule-day h3 {
-  margin-bottom: 8px;
-  font-size: 1.05em;
-  color: #ddd;
-}
+/* RESPONSIVE FIXES */
+@media (max-width: 768px) {
+  .main-header, .search-bar, .top-options, .auth-social {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 
-.schedule-day ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+  .secondary-header .nav-links {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 
-.schedule-day li {
-  font-size: 0.85em;
-  margin: 4px 0;
-  color: #bbb;
+  .scroll-row {
+    gap: 8px;
+  }
 }
