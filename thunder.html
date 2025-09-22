@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AniWatt | Recharged</title>
-<link rel="stylesheet" href="thunder.css">
-<script src="lightning.js" defer></script>
-<link rel="icon" href="Images/Icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AniWatt | Recharged</title>
+  <link rel="stylesheet" href="thunder.css">
+  <script src="lightning.js" defer></script>
+  <link rel="icon" href="Images/Icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- MAIN HEADER -->
 <header class="main-header">
   <a href="plug.html" class="logo">
-    <img src="Images/Logo.png" alt="AniWatt Logo" id="logo">
+    <img src="Images/Logo.png" alt="AniWatt Logo">
   </a>
 
   <div class="search-bar">
@@ -38,6 +38,7 @@
     <div class="social-icons">
       <a href="#"><img src="Images/Discord.png" alt="Discord"></a>
       <a href="#"><img src="Images/Reddit.png" alt="Reddit"></a>
+      <a href="#"><img src="Images/Twitter.png" alt="Twitter"></a>
     </div>
   </div>
 </header>
@@ -58,21 +59,20 @@
 
 <!-- SPOTLIGHT -->
 <section id="spotlight" class="spotlight-container">
-  <!-- JS will inject spotlight cards here -->
+  <div class="spotlight-nav">
+    <button id="prev-spotlight">&#10094;</button>
+    <button id="next-spotlight">&#10095;</button>
+  </div>
 </section>
 
 <!-- TRENDING -->
 <section class="trending">
   <h2>Trending Now</h2>
-  <div id="trending-scroll" class="trending-scroll">
-    <!-- JS injects trending items -->
-  </div>
+  <div id="trending-scroll" class="trending-scroll"></div>
 </section>
 
 <!-- COLUMNS -->
-<section id="columns" class="columns">
-  <!-- JS injects Top Airing, Most Popular, Most Favorite, Latest Completed -->
-</section>
+<section id="columns" class="columns"></section>
 
 <!-- SCHEDULE -->
 <section class="schedule">
