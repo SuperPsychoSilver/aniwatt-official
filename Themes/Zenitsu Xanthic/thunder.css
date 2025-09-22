@@ -11,7 +11,7 @@ body {
   line-height: 1.5;
 }
 
-/* MAIN HEADER */
+/* HEADER */
 .main-header {
   display: flex;
   align-items: center;
@@ -22,15 +22,14 @@ body {
   flex-wrap: wrap;
 }
 
-.main-header .logo img {
-  height: 50px;
+.logo img {
+  height: 45px;
   cursor: pointer;
 }
 
-/* SEARCH BAR */
 .search-bar {
   flex: 1;
-  max-width: 400px;
+  max-width: 420px;
   display: flex;
   align-items: center;
   margin: 0 20px;
@@ -59,40 +58,46 @@ body {
   background: #e0c000;
 }
 
-/* TOP-RIGHT OPTIONS */
 .top-options ul {
   display: flex;
-  gap: 12px;
+  gap: 15px;
   list-style: none;
   align-items: center;
-  margin: 0;
-  padding: 0;
-}
-
-.top-options ul li {
-  display: flex;
 }
 
 .top-options ul li a {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 5px; /* space between icon & text */
-  text-decoration: none;
+  gap: 6px;
   color: #fff;
-  font-size: 0.9em; /* text size */
-  padding: 4px; /* reduces extra space */
-  transition: color 0.2s;
-}
-
-.top-options ul li a i {
-  font-size: 0.9em; /* makes icon same size as text */
-  line-height: 1;
-  vertical-align: middle;
+  text-decoration: none;
+  font-size: 0.9em;
 }
 
 .top-options ul li a:hover {
   color: #f5d300;
+}
+
+.auth-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth a {
+  color: #f5d300;
+  font-weight: 600;
+  margin: 0 4px;
+  text-decoration: none;
+}
+
+.auth a:hover {
+  text-decoration: underline;
+}
+
+.social-icons a img {
+  width: 22px;
+  height: 22px;
 }
 
 /* SECONDARY NAV */
@@ -113,57 +118,58 @@ body {
   color: #fff;
   font-weight: 600;
   text-decoration: none;
-  font-size: 0.95em;
 }
 
 .secondary-header ul li a:hover {
   color: #f5d300;
 }
 
-/* SPOTLIGHT CAROUSEL */
+/* SPOTLIGHT */
 .spotlight-container {
   width: 100%;
+  height: 420px;
+  position: relative;
   margin: 25px 0;
-  position: relative;
+  border-radius: 12px;
   overflow: hidden;
-  border-radius: 15px;
 }
 
-.spotlight-slide {
+.spotlight {
   width: 100%;
-  height: 400px;
-  position: relative;
-  transition: transform 0.5s ease-in-out;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
 }
 
-.spotlight-slide img {
+.spotlight img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.spotlight-slide .overlay {
+.spotlight .overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 25px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%);
 }
 
-.spotlight-slide h2 {
+.spotlight h2 {
   font-size: 2rem;
   color: #f5d300;
   margin-bottom: 10px;
 }
 
-.spotlight-slide p {
+.spotlight p {
   font-size: 1rem;
   color: #ddd;
 }
 
-/* SPOTLIGHT NAV BUTTONS */
+/* SPOTLIGHT NAV */
 .spotlight-nav {
   position: absolute;
   top: 50%;
@@ -171,17 +177,18 @@ body {
   display: flex;
   justify-content: space-between;
   transform: translateY(-50%);
-  padding: 0 20px;
+  padding: 0 15px;
+  z-index: 2;
 }
 
 .spotlight-nav button {
   background: rgba(0,0,0,0.5);
   border: none;
   padding: 10px 15px;
-  color: #f5d300;
-  font-size: 1.2rem;
-  cursor: pointer;
   border-radius: 50%;
+  color: #f5d300;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
 
 .spotlight-nav button:hover {
@@ -194,7 +201,7 @@ body {
 }
 
 .trending h2 {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   color: #f5d300;
 }
 
@@ -202,7 +209,6 @@ body {
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  padding-bottom: 10px;
   scrollbar-width: thin;
   scrollbar-color: #f5d300 #222;
 }
@@ -210,7 +216,6 @@ body {
 .trending-scroll::-webkit-scrollbar {
   height: 8px;
 }
-
 .trending-scroll::-webkit-scrollbar-thumb {
   background: #f5d300;
   border-radius: 4px;
@@ -218,16 +223,15 @@ body {
 
 .trending-item {
   flex: 0 0 auto;
-  width: 140px;
+  width: 150px;
   text-align: center;
 }
 
 .trending-item img {
   width: 100%;
-  height: auto;
+  border-radius: 8px;
   max-height: 200px;
   object-fit: cover;
-  border-radius: 8px;
 }
 
 .trending-item p {
@@ -308,5 +312,3 @@ footer {
   border-top: 2px solid #f5d300;
   color: #f5d300;
 }
-
-
