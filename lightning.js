@@ -2,13 +2,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_BASE = "https://consumet-api-xmdg.onrender.com/meta/anilist";
   const ANILIST_GRAPHQL = "https://graphql.anilist.co";
   let showEnglish = true;
+  let spotlightIndex = 0;
 
-  // ===== HELPER =====
   function getTitle(anime) {
-    return showEnglish ? (anime?.title?.english || anime?.title?.romaji || "Unknown") : (anime?.title?.romaji || "Unknown");
+    return showEnglish
+      ? (anime?.title?.english || anime?.title?.romaji || "Unknown")
+      : (anime?.title?.romaji || "Unknown");
   }
 
-  // ===== SPOTLIGHT =====
+  // SPOTLIGHT
   async function fetchSpotlight() {
     try {
       const query = `
@@ -34,9 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const container = document.getElementById("spotlight");
       if (!container) return;
-      container.innerHTML = "";
+      container.querySelectorAll(".spotlight").forEach(el => el.remove());
 
-      spotlights.forEach(anime => {
+      spotlights.forEach((anime, idx) => {
         const title = getTitle(anime);
         const imageUrl = anime?.bannerImage || anime?.coverImage?.extraLarge || "Images/placeholder.png";
         const div = document.createElement("div");
@@ -45,17 +47,38 @@ document.addEventListener("DOMContentLoaded", () => {
           <img src="${imageUrl}" alt="${title}">
           <div class="overlay">
             <h2>${title}</h2>
-            <p>${anime?.description ? anime.description.substring(0, 120) + "..." : ""}</p>
+            <p>${anime?.description ? anime.description.substring(0, 140) + "..." : ""}</p>
           </div>
         `;
-        container.appendChild(div);
+        container.insertBefore(div, container.querySelector(".spotlight-nav"));
       });
+
+      spotlightIndex = 0;
+      showSpotlight(spotlightIndex);
     } catch (err) {
       console.error("Spotlight fetch failed:", err);
     }
   }
 
-  // ===== TRENDING =====
+  function showSpotlight(index) {
+    const slides = document.querySelectorAll("#spotlight .spotlight");
+    if (!slides.length) return;
+    slides.forEach((s, i) => s.style.display = i === index ? "block" : "none");
+  }
+
+  document.getElementById("prev-spotlight").addEventListener("click", () => {
+    const slides = document.querySelectorAll("#spotlight .spotlight");
+    spotlightIndex = (spotlightIndex - 1 + slides.length) % slides.length;
+    showSpotlight(spotlightIndex);
+  });
+
+  document.getElementById("next-spotlight").addEventListener("click", () => {
+    const slides = document.querySelectorAll("#spotlight .spotlight");
+    spotlightIndex = (spotlightIndex + 1) % slides.length;
+    showSpotlight(spotlightIndex);
+  });
+
+  // TRENDING
   async function fetchTrending() {
     try {
       const res = await fetch(`${API_BASE}/trending`);
@@ -80,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===== COLUMNS =====
+  // COLUMNS
   async function fetchColumns() {
     const endpoints = {
       airing: "airing-schedule",
@@ -123,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===== SCHEDULE =====
+  // SCHEDULE
   async function fetchWeeklySchedule() {
     try {
       const res = await fetch(`${API_BASE}/airing-schedule`);
@@ -163,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===== INIT =====
   function loadAll() {
     fetchSpotlight();
     fetchTrending();
@@ -172,14 +194,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   loadAll();
-
-  // ===== LANG TOGGLE =====
-  const toggleBtn = document.getElementById("toggle-lang");
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", () => {
-      showEnglish = !showEnglish;
-      toggleBtn.textContent = showEnglish ? "ENG" : "JAP";
-      loadAll();
-    });
-  }
 });
