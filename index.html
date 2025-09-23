@@ -22,27 +22,17 @@
       border-top: 4px solid #00ffff;
       border-radius: 50%;
       animation: spin 1s linear infinite, pulseColor 6s linear infinite;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       font-size: 30px;
       color: #00ffff;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 0%{transform:rotate(0);}100%{transform:rotate(360deg);} }
     @keyframes pulseColor {
-      0%   { border-top-color: #00ffff; color: #00ffff; }
-      20%  { border-top-color: #ff00ff; color: #ff00ff; }
-      40%  { border-top-color: #ffff00; color: #ffff00; }
-      60%  { border-top-color: #00ff00; color: #00ff00; }
-      80%  { border-top-color: #ff4500; color: #ff4500; }
-      100% { border-top-color: #1e90ff; color: #1e90ff; }
-    }
-    #recaptcha-container {
-      margin-top: 20px;
-      display: none; /* hidden initially */
+      0%{border-top-color:#00ffff;color:#00ffff;}
+      20%{border-top-color:#ff00ff;color:#ff00ff;}
+      40%{border-top-color:#ffff00;color:#ffff00;}
+      60%{border-top-color:#00ff00;color:#00ff00;}
+      80%{border-top-color:#ff4500;color:#ff4500;}
+      100%{border-top-color:#1e90ff;color:#1e90ff;}
     }
     .denied {
       font-size: 80px;
@@ -56,33 +46,34 @@
 <body>
   <h2>Verifying you’re not a bot...</h2>
   <div class="loader" id="spinner"></div>
-  <div id="recaptcha-container"></div>
   <div id="error-x" class="denied" style="display:none;">×</div>
 
-  <script>
-    // After 7 seconds, hide loader, show checkbox
-    setTimeout(() => {
-      document.getElementById('spinner').style.display = 'none';
-      document.getElementById('recaptcha-container').style.display = 'block';
+  <!-- Hidden button that will trigger invisible captcha -->
+  <button id="hiddenBtn"
+    class="g-recaptcha"
+    data-sitekey="6LdPC04rAAAAAKcc5kj9wPMvWwbHPGkRoxkX00wz"
+    data-callback="onHumanVerified"
+    data-error-callback="onError"
+    data-expired-callback="onError"
+    data-size="invisible"
+    style="display:none;">
+  </button>
 
-      // Render the checkbox inside the container, with callbacks
-      grecaptcha.render('recaptcha-container', {
-        sitekey: '6LdPC04rAAAAAKcc5kj9wPMvWwbHPGkRoxkX00wz',
-        callback: onHumanVerified,
-        'error-callback': onError,
-        'expired-callback': onError
-      });
-    }, 7000);
+  <script>
+    // Trigger invisible captcha after 3s
+    setTimeout(() => {
+      grecaptcha.execute(document.getElementById('hiddenBtn'));
+    }, 3000);
 
     function onHumanVerified(token) {
-      // Success: redirect after 1 second
+      // Success
+      document.getElementById('spinner').style.display = 'none';
       setTimeout(() => {
         window.location.href = "plug.html";
       }, 1000);
     }
 
     function onError() {
-      document.getElementById('recaptcha-container').style.display = 'none';
       document.getElementById('spinner').style.display = 'none';
       document.getElementById('error-x').style.display = 'block';
       document.querySelector('h2').textContent = 'Access Denied';
