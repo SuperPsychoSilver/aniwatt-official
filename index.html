@@ -45,13 +45,14 @@
   <div class="loader" id="spinner"></div>
   <div id="error-x" class="denied" style="display:none;">×</div>
 
-  <!-- Container where captcha will render -->
+  <!-- Captcha container -->
   <div id="captcha" style="display:none;"></div>
 
   <script>
     let widgetId;
 
     function onHumanVerified(token) {
+      // Since GitHub Pages has no backend, we trust Google’s JS callback here
       document.getElementById('spinner').style.display = 'none';
       setTimeout(() => {
         window.location.href = "plug.html";
@@ -65,16 +66,14 @@
     }
 
     function onLoad() {
-      // render invisible captcha
       widgetId = grecaptcha.render('captcha', {
-        sitekey: '6LeiAk4rAAAAAJxwmA8Lz8VqeXLxsYDIqCp29Oa7',
+        sitekey: '6LdPC04rAAAAAKcc5kj9wPMvWwbHPGkRoxkX00wz', // replace with your site key
         size: 'invisible',
         callback: onHumanVerified,
         'error-callback': onError,
         'expired-callback': onError
       });
 
-      // auto-trigger after 3s
       setTimeout(() => {
         grecaptcha.execute(widgetId);
       }, 3000);
@@ -84,4 +83,3 @@
   <script src="https://www.google.com/recaptcha/api.js?onload=onLoad&render=explicit" async defer></script>
 </body>
 </html>
-
