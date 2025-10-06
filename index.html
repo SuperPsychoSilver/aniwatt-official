@@ -38,6 +38,11 @@
       font-weight: bold;
       margin-top: 20px;
     }
+    /* keep captcha offscreen but still renderable */
+    #captcha {
+      position: absolute;
+      left: -9999px;
+    }
   </style>
 </head>
 <body>
@@ -45,14 +50,13 @@
   <div class="loader" id="spinner"></div>
   <div id="error-x" class="denied" style="display:none;">×</div>
 
-  <!-- Captcha container -->
-  <div id="captcha" style="display:none;"></div>
+  <!-- Captcha container (hidden offscreen but renderable) -->
+  <div id="captcha"></div>
 
   <script>
     let widgetId;
 
     function onHumanVerified(token) {
-      // Since GitHub Pages has no backend, we trust Google’s JS callback here
       document.getElementById('spinner').style.display = 'none';
       setTimeout(() => {
         window.location.href = "plug.html";
@@ -67,16 +71,17 @@
 
     function onLoad() {
       widgetId = grecaptcha.render('captcha', {
-        sitekey: '6LdPC04rAAAAAKcc5kj9wPMvWwbHPGkRoxkX00wz', // replace with your site key
+        sitekey: 'YOUR_SITE_KEY', // replace with your site key
         size: 'invisible',
         callback: onHumanVerified,
         'error-callback': onError,
         'expired-callback': onError
       });
 
+      // run it
       setTimeout(() => {
         grecaptcha.execute(widgetId);
-      }, 3000);
+      }, 1000);
     }
   </script>
 
