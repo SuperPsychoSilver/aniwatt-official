@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const query = `
         query {
-          Page(perPage: 3) {
+          Page(perPage: 5) {
             media(sort: TRENDING_DESC, type: ANIME) {
               id
               title { romaji english }
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!container) return;
       container.querySelectorAll(".spotlight").forEach(el => el.remove());
 
-      spotlights.forEach((anime, idx) => {
+      spotlights.forEach((anime) => {
         const title = getTitle(anime);
         const imageUrl = anime?.bannerImage || anime?.coverImage?.extraLarge || "Images/placeholder.png";
         const div = document.createElement("div");
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showSpotlight(spotlightIndex);
   });
 
-  // TRENDING
+  // TRENDING (auto scroll)
   async function fetchTrending() {
     try {
       const res = await fetch(`${API_BASE}/trending`);
@@ -98,12 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         container.appendChild(div);
       });
+
+      // Auto-scroll
+      setInterval(() => {
+        container.scrollBy({ left: 2, behavior: "smooth" });
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth)
+          container.scrollTo({ left: 0, behavior: "smooth" });
+      }, 50);
     } catch (err) {
       console.error("Trending fetch failed:", err);
     }
   }
 
-  // COLUMNS
+  // COLUMNS (cards)
   async function fetchColumns() {
     const endpoints = {
       airing: "airing-schedule",
@@ -130,15 +137,21 @@ document.addEventListener("DOMContentLoaded", () => {
           "Latest Completed"
         }</h2>`;
 
-        const ul = document.createElement("ul");
-        ul.className = "anime-list";
-        results.slice(0, 6).forEach(anime => {
-          const li = document.createElement("li");
-          li.textContent = getTitle(anime);
-          ul.appendChild(li);
+        const div = document.createElement("div");
+        div.className = "trending-scroll";
+
+        results.slice(0, 10).forEach(anime => {
+          const title = getTitle(anime);
+          const card = document.createElement("div");
+          card.className = "trending-item";
+          card.innerHTML = `
+            <img src="${anime?.image || 'Images/placeholder.png'}" alt="${title}">
+            <p>${title}</p>
+          `;
+          div.appendChild(card);
         });
 
-        section.appendChild(ul);
+        section.appendChild(div);
         container.appendChild(section);
       } catch (err) {
         console.error(`Failed to fetch ${name}:`, err);
@@ -146,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // SCHEDULE
+  // SCHEDULE (mini cards)
   async function fetchWeeklySchedule() {
     try {
       const res = await fetch(`${API_BASE}/airing-schedule`);
@@ -157,6 +170,12 @@ document.addEventListener("DOMContentLoaded", () => {
       container.innerHTML = "";
 
       const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const grouped = Object.fromEntries(days.map(d => [d, []]));
+
+      results.forEach(item => {
+        const airDate = new Date(item?.airingAt * 1000);
+        grouped[days[airDate.getDay()]].push(item);
+      });
 
       days.forEach(day => {
         const section = document.createElement("div");
@@ -165,26 +184,44 @@ document.addEventListener("DOMContentLoaded", () => {
         header.textContent = day;
         section.appendChild(header);
 
-        const list = document.createElement("ul");
-        results
-          .filter(item => {
-            const airDate = new Date(item?.airingAt * 1000);
-            return days[airDate.getDay()] === day;
-          })
-          .slice(0, 6)
-          .forEach(item => {
-            const li = document.createElement("li");
-            li.innerHTML = `<strong>${getTitle(item)}</strong> — Ep ${item?.episode || '?'}`;
-            list.appendChild(li);
-          });
+        const scroll = document.createElement("div");
+        scroll.className = "trending-scroll";
 
-        section.appendChild(list);
+        grouped[day].slice(0, 10).forEach(item => {
+          const title = getTitle(item);
+          const card = document.createElement("div");
+          card.className = "trending-item";
+          card.style.width = "120px";
+          card.innerHTML = `
+            <img src="${item?.image || 'Images/placeholder.png'}" alt="${title}">
+            <p>${title} <small>Ep ${item?.episode || "?"}</small></p>
+          `;
+          scroll.appendChild(card);
+        });
+
+        section.appendChild(scroll);
         container.appendChild(section);
       });
     } catch (err) {
       console.error("Weekly schedule fetch failed:", err);
     }
   }
+
+  // SEARCH REDIRECT
+  const searchInput = document.querySelector(".search-bar input");
+  const searchButton = document.querySelector(".search-bar button");
+
+  function handleSearch() {
+    const query = searchInput.value.trim();
+    if (query.length > 0) {
+      window.location.href = `socket.html?query=${encodeURIComponent(query)}`;
+    }
+  }
+
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") handleSearch();
+  });
+  searchButton.addEventListener("click", handleSearch);
 
   function loadAll() {
     fetchSpotlight();
