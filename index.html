@@ -38,7 +38,6 @@
       font-weight: bold;
       margin-top: 20px;
     }
-    /* keep captcha offscreen but still renderable */
     #captcha {
       position: absolute;
       left: -9999px;
@@ -50,17 +49,12 @@
   <div class="loader" id="spinner"></div>
   <div id="error-x" class="denied" style="display:none;">×</div>
 
-  <!-- Captcha container (hidden offscreen but renderable) -->
   <div id="captcha"></div>
 
   <script>
-    let widgetId;
-
     function onHumanVerified(token) {
       document.getElementById('spinner').style.display = 'none';
-      setTimeout(() => {
-        window.location.href = "plug.html";
-      }, 1000);
+      setTimeout(() => window.location.href = "plug.html", 1000);
     }
 
     function onError() {
@@ -69,22 +63,40 @@
       document.querySelector('h2').textContent = 'Access Denied';
     }
 
-    function onLoad() {
-      widgetId = grecaptcha.render('captcha', {
-        sitekey: 'YOUR_SITE_KEY', // replace with your site key
+    function initCaptcha() {
+      const widgetId = grecaptcha.render('captcha', {
+        sitekey: 'YOUR_SITE_KEY', // your actual site key
         size: 'invisible',
         callback: onHumanVerified,
         'error-callback': onError,
         'expired-callback': onError
       });
 
-      // run it
+      // Wait a sec before executing
       setTimeout(() => {
-        grecaptcha.execute(widgetId);
-      }, 1000);
+        try {
+          grecaptcha.execute(widgetId);
+        } catch (e) {
+          onError();
+        }
+      }, 2000);
     }
+
+    // Wait until the API is ready before initializing
+    window.onload = function () {
+      if (window.grecaptcha) {
+        initCaptcha();
+      } else {
+        const check = setInterval(() => {
+          if (window.grecaptcha) {
+            clearInterval(check);
+            initCaptcha();
+          }
+        }, 500);
+      }
+    };
   </script>
 
-  <script src="https://www.google.com/recaptcha/api.js?onload=onLoad&render=explicit" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
 </body>
 </html>
