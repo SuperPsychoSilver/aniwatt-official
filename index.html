@@ -1,102 +1,107 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Verifying you’re not a bot...</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: #111;
-      color: #fff;
-      flex-direction: column;
-      margin: 0;
-    }
-    .loader {
-      margin-top: 20px;
-      width: 40px;
-      height: 40px;
-      border: 4px solid transparent;
-      border-top: 4px solid #00ffff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite, pulseColor 6s linear infinite;
-    }
-    @keyframes spin { 0%{transform:rotate(0);}100%{transform:rotate(360deg);} }
-    @keyframes pulseColor {
-      0%{border-top-color:#00ffff;}
-      20%{border-top-color:#ff00ff;}
-      40%{border-top-color:#ffff00;}
-      60%{border-top-color:#00ff00;}
-      80%{border-top-color:#ff4500;}
-      100%{border-top-color:#1e90ff;}
-    }
-    .denied {
-      font-size: 80px;
-      color: red;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-    #captcha {
-      position: absolute;
-      left: -9999px;
-    }
-  </style>
-</head>
-<body>
-  <h2>Verifying you’re not a bot...</h2>
-  <div class="loader" id="spinner"></div>
-  <div id="error-x" class="denied" style="display:none;">×</div>
-
-  <div id="captcha"></div>
-
-  <script>
-    function onHumanVerified(token) {
-      document.getElementById('spinner').style.display = 'none';
-      setTimeout(() => window.location.href = "plug.html", 1000);
-    }
-
-    function onError() {
-      document.getElementById('spinner').style.display = 'none';
-      document.getElementById('error-x').style.display = 'block';
-      document.querySelector('h2').textContent = 'Access Denied';
-    }
-
-    function initCaptcha() {
-      const widgetId = grecaptcha.render('captcha', {
-        sitekey: 'YOUR_SITE_KEY', // your actual site key
-        size: 'invisible',
-        callback: onHumanVerified,
-        'error-callback': onError,
-        'expired-callback': onError
-      });
-
-      // Wait a sec before executing
-      setTimeout(() => {
-        try {
-          grecaptcha.execute(widgetId);
-        } catch (e) {
-          onError();
-        }
-      }, 2000);
-    }
-
-    // Wait until the API is ready before initializing
-    window.onload = function () {
-      if (window.grecaptcha) {
-        initCaptcha();
-      } else {
-        const check = setInterval(() => {
-          if (window.grecaptcha) {
-            clearInterval(check);
-            initCaptcha();
-          }
-        }, 500);
+  <head>
+    <title>Verifying you’re not a bot...</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: #111;
+        color: #fff;
+        flex-direction: column;
+        margin: 0;
       }
-    };
-  </script>
 
-  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-</body>
+      .loader {
+        margin-top: 20px;
+        width: 40px;
+        height: 40px;
+        border: 4px solid transparent;
+        border-top: 4px solid #00ffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite, pulseColor 6s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0); }
+        100% { transform: rotate(360deg); }
+      }
+
+      @keyframes pulseColor {
+        0% { border-top-color: #00ffff; }
+        20% { border-top-color: #ff00ff; }
+        40% { border-top-color: #ffff00; }
+        60% { border-top-color: #00ff00; }
+        80% { border-top-color: #ff4500; }
+        100% { border-top-color: #1e90ff; }
+      }
+
+      .denied {
+        font-size: 80px;
+        color: red;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      /* keep badge visible but styled */
+      .grecaptcha-badge {
+        bottom: 16px !important;
+        right: 16px !important;
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Verifying you’re not a bot...</h2>
+    <div class="loader" id="spinner"></div>
+    <div id="error-x" class="denied" style="display:none;">×</div>
+
+    <!-- Invisible reCAPTCHA button -->
+    <button
+      class="g-recaptcha"
+      data-sitekey="YOUR_SITE_KEY"  <!-- 👈 replace with your real site key -->
+      data-callback="onHumanVerified"
+      data-error-callback="onError"
+      data-size="invisible"
+      id="recaptchaBtn"
+      style="display:none;">
+    </button>
+
+    <script>
+      function onHumanVerified(token) {
+        // success
+        document.getElementById('spinner').style.display = 'none';
+        setTimeout(() => {
+          window.location.href = "plug.html";
+        }, 1000);
+      }
+
+      function onError() {
+        // fail
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('error-x').style.display = 'block';
+        document.querySelector('h2').textContent = 'Access Denied';
+      }
+
+      window.onload = function () {
+        // wait until the reCAPTCHA script is ready
+        const btn = document.getElementById('recaptchaBtn');
+        const interval = setInterval(() => {
+          if (window.grecaptcha) {
+            clearInterval(interval);
+            grecaptcha.ready(() => {
+              grecaptcha.execute(btn);
+            });
+          }
+        }, 300);
+      };
+    </script>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </body>
 </html>
