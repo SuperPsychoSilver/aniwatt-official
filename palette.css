@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
+/* ===== Body ===== */
 body {
     font-family: 'Oswald', sans-serif;
     text-align: center;
@@ -13,8 +14,9 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     min-height: 100vh;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    padding-bottom: 50px; /* Ensure space at the bottom for the footer */}
+    overflow-x: hidden;
+    padding-bottom: 50px;
+}
 
 /* Fade-out effect when switching themes */
 body.fade-out {
@@ -22,7 +24,7 @@ body.fade-out {
     transition: opacity 0.3s ease;
 }
 
-/* Header */
+/* ===== Header ===== */
 header {
     position: relative;
     display: flex;
@@ -33,12 +35,10 @@ header {
     box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
 }
 
-/* Logo stays on the left */
 #logo {
     height: 50px;
 }
 
-/* Centering the header text */
 header h1 {
     position: absolute;
     left: 50%;
@@ -47,58 +47,83 @@ header h1 {
     letter-spacing: 1px;
     font-family: 'Oswald', sans-serif;
     color: #E35555;
-    margin: 0; /* Remove default margin */
-    white-space: nowrap; /* Prevents text wrapping */
+    margin: 0;
+    white-space: nowrap;
 }
 
-/* Theme Image */
-#theme-image {
-    width: 100%;
-    height: auto;
-    max-width: 300px;
-    margin-top: 20px;
+/* ===== Secondary Header ===== */
+.secondary-header {
+    background-color: #3d0000;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
 }
 
-/* Theme Container */
+.secondary-header .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.secondary-header .nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.secondary-header .nav-links li a:hover {
+    background-color: #B80000;
+}
+
+/* ===== Page Titles ===== */
+h1 {
+    font-size: 32px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    color: #ffb7b7;
+}
+
+/* ===== Theme Container ===== */
 .theme-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
     padding: 20px;
-    margin-top: 50px;
-    width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
+    max-width: 1200px;
 }
 
-/* Headings for Light and Dark Themes */
-.theme-heading {
-    font-size: 24px;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-/* Theme Options */
+/* ===== Theme Options ===== */
 .theme-option {
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
     width: 120px;
     padding: 10px;
     background: #610000;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .theme-option:hover {
     transform: scale(1.05);
-    background-color: #B80000;  /* Slight background change on hover */
+    background-color: #B80000;
 }
 
 .theme-option:active {
@@ -106,16 +131,16 @@ header h1 {
 }
 
 .theme-clicked {
-  animation: clickFlash 0.5s ease;
+    animation: clickFlash 0.5s ease;
 }
 
 @keyframes clickFlash {
-  0% { box-shadow: 0 0 0 transparent; }
-  50% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); }
-  100% { box-shadow: 0 0 0 transparent; }
+    0% { box-shadow: 0 0 0 transparent; }
+    50% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); }
+    100% { box-shadow: 0 0 0 transparent; }
 }
 
-/* Theme Circles */
+/* ===== Theme Circles ===== */
 .theme-circle {
     width: 80px;
     height: 80px;
@@ -126,14 +151,18 @@ header h1 {
     background-position: center;
 }
 
-/* Theme Text */
+/* ===== Theme Text ===== */
 .theme-option p {
     font-weight: 600;
     font-size: 14px;
     color: white;
 }
 
-/* Light & Dark Theme Containers */
+.theme-option:hover p {
+    color: white;
+}
+
+/* ===== Light & Dark Theme Containers ===== */
 .light-themes, .dark-themes {
     width: 100%;
     display: flex;
@@ -151,21 +180,16 @@ header h1 {
     margin-bottom: 100px;
 }
 
-/* Change Text Color on Hover */
-.theme-option:hover p {
-    color: white;
-}
-
-/* Dark Theme Text Fix */
+/* Dark theme text fix */
 .dark-themes .theme-option p {
-    color: white; /* Lighter text color for dark themes */
+    color: white;
 }
 
 .dark-themes .theme-option:hover p {
     color: white;
 }
 
-/* Footer */
+/* ===== Footer ===== */
 footer {
     background-color: #550000;
     text-align: center;
@@ -176,6 +200,7 @@ footer {
     color: white;
 }
 
+/* ===== HTML/Body Height ===== */
 html, body {
     height: 100%;
     margin: 0;
