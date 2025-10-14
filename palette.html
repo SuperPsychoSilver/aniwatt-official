@@ -4,38 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AniWatt | Select Theme</title>
-
-<meta name="color-scheme" content="dark">
+    <meta name="color-scheme" content="dark">
 
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-
     <link rel="icon" href="Images/Icon.png">
     <link id="themePaletteStylesheet" rel="stylesheet" href="palette.css">
-
 </head>
 <body>
+    <!-- MAIN HEADER -->
     <header>
         <a href="plug.html">
             <img src="Images/Logo.png" alt="AniWatt Logo" id="logo">
         </a>
     </header>
-    
-    <main>
 
+    <!-- SECONDARY HEADER -->
+    <nav class="secondary-header">
+        <ul class="nav-links">
+            <li><a href="plug.html">Home</a></li>
+            <li><a href="thunder.html">Anime</a></li>
+            <li><a href="generator.html">Comics</a></li>
+            <li><a href="wire.html">Manga</a></li>
+            <li><a href="battery.html">Movies</a></li>
+            <li><a href="fuse.html">TV Shows</a></li>
+            <li><a href="palette.html">Themes</a></li>
+            <li><a href="diode.html">About</a></li>
+        </ul>
+    </nav>
+
+    <main>
         <h1>Select Your Theme</h1>
+        <h2 class="subtitle">Set your style.</h2>
 
         <div class="theme-category">
-            <h2><br>Light Themes</h2>
+            <h2>Light Themes</h2>
             <div class="theme-container light-themes">
-                  <div class="theme-option" data-theme="Sakura Blossom">
+                <div class="theme-option" data-theme="Sakura Blossom">
                     <div class="theme-circle" style="background-color: #FFB7C5;"></div>
                     <p>Sakura Salmon</p>
                 </div>
-                  <div class="theme-option" data-theme="Naruto Orange">
+                <div class="theme-option" data-theme="Naruto Orange">
                     <div class="theme-circle" style="background-color: #FF9933;"></div>
                     <p>Naruto Nectarine</p>
                 </div>
-                 <div class="theme-option" data-theme="Angel Azure">
+                <div class="theme-option" data-theme="Angel Azure">
                     <div class="theme-circle" style="background-color: #87CEEB;"></div>
                     <p>Angel Azure</p>
                 </div>
@@ -45,15 +57,15 @@
         <div class="theme-category">
             <h2>Dark Themes</h2>
             <div class="theme-container dark-themes">
-             <div class="theme-option" data-theme="Gojo Grey">
+                <div class="theme-option" data-theme="Gojo Grey">
                     <div class="theme-circle" style="background-color: #8E8E8E;"></div>
                     <p>Gojo Grey</p>
                 </div>
-                  <div class="theme-option" data-theme="Zenitsu Xanthic">
+                <div class="theme-option" data-theme="Zenitsu Xanthic">
                     <div class="theme-circle" style="background-color: #FFD700;"></div>
                     <p>Zenitsu Xanthous</p>
                 </div>
-                  <div class="theme-option" data-theme="Kamado Carmine">
+                <div class="theme-option" data-theme="Kamado Carmine">
                     <div class="theme-circle" style="background-color: #960018;"></div>
                     <p>Kamado Carmine</p>
                 </div>
@@ -61,15 +73,11 @@
         </div>
     </main>
 
-
-
-    <script src="palette.js"></script>
-
-</body>
-
     <footer>
         <p>Copyright © aniwatt.se. All Rights Reserved</p>
         <p>This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
     </footer>
 
+    <script src="palette.js"></script>
+</body>
 </html>
