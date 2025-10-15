@@ -1,62 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-/* ---- Body ---- */
+/* ===== Body ===== */
 body {
     font-family: 'Oswald', sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
-    transition: background 0.3s ease, color 0.3s ease;
-    background: #290000;
-    color: white;
+    background: linear-gradient(135deg, #290000, #4d0000, #290000);
+    color: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     min-height: 100vh;
     overflow-x: hidden;
-    padding-bottom: 50px;
-}
-
-/* ---- Fade-out effect when switching themes ---- */
-body.fade-out {
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    padding-bottom: 60px;
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
 /* ===== Header ===== */
 header {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #550000;
+    background: rgba(85,0,0,0.9);
     padding: 15px 20px;
-    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 100;
 }
 
 #logo {
     height: 50px;
 }
 
-header h1 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
-    letter-spacing: 1px;
-    font-family: 'Oswald', sans-serif;
-    color: #E35555;
-    margin: 0;
-    white-space: nowrap;
-}
-
 /* ===== Secondary Header ===== */
 .secondary-header {
-    background-color: #3d0000;
+    background: rgba(60,0,0,0.8);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
-    padding: 10px 0;
+    padding: 12px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .secondary-header .nav-links {
@@ -64,29 +48,32 @@ header h1 {
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 20px;
+    gap: 25px;
     flex-wrap: wrap;
 }
 
 .secondary-header .nav-links li a {
     text-decoration: none;
-    color: white;
-    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    font-family: 'Oswald', sans-serif; /* <- Oswald for secondary header */
     font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .secondary-header .nav-links li a:hover {
-    background-color: #B80000;
+    background: linear-gradient(90deg,#ff5555,#ff9999);
+    color: #000;
+    transform: scale(1.05);
 }
 
 /* ===== Page Titles ===== */
 h1 {
-    font-size: 32px;
-    margin-top: 30px;
-    margin-bottom: 10px;
+    font-size: 36px;
+    margin-top: 40px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
 }
 
 .subtitle {
@@ -101,7 +88,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 25px;
     padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
@@ -113,53 +100,45 @@ h1 {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    width: 120px;
-    padding: 10px;
-    background: #610000;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 140px;
+    padding: 15px;
+    border-radius: 16px;
+    background: rgba(97,0,0,0.85);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .theme-option:hover {
-    transform: scale(1.05);
-    background-color: #B80000;
-}
-
-.theme-option:active {
-    box-shadow: 0 0 0 transparent;
-}
-
-.theme-clicked {
-    animation: clickFlash 0.5s ease;
-}
-
-@keyframes clickFlash {
-    0% { box-shadow: 0 0 0 transparent; }
-    50% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); }
-    100% { box-shadow: 0 0 0 transparent; }
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(255,100,100,0.6);
+    background: rgba(184,0,0,0.9);
 }
 
 /* ===== Theme Circles ===== */
 .theme-circle {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
-    border: 4px solid black;
-    margin-bottom: 10px;
+    border: 3px solid #fff;
+    margin-bottom: 12px;
     background-size: cover;
     background-position: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.theme-option:hover .theme-circle {
+    box-shadow: 0 0 20px rgba(255,200,200,0.8);
+    transform: scale(1.1);
 }
 
 /* ===== Theme Text ===== */
 .theme-option p {
     font-weight: 600;
-    font-size: 14px;
-    color: white;
-}
-
-.theme-option:hover p {
-    color: white;
+    font-size: 15px;
+    color: #fff;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
 }
 
 /* ===== Light & Dark Theme Containers ===== */
@@ -167,12 +146,12 @@ h1 {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
     flex-wrap: wrap;
 }
 
 .light-themes {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 }
 
 .dark-themes {
@@ -180,24 +159,16 @@ h1 {
     margin-bottom: 100px;
 }
 
-/* Dark theme text fix */
-.dark-themes .theme-option p {
-    color: white;
-}
-
-.dark-themes .theme-option:hover p {
-    color: white;
-}
-
 /* ===== Footer ===== */
 footer {
-    background-color: #550000;
+    background: rgba(85,0,0,0.9);
     text-align: center;
-    padding: 12px;
+    padding: 14px;
     margin-top: auto;
     font-size: 14px;    
     font-family: 'Montserrat', sans-serif !important;
     color: white;
+    box-shadow: 0 -4px 8px rgba(0,0,0,0.3);
 }
 
 /* ===== HTML/Body Height ===== */
@@ -207,4 +178,3 @@ html, body {
     display: flex;
     flex-direction: column;
 }
-
