@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Verifying you’re not a bot...</title>
+  <title>Verifying…</title>
   <style>
     body {
       font-family: sans-serif;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       background: #111;
       color: #fff;
-      flex-direction: column;
       margin: 0;
     }
     .loader {
@@ -23,7 +23,7 @@
       border-radius: 50%;
       animation: spin 1s linear infinite, pulseColor 6s linear infinite;
     }
-    @keyframes spin { 0%{transform:rotate(0);}100%{transform:rotate(360deg);} }
+    @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes pulseColor {
       0%{border-top-color:#00ffff;}
       20%{border-top-color:#ff00ff;}
@@ -33,6 +33,7 @@
       100%{border-top-color:#1e90ff;}
     }
     .denied {
+      display: none;
       font-size: 80px;
       color: red;
       font-weight: bold;
@@ -40,43 +41,39 @@
     }
   </style>
 </head>
-<body>
-  <h2>Verifying you’re not a bot...</h2>
-  <div class="loader" id="spinner"></div>
-  <div id="error-x" class="denied" style="display:none;">×</div>
 
-  <!-- reCAPTCHA container -->
-  <div id="captcha" style="display:none;"></div>
+<body>
+  <h2 id="msg">Verifying you’re not a bot…</h2>
+  <div class="loader" id="spinner"></div>
+  <div class="denied" id="error-x">×</div>
+
+  <!-- Required for invisible mode -->
+  <div id="captcha" class="g-recaptcha"
+       data-sitekey="6LdJpOorAAAAANX3_XYc-gE2hDNqSXLxpJ7dVNho"
+       data-callback="onHuman"
+       data-size="invisible"></div>
 
   <script>
-    function onHumanVerified(token) {
+    // success
+    function onHuman() {
       document.getElementById('spinner').style.display = 'none';
-      document.querySelector('h2').textContent = 'Access Granted!';
-      setTimeout(() => window.location.href = "plug.html", 1000);
+      document.getElementById('msg').textContent = 'Access Granted!';
+      setTimeout(() => window.location.href = "plug.html", 800);
     }
 
+    // fail
     function onError() {
       document.getElementById('spinner').style.display = 'none';
+      document.getElementById('msg').textContent = 'Access Denied';
       document.getElementById('error-x').style.display = 'block';
-      document.querySelector('h2').textContent = 'Access Denied';
     }
 
-    function onLoad() {
-      const captcha = document.getElementById('captcha');
-      const widgetId = grecaptcha.render(captcha, {
-        sitekey: '6LdJpOorAAAAANX3_XYc-gE2hDNqSXLxpJ7dVNho', // Replace with your actual site key.
-        size: 'invisible',
-        callback: onHumanVerified,
-        'error-callback': onError,
-        'expired-callback': onError
-      });
-
-      // Make sure we execute only after rendering is done
-      setTimeout(() => grecaptcha.execute(widgetId), 1500);
+    // auto run when loaded
+    function onload() {
+      grecaptcha.execute();
     }
   </script>
 
-  <script src="https://www.google.com/recaptcha/api.js?onload=onLoad&render=explicit" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js?onload=onload" async defer></script>
 </body>
 </html>
-
