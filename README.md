@@ -7,13 +7,13 @@
 
 ### 🔌 What is AniWatt?
 
-AniWatt is your **power-packed** hub for anime watching, book reading, and TV show tracking.  
+AniWatt is your hub for anime watching, book reading, TV show tracking, and more.  
 We keep your media charged and flowing, so you'll never experience a blackout in your entertainment life.
 
 ---
 
 ### ⚡ Features that keep the current flowing:
-- 📺 Track anime, books, and TV shows in one **high-voltage** place.
+- 📺 Track anime, books, and TV shows in one place.
 - 🔋 Clean, no-nonsense interface that's always **fully charged**.
 - 💡 Personalize your lists and **light up** your watchlist.
 
