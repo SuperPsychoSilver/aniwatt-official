@@ -1,4 +1,11 @@
 # AniWatt  
+Yeah, so, um... Aniwave is dead.
+
+So, here's yet another knockoff to add to the list:
+
+---
+
+
 **Amp up your entertainment!**
 
 ![AniWatt Logo](https://i.imgur.com/d39xP5N.png)
@@ -42,7 +49,7 @@ AniWatt is a **fan-made** project. It does not host or stream any copyrighted ma
 ---
 
 ### Other:
-Questions? Feedback? Buzz me at `nickolasknowles1920@gmail.com`.
+Questions? Feedback? Buzz me at `nickolasknowles1920@gmail.com`, but I never check my email, so try `pokekirby1920` on Discord, or `something` on something else idk.
 
 Discord: [The ONLY official one!](dsc.gg/aniwatt)
 
