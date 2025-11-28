@@ -1,0 +1,314 @@
+List of Themes
+______________
+
+Angel Azure
+____________
+
+Color: Azure / Sky Blue
+Focal Character(s): Angel Devil
+Series: Chainsaw Man
+Theme Type: Bright
+
+Asta Almond
+_____________
+
+Color: Almond
+Focal Character(s): Asta
+Series: Black Clover
+Theme Type: Bright
+
+Asuna Apricot
+_____________
+
+Color: Apricot / Bright Brown
+Focal Character(s): Asuna Yuuki
+Series: Sword Art Online
+Theme Type: Bright
+
+Cell Celadon
+_____________
+
+Color: Celadon / Bright Green
+Focal Character(s): Perfect Cell
+Series: Dragon Ball
+Theme Type: Bright
+
+Chainsaw Coral
+____________
+
+Color: Coral
+Focal Character(s): Chainsaw Man
+Series: Chainsaw Man
+Theme Type: Dim
+
+Crushing Creampuff
+____________
+
+Color: Cream
+Focal Character(s): Mash Burnedead
+Series: Mashle
+Theme Type: Bright
+
+Cursed Crimson
+____________
+
+Color: Crimson
+Focal Character(s): Ryoumen Sukuna & Yuji Itadori
+Series: Jujutsu Kaisen
+Theme Type: Bright
+
+Deku Dewgreen
+____________
+
+Color: Dark Green
+Focal Character(s): Izuku Midoriya
+Series: My Hero Academia
+Theme Type: Dim
+
+Gojo Grey
+____________
+
+Color: Grey
+Focal Character(s): Gojo Satoru
+Series: Jujutsu Kaisen
+Theme Type: Dim
+
+Hoshino Helios
+____________
+
+Color: Bright Grey / Ruby / Aqua
+Focal Character(s): Aqua & Ruby Hoshino
+Series: Oshi No Ko
+Theme Type: Dim
+
+Ichigo Inferno
+____________
+
+Color: Orange
+Focal Character(s): Ichigo Kurosaki
+Series: Bleach
+Theme Type: Bright
+
+Inosuke Indigo
+____________
+
+Color: Imperial Blue
+Focal Character(s): Inosuke Hashibira
+Series: Demon Slayer
+Theme Type: Bright
+
+Ippo Imperial
+____________
+
+Color: Imperial Red
+Focal Character(s): Ippo Makunouchi
+Series: Hajime no Ippo
+Theme Type: Bright
+
+Jinwoo Jacaranda
+____________
+
+Color: Dark Purple
+Focal Character(s): Sung Jinwoo
+Series: Solo Leveling
+Theme Type: Dim
+
+Joestar Joker
+____________
+
+Color: Joker
+Focal Character(s): Joseph Joestar
+Series: JoJo’s Bizarre Adventure
+Theme Type: Bright
+
+Kakashi Kevlar
+____________
+
+Color: Khaki
+Focal Character(s): Kakashi Hatake
+Series: Naruto
+Theme Type: Dim
+
+Kamado Carmine
+____________
+
+Color: Carmine
+Focal Character(s): Tanjiro & Nezuko Kamado
+Series: Demon Slayer
+Theme Type: Dim
+
+Kirito Kohl
+____________
+
+Color: Bright Black
+Focal Character(s): Kirito (Kazuto Kirigaya)
+Series: Sword Art Online
+Theme Type: Dim
+
+Koichi Kiwi
+____________
+
+Color: Yellow-Green
+Focal Character(s): Koichi Haimawari
+Series: My Hero Academia: Vigilantes
+Theme Type: Bright
+
+Legendary Lime
+____________
+
+Color: Lime Green
+Focal Character(s): Legendary Super Saiyan Broly
+Series: Dragon Ball
+Theme Type: Dim
+
+Luffy Licorice
+____________
+
+Color: Black / White / Dark Red
+Focal Character(s): Monkey D. Luffy (Gears)
+Series: One Piece
+Theme Type: Dim
+
+Mighty Mustard
+____________
+
+Color: Mustard
+Focal Character(s): Toshinori Yagi (All Might)
+Series: My Hero Academia
+Theme Type: Dim
+
+Nami Neon
+____________
+
+Color: Neon Orange
+Focal Character(s): Nami
+Series: One Piece
+Theme Type: Bright
+
+Naruto Nectarine
+____________
+
+Color: Bright Orange
+Focal Character(s): Nine-Tailed Naruto Uzumaki
+Series: Naruto
+Theme Type: Bright
+
+Natsu Nadeshiko
+____________
+
+Color: Bright Pink
+Focal Character(s): Natsu Dragneel
+Series: Fairy Tail
+Theme Type: Bright
+
+Okarun Oxblood
+____________
+
+Color: Dark Red
+Focal Character(s): Okarun (Ken Takakura)
+Series: Dandadan
+Theme Type: Dim
+
+Original Orchid
+____________
+
+Color: Black & Purple
+Focal Character(s): — (Aniwave.to Theme)
+Series: Aniwave.to
+Theme Type: Dim
+
+Rimuru Royal
+____________
+
+Color: Royal Blue
+Focal Character(s): Rimuru Tempest
+Series: That Time I Reincarnated as a Slime
+Theme Type: Dim
+
+Roronoa Romaine
+____________
+
+Color: Romaine
+Focal Character(s): Roronoa Zoro
+Series: One Piece
+Theme Type: Dim
+
+Saiyan Saffron
+____________
+
+Color: Saffron
+Focal Character(s): Son Goku & Vegeta
+Series: Dragon Ball
+Theme Type: Bright
+
+Sakura Salmon
+____________
+
+Color: Salmon Pink
+Focal Character(s): Sakura Haruno
+Series: Naruto
+Theme Type: Bright
+
+Sakamoto Silver
+____________
+
+Color: Silver
+Focal Character(s): Taro Sakamoto
+Series: Sakamoto Days
+Theme Type: Bright
+
+Sasuke Sapphire
+____________
+
+Color: Blue
+Focal Character(s): Sasuke Uchiha
+Series: Naruto
+Theme Type: Dim
+
+Teasing Turquoise
+____________
+
+Color: Turquoise / Black
+Focal Character(s): Ataru Moroboshi & Lum
+Series: Urusei Yatsura
+Theme Type: Bright
+
+Veldora Volt
+____________
+
+Color: Bright Yellow
+Focal Character(s): Veldora Tempest
+Series: That Time I Reincarnated as a Slime
+Theme Type: Bright
+
+Warring White
+____________
+
+Color: White / Red / Blue
+Focal Character(s): Miyuki Shirogane & Kaguya Shinomiya
+Series: Kaguya-sama: Love is War
+Theme Type: Bright
+
+Yoruichi Yukon
+____________
+
+Color: Brown
+Focal Character(s): Yoruichi Shihouin
+Series: Bleach
+Theme Type: Dim
+
+Zenitsu Xanthous
+____________
+
+Color: Dark Grey & Gold
+Focal Character(s): Zenitsu Agatsuma
+Series: Demon Slayer
+Theme Type: Dim
+
+Zoldyck Zaffre
+____________
+
+Color: Deep Blue
+Focal Character(s): Godspeed Killua
+Series: Hunter x Hunter
+Theme Type: Dim
