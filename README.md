@@ -1,45 +1,48 @@
-# ⚡ AniWatt  
+# AniWatt  
 **Amp up your entertainment!**
 
 ![AniWatt Logo](https://i.imgur.com/d39xP5N.png)
 
 ---
 
-### 🔌 What is AniWatt?
+### What is AniWatt?
 
-AniWatt is your hub for anime watching, book reading, TV show tracking, and more.  
-We keep your media charged and flowing, so you'll never experience a blackout in your entertainment life.
-
----
-
-### ⚡ Features that keep the current flowing:
-- 📺 Track anime, books, and TV shows in one place.
-- 🔋 Clean, no-nonsense interface that's always **fully charged**.
-- 💡 Personalize your lists and **light up** your watchlist.
+AniWatt is your hub for watching TV Shows, anime, cartoons; reading books, manga, comics, and much more.  
 
 ---
 
-### ⚙ How to Use:
+### Features:
+- Watch anime, TV shows, etc., in one place.
+- Clean, no-nonsense interface.
+- Personalize your site with themes.
+- Build your watchlist... "readlist?" Haven't decided on a name yet.
+
+---
+
+### How to Use:
 1. **Go to [aniwatt.my.to](https://aniwatt.my.to).**
-2. **Choose your watt-worthy media.**
+2. **Choose your media.**
 3. **Charge through your backlog at your pace.**
 
 ---
 
-### 🛠 Tech Stack:
-- GitHub Pages (static & steady current)
-- HTML, CSS, JavaScript (buzzing with life)
+### Using:
+- GitHub Pages
+- HTML, CSS, JavaScript
+- Render
+- Consumet API
+- Jikan API
+- Buncha other things
 
 ---
 
-### 🚨 Disclaimer:
-AniWatt is a **fan-made** project. We do not host or stream any copyrighted material.
+### Disclaimer:
+AniWatt is a **fan-made** project. It does not host or stream any copyrighted material.
 
 ---
 
-### ⚡ Let's Stay Connected:
-Watt are you waiting for? Power up your watchlist with AniWatt!  
-Questions? Feedback? Buzz us me `nickolasknowles1920@gmail.com`.
+### Other:
+Questions? Feedback? Buzz me at `nickolasknowles1920@gmail.com`.
 
 Discord: [The ONLY official one!](dsc.gg/aniwatt)
 
@@ -47,4 +50,4 @@ Reddit: [The ONLY official one!](https://www.reddit.com/r/AniWatt)
 
 Domain obtained from [FreeDNS/afraid.org](https://freedns.afraid.org)
 
-Check those guys out! They helped a lot!
+Check them out. Please. They helped a lot.
