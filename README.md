@@ -1,4 +1,3 @@
-# AniWatt  
 Yeah, so, um... Aniwave is dead.
 
 So, here's yet another knockoff to add to the list:
