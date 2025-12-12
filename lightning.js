@@ -36,16 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const container = document.getElementById("spotlight");
       if (!container) return;
-      // Clear children except nav arrows (we keep nav buttons in HTML)
       container.querySelectorAll(".spotlight").forEach(el => el.remove());
 
       spotlights.forEach((anime) => {
-        const title = getTitle(anime);
         const imageUrl = anime?.bannerImage || anime?.coverImage?.extraLarge || "Images/placeholder.png";
         const el = document.createElement("div");
         el.className = "spotlight";
         el.style.background = `url("${imageUrl}") right/cover no-repeat`;
-        // create a small content area (we already have main static content in HTML, so keep slides passive)
         container.appendChild(el);
       });
 
@@ -58,12 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showSpotlight(index) {
     const slides = document.querySelectorAll("#spotlight .spotlight");
-    // we use background image on the container rather than slide swap for hero effect when none found
     if (!slides.length) return;
-    const url = slides[index].style.background;
-    // set container background to selected slide's background
     const container = document.getElementById("spotlight");
-    container.style.backgroundImage = slides[index].style.background.split(':').slice(1).join(':') || container.style.backgroundImage;
+    const bg = slides[index].style.background;
+    // extract url(...) portion if present and set as background-image
+    container.style.backgroundImage = bg.includes('url(') ? bg.split('url(').slice(1).join('url(') : container.style.backgroundImage;
   }
 
   document.getElementById("prev-spotlight").addEventListener("click", () => {
@@ -80,34 +76,56 @@ document.addEventListener("DOMContentLoaded", () => {
     showSpotlight(spotlightIndex);
   });
 
-  // TRENDING (auto scroll)
-  async function fetchTrending() {
+  // TRENDING CAROUSEL (infinite)
+  async function fetchTrendingCarousel() {
     try {
       const res = await fetch(`${API_BASE}/trending`);
       const data = await res.json();
-      const results = data?.results || [];
-      const container = document.getElementById("trending-scroll");
-      if (!container) return;
-      container.innerHTML = "";
+      const items = data?.results || [];
+      const track = document.getElementById("trending-carousel");
+      if (!track) return;
+      track.innerHTML = "";
 
-      results.slice(0, 15).forEach(anime => {
+      // create item nodes
+      const nodes = items.slice(0, 12).map((anime, i) => {
+        const item = document.createElement("div");
+        item.className = "carousel-item";
         const title = getTitle(anime);
-        const div = document.createElement("div");
-        div.className = "trending-item";
-        div.innerHTML = `
-          <img src="${anime?.image || 'Images/placeholder.png'}" alt="${title}">
-          <p>${title}</p>
+        const imgSrc = anime?.image || 'Images/placeholder.png';
+        item.innerHTML = `
+          <img class="poster" src="${imgSrc}" alt="${title}">
+          <div class="vtitle">${title}</div>
+          <div class="index">${String(i+1).padStart(2,'0')}</div>
         `;
-        container.appendChild(div);
+        return item;
       });
 
-      // Auto-scroll
-      setInterval(() => {
-        if (!container) return;
-        container.scrollBy({ left: 2, behavior: "smooth" });
-        if (container.scrollLeft + container.clientWidth >= container.scrollWidth)
-          container.scrollTo({ left: 0, behavior: "smooth" });
-      }, 50);
+      // append nodes twice to enable seamless scrolling
+      nodes.forEach(n => track.appendChild(n.cloneNode(true)));
+      nodes.forEach(n => track.appendChild(n.cloneNode(true)));
+
+      // Auto-scroll implementation: increment scrollLeft and loop
+      let speed = 0.6; // px per frame (~60fps)
+      let isHover = false;
+
+      track.addEventListener('mouseenter', () => isHover = true);
+      track.addEventListener('mouseleave', () => isHover = false);
+
+      // set large scroll width safety
+      function step() {
+        if (!track) return;
+        if (!isHover) {
+          track.scrollLeft += speed;
+        }
+        // when we've scrolled half the content (since duplicated), reset to start
+        if (track.scrollLeft >= track.scrollWidth / 2) {
+          track.scrollLeft = 0;
+        }
+        requestAnimationFrame(step);
+      }
+      // start at 0
+      track.scrollLeft = 0;
+      requestAnimationFrame(step);
     } catch (err) {
       console.error("Trending fetch failed:", err);
     }
@@ -121,17 +139,12 @@ document.addEventListener("DOMContentLoaded", () => {
       favorite: "favorite",
       completed: "recent-episodes"
     };
-    const container = document.getElementById("columns");
-    if (!container) return;
-    // clear the columns content area if needed (we keep sections)
     for (const [name, endpoint] of Object.entries(endpoints)) {
       try {
         const res = await fetch(`${API_BASE}/${endpoint}`);
         const data = await res.json();
         const results = data?.results || [];
-        if (!results.length) continue;
 
-        // Populate lists if corresponding ul exists
         const mapNameToId = {
           airing: "airing-list",
           popular: "popular-list",
@@ -158,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // SCHEDULE (mini cards -> new pill + list UI)
+  // SCHEDULE
   async function fetchWeeklySchedule() {
     try {
       const res = await fetch(`${API_BASE}/airing-schedule`);
@@ -168,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const listContainer = document.getElementById("schedule-list");
       if (!daysContainer || !listContainer) return;
 
-      // Build next 7 days keys and labels
       const days = [];
       const today = new Date();
       for (let i = 0; i < 7; i++) {
@@ -184,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Group results by YYYY-MM-DD
+      // Group results by YYYY-MM-DD using airingAt (epoch)
       const grouped = {};
       results.forEach(item => {
         const dt = item?.airingAt ? new Date(item.airingAt * 1000) : null;
@@ -194,7 +206,6 @@ document.addEventListener("DOMContentLoaded", () => {
         grouped[key].push(item);
       });
 
-      // create pills
       daysContainer.innerHTML = "";
       days.forEach((d, idx) => {
         const pill = document.createElement("div");
@@ -208,11 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let selectedIndex = 0;
       function selectDay(index){
         selectedIndex = index;
-        // update pills selected class
         daysContainer.querySelectorAll(".day-pill").forEach((p,i)=>{
           p.classList.toggle("selected", i === index);
         });
-        // render schedule for selected day
         renderScheduleForDay(days[index].key);
       }
 
@@ -227,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // sort by episode or airingAt
         items.sort((a,b) => (a.airingAt||0) - (b.airingAt||0));
         items.forEach(item => {
           const time = item.airingAt ? new Date(item.airingAt * 1000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : "--:--";
@@ -242,11 +250,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // arrow navigation
       document.getElementById("day-prev").addEventListener("click", ()=>{
         const prev = Math.max(0, selectedIndex - 1);
         selectDay(prev);
-        // ensure visible
         const pill = daysContainer.children[prev];
         pill?.scrollIntoView({behavior:'smooth', inline:'center'});
       });
@@ -257,14 +263,13 @@ document.addEventListener("DOMContentLoaded", () => {
         pill?.scrollIntoView({behavior:'smooth', inline:'center'});
       });
 
-      // select default: today (index 0)
       selectDay(0);
     } catch (err) {
       console.error("Weekly schedule fetch failed:", err);
     }
   }
 
-  // SEARCH REDIRECT (wired to new pill input)
+  // SEARCH REDIRECT
   const searchInput = document.getElementById("global-search");
   const searchButton = document.getElementById("global-search-btn");
 
@@ -294,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadAll() {
     fetchSpotlight();
-    fetchTrending();
+    fetchTrendingCarousel();
     fetchColumns();
     fetchWeeklySchedule();
     startClock();
