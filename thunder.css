@@ -9,8 +9,8 @@
   --card: #181521;
   --panel: #1f1b26;
   --muted: #bfb6c6;
-  --accent-pink: #ffb6d6;
-  --accent-purple: #7b3fe4;
+  --accent-yellow: #ffd166; 
+  --accent-orange: #f7971e; 
   --accent-dark: #2a2530;
 }
 
@@ -74,7 +74,7 @@ body {
   padding:6px 10px;
   border-radius:18px;
   border:none;
-  background: linear-gradient(90deg,var(--accent-pink),var(--accent-purple));
+  background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
   color:#0b0b10;
   font-weight:600;
   cursor:pointer;
@@ -152,7 +152,7 @@ body {
 }
 
 .nav-links a:hover { 
-  color: var(--accent-pink); 
+  color: var(--accent-yellow); 
 }
 
 /* SPOTLIGHT (hero) */
@@ -189,7 +189,7 @@ body {
 
 .spotlight-cta{ display:flex; gap:12px; align-items:center;}
 .btn-primary{
-  background: linear-gradient(90deg,var(--accent-pink),var(--accent-purple));
+  background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
   color:#0b0b10;
   padding:12px 20px;
   border-radius:28px;
@@ -281,7 +281,7 @@ body {
 .day-pill .day-date{ font-size:13px; color:var(--muted); }
 
 .day-pill.selected{
-  background: linear-gradient(90deg,var(--accent-pink),var(--accent-purple));
+  background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
   color:#0b0b10;
   transform:translateY(-3px);
 }
@@ -345,3 +345,4 @@ footer {
   border-top: 1px solid rgba(255,255,255,0.02);
   margin-top: 30px;
 }
+
