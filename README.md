@@ -4,8 +4,7 @@ So, here's yet another knockoff to add to the list:
 
 ---
 
-
-**Amp up your entertainment!**
+<p align="center"><strong>Amp up your entertainment!</strong></p>
 
 ![AniWatt Logo](https://i.imgur.com/d39xP5N.png)
 
