@@ -28,7 +28,7 @@ AniWatt is your hub for watching TV Shows, anime, cartoons; reading books, manga
 ### How to Use:
 1. **Go to [aniwatt.my.to](https://aniwatt.my.to).**
 2. **Choose your media.**
-3. **Charge through your backlog at your pace.**
+3. **Start watching... or reading... or whatever else.**
 
 ---
 
