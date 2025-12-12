@@ -36,21 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const container = document.getElementById("spotlight");
       if (!container) return;
+      // Clear children except nav arrows (we keep nav buttons in HTML)
       container.querySelectorAll(".spotlight").forEach(el => el.remove());
 
       spotlights.forEach((anime) => {
         const title = getTitle(anime);
         const imageUrl = anime?.bannerImage || anime?.coverImage?.extraLarge || "Images/placeholder.png";
-        const div = document.createElement("div");
-        div.className = "spotlight";
-        div.innerHTML = `
-          <img src="${imageUrl}" alt="${title}">
-          <div class="overlay">
-            <h2>${title}</h2>
-            <p>${anime?.description ? anime.description.substring(0, 140) + "..." : ""}</p>
-          </div>
-        `;
-        container.insertBefore(div, container.querySelector(".spotlight-nav"));
+        const el = document.createElement("div");
+        el.className = "spotlight";
+        el.style.background = `url("${imageUrl}") right/cover no-repeat`;
+        // create a small content area (we already have main static content in HTML, so keep slides passive)
+        container.appendChild(el);
       });
 
       spotlightIndex = 0;
@@ -62,18 +58,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showSpotlight(index) {
     const slides = document.querySelectorAll("#spotlight .spotlight");
+    // we use background image on the container rather than slide swap for hero effect when none found
     if (!slides.length) return;
-    slides.forEach((s, i) => s.style.display = i === index ? "block" : "none");
+    const url = slides[index].style.background;
+    // set container background to selected slide's background
+    const container = document.getElementById("spotlight");
+    container.style.backgroundImage = slides[index].style.background.split(':').slice(1).join(':') || container.style.backgroundImage;
   }
 
   document.getElementById("prev-spotlight").addEventListener("click", () => {
     const slides = document.querySelectorAll("#spotlight .spotlight");
+    if (!slides.length) return;
     spotlightIndex = (spotlightIndex - 1 + slides.length) % slides.length;
     showSpotlight(spotlightIndex);
   });
 
   document.getElementById("next-spotlight").addEventListener("click", () => {
     const slides = document.querySelectorAll("#spotlight .spotlight");
+    if (!slides.length) return;
     spotlightIndex = (spotlightIndex + 1) % slides.length;
     showSpotlight(spotlightIndex);
   });
@@ -101,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Auto-scroll
       setInterval(() => {
+        if (!container) return;
         container.scrollBy({ left: 2, behavior: "smooth" });
         if (container.scrollLeft + container.clientWidth >= container.scrollWidth)
           container.scrollTo({ left: 0, behavior: "smooth" });
@@ -120,8 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const container = document.getElementById("columns");
     if (!container) return;
-    container.innerHTML = "";
-
+    // clear the columns content area if needed (we keep sections)
     for (const [name, endpoint] of Object.entries(endpoints)) {
       try {
         const res = await fetch(`${API_BASE}/${endpoint}`);
@@ -129,87 +131,142 @@ document.addEventListener("DOMContentLoaded", () => {
         const results = data?.results || [];
         if (!results.length) continue;
 
-        const section = document.createElement("section");
-        section.innerHTML = `<h2>${
-          name === "airing" ? "Top Airing" :
-          name === "popular" ? "Most Popular" :
-          name === "favorite" ? "Most Favorite" :
-          "Latest Completed"
-        }</h2>`;
-
-        const div = document.createElement("div");
-        div.className = "trending-scroll";
-
-        results.slice(0, 10).forEach(anime => {
-          const title = getTitle(anime);
-          const card = document.createElement("div");
-          card.className = "trending-item";
-          card.innerHTML = `
-            <img src="${anime?.image || 'Images/placeholder.png'}" alt="${title}">
-            <p>${title}</p>
+        // Populate lists if corresponding ul exists
+        const mapNameToId = {
+          airing: "airing-list",
+          popular: "popular-list",
+          favorite: "favorited-list",
+          completed: "completed-list"
+        };
+        const list = document.getElementById(mapNameToId[name]);
+        if (!list) continue;
+        list.innerHTML = "";
+        results.slice(0, 6).forEach(anime => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <img src="${anime?.image || 'Images/placeholder.png'}" alt="${getTitle(anime)}">
+            <div class="meta">
+              <div class="meta-title">${getTitle(anime)}</div>
+              <div class="meta-badges"><span class="meta-pill small">TV</span></div>
+            </div>
           `;
-          div.appendChild(card);
+          list.appendChild(li);
         });
-
-        section.appendChild(div);
-        container.appendChild(section);
       } catch (err) {
         console.error(`Failed to fetch ${name}:`, err);
       }
     }
   }
 
-  // SCHEDULE (mini cards)
+  // SCHEDULE (mini cards -> new pill + list UI)
   async function fetchWeeklySchedule() {
     try {
       const res = await fetch(`${API_BASE}/airing-schedule`);
       const data = await res.json();
       const results = data?.results || [];
-      const container = document.getElementById("schedule-list");
-      if (!container) return;
-      container.innerHTML = "";
+      const daysContainer = document.getElementById("schedule-days");
+      const listContainer = document.getElementById("schedule-list");
+      if (!daysContainer || !listContainer) return;
 
-      const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      const grouped = Object.fromEntries(days.map(d => [d, []]));
-
-      results.forEach(item => {
-        const airDate = new Date(item?.airingAt * 1000);
-        grouped[days[airDate.getDay()]].push(item);
-      });
-
-      days.forEach(day => {
-        const section = document.createElement("div");
-        section.className = "schedule-day";
-        const header = document.createElement("h3");
-        header.textContent = day;
-        section.appendChild(header);
-
-        const scroll = document.createElement("div");
-        scroll.className = "trending-scroll";
-
-        grouped[day].slice(0, 10).forEach(item => {
-          const title = getTitle(item);
-          const card = document.createElement("div");
-          card.className = "trending-item";
-          card.style.width = "120px";
-          card.innerHTML = `
-            <img src="${item?.image || 'Images/placeholder.png'}" alt="${title}">
-            <p>${title} <small>Ep ${item?.episode || "?"}</small></p>
-          `;
-          scroll.appendChild(card);
+      // Build next 7 days keys and labels
+      const days = [];
+      const today = new Date();
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + i);
+        const dayName = d.toLocaleDateString(undefined, { weekday: "short" });
+        const dayLabel = d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+        days.push({
+          key: d.toISOString().slice(0,10),
+          dateObj: d,
+          name: dayName,
+          label: dayLabel
         });
+      }
 
-        section.appendChild(scroll);
-        container.appendChild(section);
+      // Group results by YYYY-MM-DD
+      const grouped = {};
+      results.forEach(item => {
+        const dt = item?.airingAt ? new Date(item.airingAt * 1000) : null;
+        if (!dt) return;
+        const key = dt.toISOString().slice(0,10);
+        grouped[key] = grouped[key] || [];
+        grouped[key].push(item);
       });
+
+      // create pills
+      daysContainer.innerHTML = "";
+      days.forEach((d, idx) => {
+        const pill = document.createElement("div");
+        pill.className = "day-pill";
+        pill.dataset.key = d.key;
+        pill.innerHTML = `<div class="day-name">${d.name}</div><div class="day-date">${d.label}</div>`;
+        pill.addEventListener("click", () => selectDay(idx));
+        daysContainer.appendChild(pill);
+      });
+
+      let selectedIndex = 0;
+      function selectDay(index){
+        selectedIndex = index;
+        // update pills selected class
+        daysContainer.querySelectorAll(".day-pill").forEach((p,i)=>{
+          p.classList.toggle("selected", i === index);
+        });
+        // render schedule for selected day
+        renderScheduleForDay(days[index].key);
+      }
+
+      function renderScheduleForDay(key) {
+        listContainer.innerHTML = "";
+        const items = grouped[key] || [];
+        if (!items.length) {
+          const empty = document.createElement("div");
+          empty.className = "schedule-row";
+          empty.innerHTML = `<div class="time"></div><div class="title">No scheduled anime</div><div class="episode"></div>`;
+          listContainer.appendChild(empty);
+          return;
+        }
+
+        // sort by episode or airingAt
+        items.sort((a,b) => (a.airingAt||0) - (b.airingAt||0));
+        items.forEach(item => {
+          const time = item.airingAt ? new Date(item.airingAt * 1000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : "--:--";
+          const row = document.createElement("div");
+          row.className = "schedule-row";
+          row.innerHTML = `
+            <div class="time">${time}</div>
+            <div class="title">${getTitle(item)} ${item?.season ? `<small class="muted">• ${item.season}</small>` : ""}</div>
+            <div class="episode">► Episode ${item?.episode || "?"}</div>
+          `;
+          listContainer.appendChild(row);
+        });
+      }
+
+      // arrow navigation
+      document.getElementById("day-prev").addEventListener("click", ()=>{
+        const prev = Math.max(0, selectedIndex - 1);
+        selectDay(prev);
+        // ensure visible
+        const pill = daysContainer.children[prev];
+        pill?.scrollIntoView({behavior:'smooth', inline:'center'});
+      });
+      document.getElementById("day-next").addEventListener("click", ()=>{
+        const next = Math.min(days.length - 1, selectedIndex + 1);
+        selectDay(next);
+        const pill = daysContainer.children[next];
+        pill?.scrollIntoView({behavior:'smooth', inline:'center'});
+      });
+
+      // select default: today (index 0)
+      selectDay(0);
     } catch (err) {
       console.error("Weekly schedule fetch failed:", err);
     }
   }
 
-  // SEARCH REDIRECT
-  const searchInput = document.querySelector(".search-bar input");
-  const searchButton = document.querySelector(".search-bar button");
+  // SEARCH REDIRECT (wired to new pill input)
+  const searchInput = document.getElementById("global-search");
+  const searchButton = document.getElementById("global-search-btn");
 
   function handleSearch() {
     const query = searchInput.value.trim();
@@ -218,16 +275,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") handleSearch();
-  });
-  searchButton.addEventListener("click", handleSearch);
+  if (searchInput) {
+    searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") handleSearch();
+    });
+  }
+  if (searchButton) searchButton.addEventListener("click", handleSearch);
+
+  // Clock display in schedule header
+  function startClock(){
+    const clock = document.getElementById("schedule-clock");
+    if (!clock) return;
+    setInterval(()=> {
+      const d = new Date();
+      clock.textContent = `(GMT${-d.getTimezoneOffset()/60>=0?'+':''}${-d.getTimezoneOffset()/60}) ` + d.toLocaleString();
+    }, 1000);
+  }
 
   function loadAll() {
     fetchSpotlight();
     fetchTrending();
     fetchColumns();
     fetchWeeklySchedule();
+    startClock();
   }
 
   loadAll();
