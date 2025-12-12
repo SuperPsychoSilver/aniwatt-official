@@ -22,25 +22,19 @@
     <button>Search</button>
   </div>
 
+  <!-- Conversation Spot -->
+  <div class="conversation-btn">
+    <img src="Images/chat.png" alt="Chat">
+  </div>
+
   <nav class="top-options">
     <ul>
-      <li><a href="#"><img src="https://i.imgur.com/4toAwo3.png" alt="W2G"> Watch2Gether</a></li>
-      <li><a href="#"><img src="https://i.imgur.com/sgJ6cBV.png" alt="Random"> Random</a></li>
-      <li><a href="#"><img src="https://i.imgur.com/i2iCyrK.png" alt="Names"> Anime Names</a></li>
-      <li><a href="#"><img src="https://i.imgur.com/g0W3G9j.png" alt="News"> News</a></li>
+      <li><a href="#"><img class="icon" src="Images/W2G.png"> Watch2Gether</a></li>
+      <li><a href="#"><img class="icon" src="Images/Random.png"> Random</a></li>
+      <li><a href="#"><img class="icon" src="Images/Names.png"> Anime Names</a></li>
+      <li><a href="#"><img class="icon" src="Images/News.png"> News</a></li>
     </ul>
   </nav>
-
-  <div class="auth-social">
-    <div class="auth">
-      <a href="#">Log In</a> | <a href="#">Sign Up</a>
-    </div>
-    <div class="social-icons">
-      <a href="#"><img src="Images/Discord.png" alt="Discord"></a>
-      <a href="#"><img src="Images/Reddit.png" alt="Reddit"></a>
-      <a href="#"><img src="Images/Twitter.png" alt="Twitter"></a>
-    </div>
-  </div>
 </header>
 
 <!-- SECONDARY HEADER -->
@@ -59,13 +53,11 @@
 
 <!-- SPOTLIGHT -->
 <section id="spotlight" class="spotlight-container">
-  <div class="spotlight-nav">
-    <button id="prev-spotlight">&#10094;</button>
-    <button id="next-spotlight">&#10095;</button>
-  </div>
+  <button id="prev-spotlight" class="spotlight-nav prev">&#10094;</button>
+  <button id="next-spotlight" class="spotlight-nav next">&#10095;</button>
 </section>
 
-<!-- TRENDING -->
+<!-- TRENDING (GRID, NOT SLIDER) -->
 <section class="trending">
   <h2>Trending Now</h2>
   <div id="trending-scroll" class="trending-scroll"></div>
@@ -73,11 +65,24 @@
 
 <!-- COLUMNS -->
 <section id="columns" class="columns"></section>
+  <section>
+  <h2>Popular</h2>
+  <ul class="anime-list" id="popular-list"></ul>
+</section>
+  <section>
+  <h2>Most Favorited</h2>
+  <ul class="anime-list" id="favorited-list"></ul>
+</section>
+  <section>
+  <h2>Latest Completed</h2>
+  <ul class="anime-list" id="completed-list"></ul>
+</section>
+</section>
 
 <!-- SCHEDULE -->
 <section class="schedule">
   <h2>New and Upcoming Anime</h2>
-  <div id="schedule-list" class="schedule-grid"></div>
+  <div id="schedule-list"></div>
 </section>
 
 <!-- FOOTER -->
@@ -88,6 +93,3 @@
 
 </body>
 </html>
-
-
-
