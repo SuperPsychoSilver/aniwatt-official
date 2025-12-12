@@ -47,33 +47,31 @@
   <div class="loader" id="spinner"></div>
   <div class="denied" id="error-x">×</div>
 
-  <!-- Required for invisible mode -->
-  <div id="captcha" class="g-recaptcha"
-       data-sitekey="6LdJpOorAAAAANX3_XYc-gE2hDNqSXLxpJ7dVNho"
+  <!-- Cloudflare Turnstile -->
+  <div class="cf-turnstile" 
+       data-sitekey="0x4AAAAAACGINCrrNuJt2Mlw" 
        data-callback="onHuman"
-       data-size="invisible"></div>
+       data-error-callback="onError"
+       data-theme="dark">
+  </div>
 
   <script>
     // success
-    function onHuman() {
+    function onHuman(token) {
       document.getElementById('spinner').style.display = 'none';
       document.getElementById('msg').textContent = 'Access Granted!';
       setTimeout(() => window.location.href = "plug.html", 800);
     }
 
     // fail
-    function onError() {
+    function onError(err) {
       document.getElementById('spinner').style.display = 'none';
       document.getElementById('msg').textContent = 'Access Denied';
       document.getElementById('error-x').style.display = 'block';
-    }
-
-    // auto run when loaded
-    function onload() {
-      grecaptcha.execute();
+      console.error("Turnstile error:", err);
     }
   </script>
 
-  <script src="https://www.google.com/recaptcha/api.js?onload=onload" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
