@@ -83,25 +83,12 @@
   <button id="next-spotlight" class="spotlight-nav next">&#10095;</button>
 </section>
 
-<!-- SCHEDULE -->
-<section class="schedule">
-  <div class="schedule-header">
-    <h2>Estimated Schedule</h2>
-    <div id="schedule-clock" class="schedule-clock"></div>
-  </div>
+<!-- TRENDING CAROUSEL (infinite) -->
+<section class="trending-section">
+  <h2 class="section-title">Trending</h2>
 
-  <div class="days-wrapper">
-    <button id="day-prev" class="day-arrow">&#10094;</button>
-    <div id="schedule-days" class="schedule-days"></div>
-    <button id="day-next" class="day-arrow">&#10095;</button>
-  </div>
-
-  <div id="schedule-list" class="schedule-list">
-    <!-- JS will render schedule rows for the selected day -->
-  </div>
-
-  <div class="schedule-footer">
-    <button id="show-more" class="link-btn">Show more</button>
+  <div class="carousel-outer">
+    <div id="trending-carousel" class="carousel-track" aria-live="polite"></div>
   </div>
 </section>
 
@@ -123,6 +110,28 @@
     <h2>Latest Completed</h2>
     <ul class="anime-list" id="completed-list"></ul>
   </section>
+</section>
+
+<!-- SCHEDULE (moved under columns) -->
+<section class="schedule">
+  <div class="schedule-header">
+    <h2>Estimated Schedule</h2>
+    <div id="schedule-clock" class="schedule-clock"></div>
+  </div>
+
+  <div class="days-wrapper">
+    <button id="day-prev" class="day-arrow">&#10094;</button>
+    <div id="schedule-days" class="schedule-days"></div>
+    <button id="day-next" class="day-arrow">&#10095;</button>
+  </div>
+
+  <div id="schedule-list" class="schedule-list">
+    <!-- JS will render schedule rows for the selected day -->
+  </div>
+
+  <div class="schedule-footer">
+    <button id="show-more" class="link-btn">Show more</button>
+  </div>
 </section>
 
 <!-- FOOTER -->
