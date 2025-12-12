@@ -4,37 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AniWatt | Recharged</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="thunder.css">
   <script src="lightning.js" defer></script>
   <link rel="icon" href="Images/Icon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- MAIN HEADER -->
 <header class="main-header">
-  <a href="plug.html" class="logo">
-    <img src="Images/Logo.png" alt="AniWatt Logo">
-  </a>
+  <div class="header-left">
+    <button class="hamburger" aria-label="menu">&#9776;</button>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Search anime, manga, comics...">
-    <button>Search</button>
+    <a href="plug.html" class="logo">
+      <img src="Images/Logo.png" alt="AniWatt Logo">
+    </a>
+
+    <div class="search-pill">
+      <img class="search-icon" src="Images/search-icon.png" alt="" />
+      <input id="global-search" type="text" placeholder="Search anime, manga, comics...">
+      <button id="global-search-btn">Search</button>
+    </div>
   </div>
 
-  <!-- Conversation Spot -->
-  <div class="conversation-btn">
-    <img src="Images/chat.png" alt="Chat">
-  </div>
+  <div class="header-right">
+    <nav class="top-options">
+      <ul>
+        <li><a href="#"><img class="icon" src="Images/W2G.png"> Watch2Gether</a></li>
+        <li><a href="#"><img class="icon" src="Images/Random.png"> Random</a></li>
+        <li><a href="#"><img class="icon" src="Images/News.png"> News</a></li>
+      </ul>
+    </nav>
 
-  <nav class="top-options">
-    <ul>
-      <li><a href="#"><img class="icon" src="Images/W2G.png"> Watch2Gether</a></li>
-      <li><a href="#"><img class="icon" src="Images/Random.png"> Random</a></li>
-      <li><a href="#"><img class="icon" src="Images/Names.png"> Anime Names</a></li>
-      <li><a href="#"><img class="icon" src="Images/News.png"> News</a></li>
-    </ul>
-  </nav>
+    <div class="auth-area">
+      <button class="quick-access">Quick Access</button>
+      <button class="signin">Sign in →</button>
+    </div>
+  </div>
 </header>
 
 <!-- SECONDARY HEADER -->
@@ -51,49 +60,76 @@
   </ul>
 </nav>
 
-<!-- SPOTLIGHT -->
+<!-- SPOTLIGHT (hero) -->
 <section id="spotlight" class="spotlight-container">
+  <div class="spotlight-content">
+    <p class="spotlight-sub">#2 Spotlight</p>
+    <h1 class="spotlight-title">One-Punch Man Season 3</h1>
+    <div class="meta-row">
+      <span class="meta-pill">TV</span>
+      <span class="meta-pill">24m</span>
+      <span class="meta-pill">Oct 12, 2025</span>
+      <span class="meta-pill small">HD</span>
+    </div>
+    <p class="spotlight-desc">The third season of One Punch Man. Saitama is a hero who only became a hero for fun. After three years of "special training," he's become so strong that he's practically invincible...</p>
+
+    <div class="spotlight-cta">
+      <button class="btn-primary">► Watch Now</button>
+      <button class="btn-secondary">Detail ❯</button>
+    </div>
+  </div>
+
   <button id="prev-spotlight" class="spotlight-nav prev">&#10094;</button>
   <button id="next-spotlight" class="spotlight-nav next">&#10095;</button>
 </section>
 
-<!-- TRENDING (GRID, NOT SLIDER) -->
-<section class="trending">
-  <h2>Trending Now</h2>
-  <div id="trending-scroll" class="trending-scroll"></div>
+<!-- SCHEDULE -->
+<section class="schedule">
+  <div class="schedule-header">
+    <h2>Estimated Schedule</h2>
+    <div id="schedule-clock" class="schedule-clock"></div>
+  </div>
+
+  <div class="days-wrapper">
+    <button id="day-prev" class="day-arrow">&#10094;</button>
+    <div id="schedule-days" class="schedule-days"></div>
+    <button id="day-next" class="day-arrow">&#10095;</button>
+  </div>
+
+  <div id="schedule-list" class="schedule-list">
+    <!-- JS will render schedule rows for the selected day -->
+  </div>
+
+  <div class="schedule-footer">
+    <button id="show-more" class="link-btn">Show more</button>
+  </div>
 </section>
 
 <!-- COLUMNS -->
 <section id="columns" class="columns">
-  <!-- Popular -->
   <section>
-    <h2>Popular</h2>
+    <h2>Top Airing</h2>
+    <ul class="anime-list" id="airing-list"></ul>
+  </section>
+  <section>
+    <h2>Most Popular</h2>
     <ul class="anime-list" id="popular-list"></ul>
   </section>
-  <!-- Most Favorited -->
   <section>
-    <h2>Most Favorited</h2>
+    <h2>Most Favorite</h2>
     <ul class="anime-list" id="favorited-list"></ul>
   </section>
-  <!-- Latest Completed -->
   <section>
     <h2>Latest Completed</h2>
     <ul class="anime-list" id="completed-list"></ul>
   </section>
 </section>
 
-<!-- SCHEDULE -->
-<section class="schedule">
-  <h2>New and Upcoming Anime</h2>
-  <div id="schedule-list"></div>
-</section>
-
 <!-- FOOTER -->
 <footer>
  <p>Copyright © AniWatt.my.to All Rights Reserved</p>
- <p>This site does not host any files on its server. All content is provided by non-affiliated third parties.<br><br>The purpose of this site is for educational use only. All materials, trademarks, and copyrights belong to their respective owners. We do not claim ownership of any content.</p>
+ <p>This site does not host any files on its server. All content is provided by non-affiliated third parties.<br><br>The purpose of this site is for educational use only. All materials, trademarks, an[...]</p>
 </footer>
 
 </body>
 </html>
-
