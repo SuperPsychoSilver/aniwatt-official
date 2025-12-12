@@ -1,9 +1,7 @@
-/* Base reset */
 * { 
   margin: 0; 
   padding: 0; 
-  box-sizing: 
-  border-box; 
+  box-sizing: border-box; /* Fixed syntax */
 }
 
 body { 
@@ -107,6 +105,30 @@ body {
   margin-top: 15px; 
 }
 
+.spotlight-container .spotlight { 
+  width: 100%; 
+  height: 100%; 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  display: none; 
+}
+
+.spotlight-container .spotlight img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+.spotlight-container .overlay { 
+  position: absolute; 
+  bottom: 20px; 
+  left: 20px; 
+  background: rgba(0,0,0,0.6); 
+  padding: 10px; 
+  border-radius: 4px; 
+}
+
 .spotlight-nav { 
   position: absolute; 
   top: 50%; 
@@ -117,6 +139,7 @@ body {
   cursor: pointer; 
   font-size: 24px; 
   color: white; 
+  z-index: 2;
 }
 
 .prev { 
@@ -132,22 +155,36 @@ body {
   padding: 20px 25px; 
 }
 
-#trending-scroll { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-  gap: 15px; 
+.trending h2 { 
+  margin-bottom: 15px; 
 }
 
-#trending-scroll .anime-card { 
+#trending-scroll { 
+  display: flex; 
+  gap: 15px; 
+  overflow-x: auto; 
+  padding-bottom: 10px; 
+}
+
+.trending-item { 
+  min-width: 150px; 
   background: #1a1a1a; 
   padding: 10px; 
   border-radius: 6px; 
   text-align: center; 
+  flex-shrink: 0; 
 }
 
-#trending-scroll img { 
+.trending-item img { 
   width: 100%; 
   border-radius: 6px; 
+  height: 200px; 
+  object-fit: cover; 
+}
+
+.trending-item p { 
+  margin-top: 8px; 
+  font-size: 0.9em; 
 }
 
 /* Columns */
@@ -181,20 +218,26 @@ body {
 }
 
 #schedule-list { 
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+  display: flex; 
+  flex-direction: column; 
   gap: 20px; 
 }
 
-#schedule-list .schedule-card { 
-  background: #1a1a1a;
-  padding: 10px;
-  border-radius: 6px;
+.schedule-day h3 { 
+  margin-bottom: 10px; 
 }
 
-#schedule-list img { 
-  width: 100%;
-  border-radius: 6px;
+.schedule-day .trending-scroll { 
+  display: flex; 
+  gap: 10px; 
+  overflow-x: auto; 
+}
+
+.schedule-card img { 
+  width: 120px; 
+  height: 160px; 
+  object-fit: cover; 
+  border-radius: 6px; 
 }
 
 /* Footer */
