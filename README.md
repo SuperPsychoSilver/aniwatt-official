@@ -6,7 +6,10 @@ So, here's yet another knockoff to add to the list:
 
 <p align="center"><strong>Amp up your entertainment!</strong></p>
 
-![AniWatt Logo](https://i.imgur.com/d39xP5N.png)
+<p align="center">
+  <strong>Amp up your entertainment!</strong><br>
+  <img src="https://i.imgur.com/d39xP5N.png" alt="AniWatt Logo">
+</p>
 
 ---
 
